@@ -39,6 +39,7 @@ class AppMovieCoverBox extends StatelessWidget {
             placeholder: (context, url) => CachedNetworkImage(
               imageUrl: item.imageUrlW200, // Gambar thumbnail (ukuran kecil)
               fit: BoxFit.cover,
+              placeholder: (context, url) => const AppSkeleton(),
             ),
             fit: BoxFit.cover,
           ),
@@ -54,13 +55,17 @@ class AppMovieCoverBox extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: 10, // Jumlah skeleton placeholder
         itemBuilder: (context, index) {
-          return const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
-            child: AppSkeleton(
-              width: 162,
-            ),
-          );
+          return skeleton();
         },
+      ),
+    );
+  }
+
+  static Padding skeleton() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.0),
+      child: AppSkeleton(
+        width: 162,
       ),
     );
   }
@@ -150,11 +155,12 @@ class AppMovieCoverTile extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(13),
                 child: CachedNetworkImage(
-                  imageUrl: item.imageUrlOriginal,
+                  imageUrl: item.imageUrlW200,
                   placeholder: (context, url) => CachedNetworkImage(
                     imageUrl:
                         item.imageUrlW200, // Gambar thumbnail (ukuran kecil)
                     fit: BoxFit.cover,
+                    placeholder: (context, url) => const AppSkeleton(),
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -172,35 +178,39 @@ class AppMovieCoverTile extends StatelessWidget {
         shrinkWrap: true,
         itemCount: 10, // Jumlah skeleton placeholder
         itemBuilder: (context, index) {
-          return const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Row(
+          return skeleton();
+        },
+      ),
+    );
+  }
+
+  static Padding skeleton() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.0),
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            AppSkeleton(
+              height: 162,
+              width: 110,
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
                 children: [
                   AppSkeleton(
-                    height: 162,
-                    width: 110,
+                    height: 30,
                   ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        AppSkeleton(
-                          height: 30,
-                        ),
-                        SizedBox(height: 10),
-                        AppSkeleton(
-                          height: 80,
-                        ),
-                      ],
-                    ),
+                  SizedBox(height: 10),
+                  AppSkeleton(
+                    height: 80,
                   ),
                 ],
               ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }

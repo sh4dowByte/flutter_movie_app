@@ -19,37 +19,36 @@ class SeeMorePage extends ConsumerStatefulWidget {
 
 class SeeMorePageState extends ConsumerState<SeeMorePage> {
   final ScrollController _scrollControllerSearch = ScrollController();
-  final TextEditingController _controller = TextEditingController();
 
-  StateNotifierProvider provider = discoverMoviesProvider;
+  late final StateNotifierProvider<dynamic, AsyncValue<List<Movie>>> provider;
 
   @override
   void initState() {
     super.initState();
 
-    if (widget.providerKey == 'popular') {
-      provider = popularMoviesProvider;
-    } else if (widget.providerKey == 'discover') {
-      provider = discoverMoviesProvider;
-    } else if (widget.providerKey == 'upcoming') {
-      provider = upcomingMoviesProvider;
-    } else if (widget.providerKey == 'top_rated') {
-      provider = topRatedMoviesProvider;
+    // Tetapkan provider berdasarkan `providerKey`
+    switch (widget.providerKey) {
+      case 'popular':
+        provider = popularMoviesProvider;
+        break;
+      case 'discover':
+        provider = discoverMoviesProvider;
+        break;
+      case 'upcoming':
+        provider = upcomingMoviesProvider;
+        break;
+      case 'top_rated':
+        provider = topRatedMoviesProvider;
+        break;
+      default:
+        throw Exception('Invalid providerKey: ${widget.providerKey}');
     }
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {});
+    // Setup listener untuk pagination
     _scrollControllerSearch.addListener(() {
       if (_scrollControllerSearch.position.pixels >=
           _scrollControllerSearch.position.maxScrollExtent) {
-        if (widget.providerKey == 'popular') {
-          ref.read(popularMoviesProvider.notifier).getNextPage();
-        } else if (widget.providerKey == 'top_rated') {
-          ref.read(topRatedMoviesProvider.notifier).getNextPage();
-        } else if (widget.providerKey == 'upcoming') {
-          ref.read(upcomingMoviesProvider.notifier).getNextPage();
-        } else if (widget.providerKey == 'discover') {
-          ref.read(discoverMoviesProvider.notifier).getNextPage();
-        }
+        ref.read(provider.notifier).getNextPage();
       }
     });
   }
@@ -57,14 +56,12 @@ class SeeMorePageState extends ConsumerState<SeeMorePage> {
   @override
   void dispose() {
     _scrollControllerSearch.dispose();
-    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final AsyncValue<List<Movie>> state;
-    state = ref.watch(provider as ProviderListenable<AsyncValue<List<Movie>>>);
+    final state = ref.watch(provider);
 
     return Scaffold(
       appBar: AppBar(
@@ -73,13 +70,19 @@ class SeeMorePageState extends ConsumerState<SeeMorePage> {
       body: state.when(
         data: (data) => SizedBox(
           child: ListView.builder(
-              shrinkWrap: true,
-              controller: _scrollControllerSearch,
-              itemCount: data.length,
-              itemBuilder: (context, index) {
+            shrinkWrap: true,
+            controller: _scrollControllerSearch,
+            itemCount: data.length +
+                (ref.read(provider.notifier).isLoadingNextPage ? 1 : 0),
+            itemBuilder: (context, index) {
+              if (index < data.length) {
                 final item = data[index];
                 return AppMovieCoverTile(item: item);
-              }),
+              } else {
+                return AppMovieCoverTile.skeleton();
+              }
+            },
+          ),
         ),
         loading: () => AppMovieCoverTile.loading(),
         error: (error, stackTrace) => Center(child: Text('Error: $error')),

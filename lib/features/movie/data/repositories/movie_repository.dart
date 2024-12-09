@@ -1,5 +1,6 @@
 import 'package:flutter_movie_app/core/errors/failure.dart';
 import 'package:flutter_movie_app/features/movie/data/models/genres.dart';
+import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
 
 import '../../domain/repositories/movie_repository.dart';
 import '../models/movie.dart';
@@ -121,6 +122,17 @@ class MovieRepositoryImpl implements MovieRepository {
       return Right(movies);
     } catch (e) {
       return Left(NetworkFailure('Failed to load recomended movie.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, MovieDetail>> getMovieDetail(int movieId) async {
+    try {
+      final movies = await _movieService.fetchMovieDetails(movieId);
+
+      return Right(movies);
+    } catch (e) {
+      return Left(NetworkFailure('Failed to load detail movie.'));
     }
   }
 }

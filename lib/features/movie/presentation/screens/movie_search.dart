@@ -57,10 +57,17 @@ class MovieSearchPageState extends ConsumerState<MovieSearchPage> {
             child: ListView.builder(
                 shrinkWrap: true,
                 controller: _scrollControllerSearch,
-                itemCount: data.length,
+                itemCount: data.length +
+                    (ref.read(searchMoviesProvider.notifier).isLoadingNextPage
+                        ? 1
+                        : 0),
                 itemBuilder: (context, index) {
-                  final item = data[index];
-                  return AppMovieCoverTile(item: item);
+                  if (index < data.length) {
+                    final item = data[index];
+                    return AppMovieCoverTile(item: item);
+                  } else {
+                    return AppMovieCoverTile.skeleton();
+                  }
                 }),
           );
         },

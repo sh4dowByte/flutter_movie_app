@@ -3,9 +3,9 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
+import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_detail_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_recomended_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_caster.dart';
-import 'package:flutter_movie_app/features/movie/providers/movie_detail_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -29,7 +29,7 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(movieDetailProvider.notifier).fetchMovieDetails(widget.movieId);
+      ref.read(detailMoviesProvider.notifier).getInitial(widget.movieId);
       ref
           .read(recomendedMoviesProvider.notifier)
           .getInitialMovies(widget.movieId);
@@ -64,7 +64,7 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final movieState = ref.watch(movieDetailProvider);
+    final movieState = ref.watch(detailMoviesProvider);
 
     return Scaffold(
       body: NestedScrollView(

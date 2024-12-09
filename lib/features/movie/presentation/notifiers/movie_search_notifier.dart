@@ -22,6 +22,8 @@ class DiscoverMovieNotifier extends StateNotifier<AsyncValue<List<Movie>>> {
 
   int _currentPage = 1;
   bool _isGetting = false;
+  bool _isLoadingNextPage = false;
+  bool _isPageEnded = false;
 
   late String _currentKeyword;
 
@@ -30,6 +32,7 @@ class DiscoverMovieNotifier extends StateNotifier<AsyncValue<List<Movie>>> {
     if (_isGetting) return;
 
     _isGetting = true;
+    _isPageEnded = false;
     _currentKeyword = keywords;
 
     state = const AsyncValue.loading(); // Tampilkan loading untuk data awal
@@ -51,9 +54,16 @@ class DiscoverMovieNotifier extends StateNotifier<AsyncValue<List<Movie>>> {
 
   // Memuat halaman berikutnya
   Future<void> getNextPage() async {
-    if (_isGetting) return;
+    if (_isGetting || _isLoadingNextPage || _isPageEnded) return;
 
-    _isGetting = true;
+    _isLoadingNextPage = true;
+
+    // Tampilkan state dengan status loading tambahan untuk halaman berikutnya
+    state = state.when(
+      data: (movies) => AsyncValue.data([...movies]), // Pertahankan data
+      loading: () => const AsyncValue.loading(),
+      error: (error, stack) => AsyncValue.error(error, stack),
+    );
 
     final result = await _getSearchMovies(_currentPage, _currentKeyword);
 
@@ -62,16 +72,21 @@ class DiscoverMovieNotifier extends StateNotifier<AsyncValue<List<Movie>>> {
         state = AsyncValue.error(failure.message, StackTrace.current);
       },
       (movies) {
+        state = AsyncValue.data([
+          ...(state.value ?? []), // Data sebelumnya
+          ...movies,
+        ]);
         if (movies.isNotEmpty) {
           _currentPage++;
-          state = AsyncValue.data([
-            ...(state.value ?? []), // Data sebelumnya
-            ...movies,
-          ]);
+        } else {
+          _isPageEnded = true;
         }
       },
     );
 
-    _isGetting = false;
+    _isLoadingNextPage = false;
   }
+
+  // Status apakah sedang memuat halaman berikutnya
+  bool get isLoadingNextPage => _isLoadingNextPage;
 }

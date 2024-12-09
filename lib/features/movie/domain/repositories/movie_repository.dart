@@ -3,9 +3,11 @@ import 'package:flutter_movie_app/core/errors/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_movie_app/features/movie/data/models/genres.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
+import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
 
 abstract class MovieRepository {
   Future<Either<Failure, List<Genres>>> getGenreMovies();
+  Future<Either<Failure, MovieDetail>> getMovieDetail(int movieId);
 
   Future<Either<Failure, List<Movie>>> getUpcomingMovies(int page);
   Future<Either<Failure, List<Movie>>> getPopularMovies(int page);
