@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_search_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_movie_card.dart';
-import 'package:flutter_movie_app/features/movie/providers/movie_search_provider.dart';
 import 'package:flutter_movie_app/widget/app_error.dart';
 import 'package:flutter_movie_app/widget/app_text_search.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,13 +20,13 @@ class MovieSearchPageState extends ConsumerState<MovieSearchPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(searchMoviesProvider.notifier).resetSearch();
+      ref.read(searchMoviesProvider.notifier).getInitialMovies('');
     });
 
     _scrollControllerSearch.addListener(() {
       if (_scrollControllerSearch.position.pixels >=
           _scrollControllerSearch.position.maxScrollExtent) {
-        ref.read(searchMoviesProvider.notifier).searchMovie(_controller.text);
+        ref.read(searchMoviesProvider.notifier).getNextPage();
       }
     });
   }
@@ -48,7 +48,7 @@ class MovieSearchPageState extends ConsumerState<MovieSearchPage> {
               AppTextSearch(
         controller: _controller,
         onSubmitted: (text) {
-          ref.read(searchMoviesProvider.notifier).searchMovie(text);
+          ref.read(searchMoviesProvider.notifier).getInitialMovies(text);
         },
       )),
       body: searchMovieState.when(

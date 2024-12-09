@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
+import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_discover_notifier.dart';
+import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_popular_notifier.dart';
+import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_top_rated_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_movie_card.dart';
-import 'package:flutter_movie_app/features/movie/providers/movie_discover_provider.dart';
-import 'package:flutter_movie_app/features/movie/providers/movie_popular_provider.dart';
-import 'package:flutter_movie_app/features/movie/providers/movie_top_rated_provider.dart';
-import 'package:flutter_movie_app/features/movie/providers/movie_upcoming_provider.dart';
+import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_upcoming_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SeeMorePage extends ConsumerStatefulWidget {
@@ -42,15 +42,13 @@ class SeeMorePageState extends ConsumerState<SeeMorePage> {
       if (_scrollControllerSearch.position.pixels >=
           _scrollControllerSearch.position.maxScrollExtent) {
         if (widget.providerKey == 'popular') {
-          ref.read(popularMoviesProvider.notifier).fetchPopularMovies();
+          ref.read(popularMoviesProvider.notifier).getNextPage();
         } else if (widget.providerKey == 'top_rated') {
-          ref.read(topRatedMoviesProvider.notifier).fetchTopRatedMovies();
+          ref.read(topRatedMoviesProvider.notifier).getNextPage();
         } else if (widget.providerKey == 'upcoming') {
-          ref.read(upcomingMoviesProvider.notifier).fetchNextPage();
+          ref.read(upcomingMoviesProvider.notifier).getNextPage();
         } else if (widget.providerKey == 'discover') {
-          ref
-              .read(discoverMoviesProvider.notifier)
-              .fetchDiscoverMovies(widget.genreId!);
+          ref.read(discoverMoviesProvider.notifier).getNextPage();
         }
       }
     });

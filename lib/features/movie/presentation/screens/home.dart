@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/features/movie/providers/genres_provider.dart';
+import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_discover_notifier.dart';
+import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_genre_notifier.dart';
+import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_now_playing_notifier.dart';
+import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_popular_notifier.dart';
+import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_top_rated_notifier.dart';
+import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_upcoming_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_movie_card.dart';
-import 'package:flutter_movie_app/features/movie/providers/movie_discover_provider.dart';
-import 'package:flutter_movie_app/features/movie/providers/movie_now_playing.dart';
-import 'package:flutter_movie_app/features/movie/providers/movie_popular_provider.dart';
-import 'package:flutter_movie_app/features/movie/providers/movie_top_rated_provider.dart';
-import 'package:flutter_movie_app/features/movie/providers/movie_upcoming_provider.dart';
 import 'package:flutter_movie_app/widget/widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,8 +19,8 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  final ScrollController _scrollControllerDiscover = ScrollController();
   final ScrollController _scrollControllerPopular = ScrollController();
+  final ScrollController _scrollControllerDiscover = ScrollController();
   final ScrollController _scrollControllerTopRated = ScrollController();
   final ScrollController _scrollControllerUpcoming = ScrollController();
   int genreId = 0;
@@ -29,39 +29,41 @@ class _HomePageState extends ConsumerState<HomePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(nowPlayingMoviesProvider.notifier).fetchNowPlayingMovies();
-      ref.read(genresProvider.notifier).fetchGenres();
-      ref.read(discoverMoviesProvider.notifier).fetchDiscoverMovies(genreId);
-      ref.read(popularMoviesProvider.notifier).fetchPopularMovies();
-      ref.read(topRatedMoviesProvider.notifier).fetchTopRatedMovies();
-      ref.read(upcomingMoviesProvider.notifier).fetchInitialMovies();
+      ref
+          .read(discoverMoviesProvider.notifier)
+          .getInitialMovies(genreId: genreId);
+      ref.read(genreMoviesProvider.notifier).getInitial();
+      ref.read(nowPlayingMoviesProvider.notifier).getInitialMovies();
+      ref.read(popularMoviesProvider.notifier).getInitialMovies();
+      ref.read(topRatedMoviesProvider.notifier).getInitialMovies();
+      ref.read(upcomingMoviesProvider.notifier).getInitialMovies();
     });
 
     _scrollControllerDiscover.addListener(() {
       if (_scrollControllerDiscover.position.pixels >=
           _scrollControllerDiscover.position.maxScrollExtent) {
-        ref.read(discoverMoviesProvider.notifier).fetchDiscoverMovies(genreId);
+        ref.read(discoverMoviesProvider.notifier).getNextPage();
       }
     });
 
     _scrollControllerPopular.addListener(() {
       if (_scrollControllerPopular.position.pixels >=
           _scrollControllerPopular.position.maxScrollExtent) {
-        ref.read(popularMoviesProvider.notifier).fetchPopularMovies();
+        ref.read(popularMoviesProvider.notifier).getNextPage();
       }
     });
 
     _scrollControllerTopRated.addListener(() {
       if (_scrollControllerTopRated.position.pixels >=
           _scrollControllerTopRated.position.maxScrollExtent) {
-        ref.read(topRatedMoviesProvider.notifier).fetchTopRatedMovies();
+        ref.read(topRatedMoviesProvider.notifier).getNextPage();
       }
     });
 
     _scrollControllerUpcoming.addListener(() {
       if (_scrollControllerUpcoming.position.pixels >=
           _scrollControllerUpcoming.position.maxScrollExtent) {
-        ref.read(upcomingMoviesProvider.notifier).fetchNextPage();
+        ref.read(upcomingMoviesProvider.notifier).getNextPage();
       }
     });
   }
@@ -70,6 +72,8 @@ class _HomePageState extends ConsumerState<HomePage> {
   void dispose() {
     _scrollControllerDiscover.dispose();
     _scrollControllerPopular.dispose();
+    _scrollControllerTopRated.dispose();
+    _scrollControllerUpcoming.dispose();
     super.dispose();
   }
 
@@ -77,7 +81,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     final movieStateNowPlaying = ref.watch(nowPlayingMoviesProvider);
     final movieStatePopular = ref.watch(popularMoviesProvider);
-    final genresState = ref.watch(genresProvider);
+    final genresState = ref.watch(genreMoviesProvider);
     final discoverMovieState = ref.watch(discoverMoviesProvider);
     final topRatedMovieState = ref.watch(topRatedMoviesProvider);
     final upcomingMovieState = ref.watch(upcomingMoviesProvider);
@@ -139,7 +143,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               onChange: (id) {
                 ref
                     .read(discoverMoviesProvider.notifier)
-                    .fetchDiscoverMovies(id);
+                    .getInitialMovies(genreId: id);
 
                 genreId = id;
               },

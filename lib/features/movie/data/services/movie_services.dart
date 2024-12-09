@@ -96,10 +96,11 @@ class MovieService {
     }
   }
 
-  Future<List<Movie>> fetchNowPlayingMovies() async {
+  Future<List<Movie>> fetchNowPlayingMovies(int page) async {
     try {
       final response = await _dio.get('/3/movie/now_playing', queryParameters: {
         'language': 'en-US',
+        'page': page,
       });
 
       if (response.statusCode == 200) {

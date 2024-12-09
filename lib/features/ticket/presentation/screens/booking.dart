@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/routes.dart';
+import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_now_playing_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_movie_card.dart';
-import 'package:flutter_movie_app/features/movie/providers/movie_now_playing.dart';
 import 'package:flutter_movie_app/features/ticket/presentation/widgets/app_select_time.dart';
 import 'package:flutter_movie_app/widget/widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
