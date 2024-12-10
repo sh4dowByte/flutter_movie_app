@@ -6,11 +6,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final getDetailMoviesProvider =
     Provider((ref) => GetDetailMovies(ref.watch(movieRepositoryProvider)));
 
-final detailMoviesProvider =
-    StateNotifierProvider<DetailMovieNotifier, AsyncValue<MovieDetail>>(
-  (ref) {
+final detailMoviesProvider = StateNotifierProvider.family<DetailMovieNotifier,
+    AsyncValue<MovieDetail>, int>(
+  (ref, movieId) {
     final getDetailMovies = ref.watch(getDetailMoviesProvider);
-    return DetailMovieNotifier(getDetailMovies);
+    final notifier = DetailMovieNotifier(getDetailMovies);
+    return notifier;
   },
 );
 
@@ -34,7 +35,7 @@ class DetailMovieNotifier extends StateNotifier<AsyncValue<MovieDetail>> {
 
     result.fold(
       (failure) {
-        state = AsyncValue.error(failure.message, StackTrace.current);
+        state = AsyncValue.error(failure, StackTrace.current);
       },
       (movies) {
         state = AsyncValue.data(movies);

@@ -6,6 +6,7 @@ import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_detail_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_recomended_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_caster.dart';
+import 'package:flutter_movie_app/widget/app_error.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -29,9 +30,11 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(detailMoviesProvider.notifier).getInitial(widget.movieId);
       ref
-          .read(recomendedMoviesProvider.notifier)
+          .read(detailMoviesProvider(widget.movieId).notifier)
+          .getInitial(widget.movieId);
+      ref
+          .read(recomendedMoviesProvider(widget.movieId).notifier)
           .getInitialMovies(widget.movieId);
     });
 
@@ -64,7 +67,7 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final movieState = ref.watch(detailMoviesProvider);
+    final movieState = ref.watch(detailMoviesProvider(widget.movieId));
 
     return Scaffold(
       body: NestedScrollView(
@@ -170,6 +173,9 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                   width: 100,
                                   imageUrl: value.imageUrlW300,
                                   fit: BoxFit.cover,
+                                  placeholder: (context, string) {
+                                    return const AppSkeleton();
+                                  },
                                 ),
                               ),
                               const SizedBox(width: 16),
@@ -254,10 +260,9 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                         //   ),
                         // ),
                       ],
-                    ), // Data berhasil dimuat
+                    ),
                     loading: () => const Text(''),
-                    error: (error, stackTrace) =>
-                        Center(child: Text('Error: $error')),
+                    error: (error, stackTrace) => Container(),
                   ),
                 ),
               ),
@@ -271,8 +276,10 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                 return SingleChildScrollView(
                   child: movieState.when(
                       data: (data) => MovieDetailContent(movie: data),
-                      error: (error, stackTrace) =>
-                          Center(child: Text('Error: $error')),
+                      error: (error, stackTrace) => AppError(
+                            error as Failure,
+                            stackTrace: stackTrace,
+                          ),
                       loading: () => MovieDetailContent.loading()),
                 );
               },
@@ -331,21 +338,26 @@ class _MovieDetailContentState extends ConsumerState<MovieDetailContent> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(movieCasterProvider.notifier).fetchMovieCaster(widget.movie.id);
+      ref
+          .read(movieCasterProvider(widget.movie.id).notifier)
+          .fetchMovieCaster(widget.movie.id);
     });
 
     _scrollControllerRecomended.addListener(() {
       if (_scrollControllerRecomended.position.pixels >=
           _scrollControllerRecomended.position.maxScrollExtent) {
-        ref.read(recomendedMoviesProvider.notifier).getNextPage();
+        ref
+            .read(recomendedMoviesProvider(widget.movie.id).notifier)
+            .getNextPage();
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final recomendedState = ref.watch(recomendedMoviesProvider);
-    final casterState = ref.watch(movieCasterProvider);
+    final recomendedState =
+        ref.watch(recomendedMoviesProvider(widget.movie.id));
+    final casterState = ref.watch(movieCasterProvider(widget.movie.id));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -401,7 +413,7 @@ class _MovieDetailContentState extends ConsumerState<MovieDetailContent> {
                       }),
                 )
               : Container(),
-          loading: () => AppMovieCoverBox.loading(),
+          loading: () => AppCastImage.loading(),
           error: (error, stackTrace) => Center(child: Text('Error: $error')),
         ),
 
@@ -440,7 +452,7 @@ class _MovieDetailContentState extends ConsumerState<MovieDetailContent> {
                         return AppMovieCoverBox(
                           item: item,
                           margin: margin,
-                          replaceRoute: true,
+                          // replaceRoute: true,
                         );
                       }),
                 )

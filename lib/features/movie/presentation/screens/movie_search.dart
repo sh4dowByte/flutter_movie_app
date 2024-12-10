@@ -73,7 +73,7 @@ class MovieSearchPageState extends ConsumerState<MovieSearchPage> {
         },
         loading: () => AppMovieCoverTile.loading(),
         error: (error, stackTrace) => AppError(
-          error,
+          error as Failure,
           stackTrace: stackTrace,
         ),
       ),

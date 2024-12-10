@@ -31,9 +31,11 @@ mixin _$Movie {
   @JsonKey(name: 'original_title')
   String get originalTitle => throw _privateConstructorUsedError;
   String get overview => throw _privateConstructorUsedError;
-  double get popularity => throw _privateConstructorUsedError;
+  double? get popularity => throw _privateConstructorUsedError;
   @JsonKey(name: 'poster_path')
   String? get posterPath => throw _privateConstructorUsedError;
+  @JsonKey(name: 'character')
+  String? get character => throw _privateConstructorUsedError;
   @JsonKey(name: 'release_date')
   String get releaseDate => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
@@ -61,8 +63,9 @@ abstract class $MovieCopyWith<$Res> {
       @JsonKey(name: 'original_language') String originalLanguage,
       @JsonKey(name: 'original_title') String originalTitle,
       String overview,
-      double popularity,
+      double? popularity,
       @JsonKey(name: 'poster_path') String? posterPath,
+      @JsonKey(name: 'character') String? character,
       @JsonKey(name: 'release_date') String releaseDate,
       String title,
       bool video,
@@ -90,8 +93,9 @@ class _$MovieCopyWithImpl<$Res, $Val extends Movie>
     Object? originalLanguage = null,
     Object? originalTitle = null,
     Object? overview = null,
-    Object? popularity = null,
+    Object? popularity = freezed,
     Object? posterPath = freezed,
+    Object? character = freezed,
     Object? releaseDate = null,
     Object? title = null,
     Object? video = null,
@@ -127,13 +131,17 @@ class _$MovieCopyWithImpl<$Res, $Val extends Movie>
           ? _value.overview
           : overview // ignore: cast_nullable_to_non_nullable
               as String,
-      popularity: null == popularity
+      popularity: freezed == popularity
           ? _value.popularity
           : popularity // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
       posterPath: freezed == posterPath
           ? _value.posterPath
           : posterPath // ignore: cast_nullable_to_non_nullable
+              as String?,
+      character: freezed == character
+          ? _value.character
+          : character // ignore: cast_nullable_to_non_nullable
               as String?,
       releaseDate: null == releaseDate
           ? _value.releaseDate
@@ -174,8 +182,9 @@ abstract class _$$MovieImplCopyWith<$Res> implements $MovieCopyWith<$Res> {
       @JsonKey(name: 'original_language') String originalLanguage,
       @JsonKey(name: 'original_title') String originalTitle,
       String overview,
-      double popularity,
+      double? popularity,
       @JsonKey(name: 'poster_path') String? posterPath,
+      @JsonKey(name: 'character') String? character,
       @JsonKey(name: 'release_date') String releaseDate,
       String title,
       bool video,
@@ -201,8 +210,9 @@ class __$$MovieImplCopyWithImpl<$Res>
     Object? originalLanguage = null,
     Object? originalTitle = null,
     Object? overview = null,
-    Object? popularity = null,
+    Object? popularity = freezed,
     Object? posterPath = freezed,
+    Object? character = freezed,
     Object? releaseDate = null,
     Object? title = null,
     Object? video = null,
@@ -238,13 +248,17 @@ class __$$MovieImplCopyWithImpl<$Res>
           ? _value.overview
           : overview // ignore: cast_nullable_to_non_nullable
               as String,
-      popularity: null == popularity
+      popularity: freezed == popularity
           ? _value.popularity
           : popularity // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
       posterPath: freezed == posterPath
           ? _value.posterPath
           : posterPath // ignore: cast_nullable_to_non_nullable
+              as String?,
+      character: freezed == character
+          ? _value.character
+          : character // ignore: cast_nullable_to_non_nullable
               as String?,
       releaseDate: null == releaseDate
           ? _value.releaseDate
@@ -281,8 +295,9 @@ class _$MovieImpl implements _Movie {
       @JsonKey(name: 'original_language') required this.originalLanguage,
       @JsonKey(name: 'original_title') required this.originalTitle,
       required this.overview,
-      required this.popularity,
+      this.popularity,
       @JsonKey(name: 'poster_path') this.posterPath,
+      @JsonKey(name: 'character') this.character,
       @JsonKey(name: 'release_date') required this.releaseDate,
       required this.title,
       required this.video,
@@ -320,10 +335,13 @@ class _$MovieImpl implements _Movie {
   @override
   final String overview;
   @override
-  final double popularity;
+  final double? popularity;
   @override
   @JsonKey(name: 'poster_path')
   final String? posterPath;
+  @override
+  @JsonKey(name: 'character')
+  final String? character;
   @override
   @JsonKey(name: 'release_date')
   final String releaseDate;
@@ -340,7 +358,7 @@ class _$MovieImpl implements _Movie {
 
   @override
   String toString() {
-    return 'Movie(adult: $adult, backdropPath: $backdropPath, genreIds: $genreIds, id: $id, originalLanguage: $originalLanguage, originalTitle: $originalTitle, overview: $overview, popularity: $popularity, posterPath: $posterPath, releaseDate: $releaseDate, title: $title, video: $video, voteAverage: $voteAverage, voteCount: $voteCount)';
+    return 'Movie(adult: $adult, backdropPath: $backdropPath, genreIds: $genreIds, id: $id, originalLanguage: $originalLanguage, originalTitle: $originalTitle, overview: $overview, popularity: $popularity, posterPath: $posterPath, character: $character, releaseDate: $releaseDate, title: $title, video: $video, voteAverage: $voteAverage, voteCount: $voteCount)';
   }
 
   @override
@@ -363,6 +381,8 @@ class _$MovieImpl implements _Movie {
                 other.popularity == popularity) &&
             (identical(other.posterPath, posterPath) ||
                 other.posterPath == posterPath) &&
+            (identical(other.character, character) ||
+                other.character == character) &&
             (identical(other.releaseDate, releaseDate) ||
                 other.releaseDate == releaseDate) &&
             (identical(other.title, title) || other.title == title) &&
@@ -386,6 +406,7 @@ class _$MovieImpl implements _Movie {
       overview,
       popularity,
       posterPath,
+      character,
       releaseDate,
       title,
       video,
@@ -416,8 +437,9 @@ abstract class _Movie implements Movie {
       required final String originalLanguage,
       @JsonKey(name: 'original_title') required final String originalTitle,
       required final String overview,
-      required final double popularity,
+      final double? popularity,
       @JsonKey(name: 'poster_path') final String? posterPath,
+      @JsonKey(name: 'character') final String? character,
       @JsonKey(name: 'release_date') required final String releaseDate,
       required final String title,
       required final bool video,
@@ -445,10 +467,13 @@ abstract class _Movie implements Movie {
   @override
   String get overview;
   @override
-  double get popularity;
+  double? get popularity;
   @override
   @JsonKey(name: 'poster_path')
   String? get posterPath;
+  @override
+  @JsonKey(name: 'character')
+  String? get character;
   @override
   @JsonKey(name: 'release_date')
   String get releaseDate;

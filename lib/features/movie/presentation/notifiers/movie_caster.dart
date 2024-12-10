@@ -4,11 +4,13 @@ import '../../data/services/movie_services.dart';
 
 final movieServiceProvider = Provider((ref) => MovieService());
 
-final movieCasterProvider =
-    StateNotifierProvider<MovieCasterNotifier, AsyncValue<List<Cast>>>((ref) {
-  final movieService = ref.watch(movieServiceProvider);
-  return MovieCasterNotifier(movieService);
-});
+final movieCasterProvider = StateNotifierProvider.family<MovieCasterNotifier,
+    AsyncValue<List<Cast>>, int>(
+  (ref, movieId) {
+    final getDetailMovies = ref.watch(movieServiceProvider);
+    return MovieCasterNotifier(getDetailMovies);
+  },
+);
 
 class MovieCasterNotifier extends StateNotifier<AsyncValue<List<Cast>>> {
   final MovieService _movieService;
@@ -16,6 +18,8 @@ class MovieCasterNotifier extends StateNotifier<AsyncValue<List<Cast>>> {
   MovieCasterNotifier(this._movieService) : super(const AsyncValue.loading());
 
   Future<void> fetchMovieCaster(int movieId) async {
+    state = const AsyncValue.loading();
+
     try {
       final movies = await _movieService.fetchMovieCaster(movieId);
       state = AsyncValue.data(movies);

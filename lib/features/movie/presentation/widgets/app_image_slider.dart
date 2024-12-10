@@ -2,12 +2,16 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/widget/app_skeleton.dart';
 
 class AppImageSlider extends StatefulWidget {
   final List<Movie> movie;
-  const AppImageSlider({super.key, required this.movie});
+  final int maxLength;
+  final Function()? onSeeMore;
+  const AppImageSlider(
+      {super.key, required this.movie, this.maxLength = 16, this.onSeeMore});
 
   @override
   State<AppImageSlider> createState() => _AppImageSliderState();
@@ -28,6 +32,8 @@ class _AppImageSliderState extends State<AppImageSlider>
   int _currentIndex = 0;
   late Timer _timer;
   late AnimationController _animationController;
+  late bool _seeMore;
+  late List<Movie> movie;
 
   @override
   void initState() {
@@ -41,6 +47,9 @@ class _AppImageSliderState extends State<AppImageSlider>
 
     // Timer untuk mengubah halaman otomatis setiap 3 detik
     _timer = Timer.periodic(const Duration(seconds: 1), _onTimerTick);
+
+    _seeMore = widget.maxLength < widget.movie.length;
+    movie = widget.movie.take(widget.maxLength).toList();
   }
 
   @override
@@ -54,7 +63,7 @@ class _AppImageSliderState extends State<AppImageSlider>
     setState(() {
       if (_animationController.isCompleted) {
         // Pindah ke halaman berikutnya ketika progress selesai
-        if (_currentIndex < widget.movie.length - 1) {
+        if (_currentIndex < movie.length - 1) {
           _currentIndex++;
         } else {
           _currentIndex = 0;
@@ -76,7 +85,7 @@ class _AppImageSliderState extends State<AppImageSlider>
       children: [
         PageView.builder(
           controller: _pageController,
-          itemCount: widget.movie.length,
+          itemCount: movie.length,
           onPageChanged: (index) {
             setState(() {
               _currentIndex = index;
@@ -89,7 +98,7 @@ class _AppImageSliderState extends State<AppImageSlider>
               children: [
                 Positioned.fill(
                   child: CachedNetworkImage(
-                    imageUrl: widget.movie[index].backdropUrlOriginal,
+                    imageUrl: movie[index].backdropUrlOriginal,
                     fit: BoxFit
                         .cover, // Gambar akan memenuhi area tanpa mengubah proporsi
                     placeholder: (context, url) {
@@ -97,7 +106,7 @@ class _AppImageSliderState extends State<AppImageSlider>
                         fit: StackFit.expand,
                         children: [
                           CachedNetworkImage(
-                            imageUrl: widget.movie[index].backdropUrlW300,
+                            imageUrl: movie[index].backdropUrlW300,
                             fit: BoxFit.cover,
                           ),
                           BackdropFilter(
@@ -123,7 +132,7 @@ class _AppImageSliderState extends State<AppImageSlider>
                           _currentIndex--;
 
                           if (_currentIndex < 0) {
-                            _currentIndex = widget.movie.length - 1;
+                            _currentIndex = movie.length - 1;
                           }
 
                           _pageController.animateToPage(
@@ -143,7 +152,7 @@ class _AppImageSliderState extends State<AppImageSlider>
                     InkWell(
                       onTap: () {
                         setState(() {
-                          if (_currentIndex < widget.movie.length - 1) {
+                          if (_currentIndex < movie.length - 1) {
                             _currentIndex++;
                           } else {
                             _currentIndex = 0;
@@ -201,35 +210,64 @@ class _AppImageSliderState extends State<AppImageSlider>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.movie[_currentIndex].title,
+                            movie[_currentIndex].title,
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(fontSize: 20),
+                            maxLines: 1,
                           ),
+                          if (movie[_currentIndex].character != null) ...[
+                            Text(
+                              movie[_currentIndex].character!,
+                              style: Theme.of(context).textTheme.labelSmall,
+                            ),
+                          ],
                           const SizedBox(height: 10),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              gradient: LinearGradient(
-                                end: Alignment.topCenter, // Awal gradien
-                                begin: Alignment.bottomCenter, // Akhir gradien
-                                colors: [
-                                  Colors.white.withOpacity(0.1),
-                                  Colors.white.withOpacity(0.1), // Warna akhir
-                                ],
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  gradient: LinearGradient(
+                                    end: Alignment.topCenter, // Awal gradien
+                                    begin:
+                                        Alignment.bottomCenter, // Akhir gradien
+                                    colors: [
+                                      Colors.white.withOpacity(0.1),
+                                      Colors.white
+                                          .withOpacity(0.1), // Warna akhir
+                                    ],
+                                  ),
+                                ),
+                                width: 130,
+                                height: 34,
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.play_arrow_rounded),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Play Trailer',
+                                      style: TextStyle(fontSize: 12),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                            width: 130,
-                            height: 34,
-                            child: const Row(
-                              children: [
-                                Icon(Icons.play_arrow_rounded),
-                                SizedBox(width: 10),
-                                Text(
-                                  'Play Trailer',
-                                  style: TextStyle(fontSize: 12),
-                                )
-                              ],
-                            ),
+                              Visibility(
+                                visible: _seeMore,
+                                child: InkWell(
+                                  hoverColor:
+                                      Colors.transparent, // Hapus efek hover
+                                  onTap: widget.onSeeMore,
+                                  child: Text(
+                                    'See More',
+                                    style:
+                                        Theme.of(context).textTheme.labelSmall,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -278,11 +316,11 @@ class _AppImageSliderState extends State<AppImageSlider>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: List.generate(
-                widget.movie.length,
+                movie.length,
                 (index) {
                   final screenWidth = MediaQuery.of(context).size.width;
                   final maxWidth =
-                      screenWidth / widget.movie.length - 10; // Proporsional
+                      screenWidth / movie.length - 10; // Proporsional
                   const double activeWidth = 41; // Batas panjang aktif
                   final double inactiveWidth =
                       maxWidth > 16 ? 16 : maxWidth / 2; // Panjang nonaktif

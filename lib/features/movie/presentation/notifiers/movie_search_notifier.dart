@@ -41,7 +41,7 @@ class DiscoverMovieNotifier extends StateNotifier<AsyncValue<List<Movie>>> {
 
     result.fold(
       (failure) {
-        state = AsyncValue.error(failure.message, StackTrace.current);
+        state = AsyncValue.error(failure, StackTrace.current);
       },
       (movies) {
         _currentPage = 2;
@@ -68,9 +68,7 @@ class DiscoverMovieNotifier extends StateNotifier<AsyncValue<List<Movie>>> {
     final result = await _getSearchMovies(_currentPage, _currentKeyword);
 
     result.fold(
-      (failure) {
-        state = AsyncValue.error(failure.message, StackTrace.current);
-      },
+      (failure) {},
       (movies) {
         state = AsyncValue.data([
           ...(state.value ?? []), // Data sebelumnya

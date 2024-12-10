@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
+import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_actor_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_discover_notifier.dart';
+import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_now_playing_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_popular_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_top_rated_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_movie_card.dart';
@@ -39,6 +41,12 @@ class SeeMorePageState extends ConsumerState<SeeMorePage> {
         break;
       case 'top_rated':
         provider = topRatedMoviesProvider;
+        break;
+      case 'now_playing':
+        provider = nowPlayingMoviesProvider;
+        break;
+      case 'actor_movies':
+        provider = actorMoviesProvider;
         break;
       default:
         throw Exception('Invalid providerKey: ${widget.providerKey}');

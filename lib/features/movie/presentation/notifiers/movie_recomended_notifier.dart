@@ -6,9 +6,17 @@ import '../../domain/usecases/get_recomended_movies.dart';
 final getRecomendedMoviesProvider =
     Provider((ref) => GetRecomendedMovies(ref.watch(movieRepositoryProvider)));
 
-final recomendedMoviesProvider =
-    StateNotifierProvider<RecomendedMovieNotifier, AsyncValue<List<Movie>>>(
-  (ref) {
+// final recomendedMoviesProvider =
+//     StateNotifierProvider<RecomendedMovieNotifier, AsyncValue<List<Movie>>>(
+//   (ref) {
+//     final getRecomendedMovies = ref.watch(getRecomendedMoviesProvider);
+//     return RecomendedMovieNotifier(getRecomendedMovies);
+//   },
+// );
+
+final recomendedMoviesProvider = StateNotifierProvider.family<
+    RecomendedMovieNotifier, AsyncValue<List<Movie>>, int>(
+  (ref, movieId) {
     final getRecomendedMovies = ref.watch(getRecomendedMoviesProvider);
     return RecomendedMovieNotifier(getRecomendedMovies);
   },

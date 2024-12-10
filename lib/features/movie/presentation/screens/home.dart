@@ -97,7 +97,13 @@ class _HomePageState extends ConsumerState<HomePage> {
             data: (data) => SizedBox(
               height: 362,
               child: AppImageSlider(
-                movie: data.take(14).toList(),
+                movie: data,
+                onSeeMore: () {
+                  Navigator.pushNamed(context, Routes.seeMore, arguments: {
+                    'title': 'Now Playing',
+                    'providerKey': 'now_playing'
+                  });
+                },
               ),
             ),
           ),

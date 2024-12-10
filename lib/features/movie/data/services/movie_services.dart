@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_movie_app/features/movie/data/models/actor.dart';
 import 'package:flutter_movie_app/features/movie/data/models/cast.dart';
 import 'package:flutter_movie_app/features/movie/data/models/genres.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
@@ -197,10 +198,11 @@ class MovieService {
   Future<List<Movie>> fetchDiscover({int page = 1, int genres = 0}) async {
     try {
       final response = await _dio.get(
-        '/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc',
+        '/3/discover/movie',
         queryParameters: {
           'language': 'en-US',
           'page': page,
+          'sort_by': 'popularity.desc',
           'with_genres': genres == 0 ? '' : genres
         },
       );
@@ -210,6 +212,45 @@ class MovieService {
         return movies.map((movie) => Movie.fromJson(movie)).toList();
       } else {
         throw Exception('Failed to fetch recommended movies');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<Actor> fetchActorDetail(int personId) async {
+    try {
+      final response = await _dio.get(
+        '/3/person/$personId',
+        queryParameters: {
+          'language': 'en-US',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return Actor.fromJson(response.data);
+      } else {
+        throw Exception('Failed to fetch actor');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<List<Movie>> fetchActorMovies(int personId) async {
+    try {
+      final response = await _dio.get(
+        '/3/person/$personId/movie_credits',
+        queryParameters: {
+          'language': 'en-US',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List movies = response.data['cast'];
+        return movies.map((movie) => Movie.fromJson(movie)).toList();
+      } else {
+        throw Exception('Failed to fetch actor movies');
       }
     } catch (e) {
       throw Exception('Error: $e');
