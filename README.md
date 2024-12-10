@@ -38,117 +38,139 @@ The design of this application is based on the provided Figma file. The slicing 
 ## 📚 Dependencies
 
 ### **Core**
-1. **[flutter](https://flutter.dev/)**  
+
+1. **[flutter](https://flutter.dev/)**
+
    - The SDK used for building multiplatform apps (iOS, Android, Web, etc.).
+2. **[cupertino_icons](https://pub.dev/packages/cupertino_icons)**
 
-2. **[cupertino_icons](https://pub.dev/packages/cupertino_icons)**  
    - iOS-style icons for app design.
+3. **[flutter_svg](https://pub.dev/packages/flutter_svg)**
 
-3. **[flutter_svg](https://pub.dev/packages/flutter_svg)**  
    - Provides support for rendering SVG files in the app.
+4. **[google_fonts](https://pub.dev/packages/google_fonts)**
 
-4. **[google_fonts](https://pub.dev/packages/google_fonts)**  
    - Makes it easy to use Google Fonts in Flutter apps.
+5. **[cached_network_image](https://pub.dev/packages/cached_network_image)**
 
-5. **[cached_network_image](https://pub.dev/packages/cached_network_image)**  
    - Enables image caching for better performance and reduced network usage.
+6. **[shimmer](https://pub.dev/packages/shimmer)**
 
-6. **[shimmer](https://pub.dev/packages/shimmer)**  
    - Creates a shimmer effect for loading placeholders, enhancing user experience.
+7. **[barcode](https://pub.dev/packages/barcode)**
 
-7. **[barcode](https://pub.dev/packages/barcode)**  
    - Generates barcodes for data visualization needs.
+8. **[dio](https://pub.dev/packages/dio)**
 
-8. **[dio](https://pub.dev/packages/dio)**  
    - A powerful HTTP client for handling API requests with features like interceptors and timeout.
+9. **[intl](https://pub.dev/packages/intl)**
 
-9. **[intl](https://pub.dev/packages/intl)**  
    - Manages formatting for dates, numbers, and locales.
+10. **[flutter_dotenv](https://pub.dev/packages/flutter_dotenv)**
 
-10. **[flutter_dotenv](https://pub.dev/packages/flutter_dotenv)**  
     - Loads environment variables from a `.env` file.
+11. **[sqflite](https://pub.dev/packages/sqflite)**
 
-11. **[sqflite](https://pub.dev/packages/sqflite)**  
     - SQLite plugin for local data storage.
+12. **[path](https://pub.dev/packages/path)**
 
-12. **[path](https://pub.dev/packages/path)**  
     - Utilities for managing file and directory paths.
 
 ### **State Management and Architecture**
-13. **[dartz](https://pub.dev/packages/dartz)**  
-    - A functional programming library to handle success and error values more effectively.
 
-14. **[flutter_riverpod](https://pub.dev/packages/flutter_riverpod)**  
+13. **[dartz](https://pub.dev/packages/dartz)**
+
+    - A functional programming library to handle success and error values more effectively.
+14. **[flutter_riverpod](https://pub.dev/packages/flutter_riverpod)**
+
     - A modern state management library for Flutter.
 
 ### **Data Serialization**
-15. **[freezed_annotation](https://pub.dev/packages/freezed_annotation)**  
+
+15. **[freezed_annotation](https://pub.dev/packages/freezed_annotation)**
+
     - Simplifies creating immutable models with code generation.
+16. **[json_serializable](https://pub.dev/packages/json_serializable)**
 
-16. **[json_serializable](https://pub.dev/packages/json_serializable)**  
     - Converts Dart objects to JSON and vice versa.
+17. **[json_annotation](https://pub.dev/packages/json_annotation)**
 
-17. **[json_annotation](https://pub.dev/packages/json_annotation)**  
     - Used alongside `json_serializable` for data model annotations.
 
 ## Dev Dependencies
 
-1. **[build_runner](https://pub.dev/packages/build_runner)**  
+1. **[build_runner](https://pub.dev/packages/build_runner)**
+
    - A tool for running code generators like `freezed` and `json_serializable`.
+2. **[freezed](https://pub.dev/packages/freezed)**
 
-2. **[freezed](https://pub.dev/packages/freezed)**  
    - Generates immutable data classes automatically.
+3. **[mockito](https://pub.dev/packages/mockito)**
 
-3. **[mockito](https://pub.dev/packages/mockito)**  
    - A library for creating mocks during unit testing.
+4. **[test](https://pub.dev/packages/test)**
 
-4. **[test](https://pub.dev/packages/test)**  
    - A testing library for writing and running automated tests.
+5. **[flutter_test](https://pub.dev/packages/flutter_test)**
 
-5. **[flutter_test](https://pub.dev/packages/flutter_test)**  
    - Flutter's built-in testing library.
+6. **[flutter_lints](https://pub.dev/packages/flutter_lints)**
 
-6. **[flutter_lints](https://pub.dev/packages/flutter_lints)**  
    - A set of recommended linting rules for clean and consistent code.
-
 
 ## ⚙️ Setup Environment
 
 To build this project locally, you need to add your TMDB API key. Follow the steps below to set up the environment variables:
 
 1. **Copy the `env` file to `.env`** in the root directory of the project.
-   
+
    If you already have an `env` file, copy it with the following command:
+
    ```bash
    cp env .env
    ```
-
 2. **Add the TMDB API key** in the `.env` file:
 
    Open the `.env` file and add the following line:
+
    ```plaintext
    TMDB_ACCESS_TOKEN=YOUR_API_KEY
    ```
 
    Replace `YOUR_API_KEY` with your actual API key from [The Movie Database (TMDB)](https://www.themoviedb.org/).
 
+## License
+
+You can add the MIT License section in your README file like this:
+
+---
 
 ## License
 
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+
 ```
-Copyright 2024 Ahmad Juhdi
+MIT License
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+Copyright (c) 2024 Ahmad Juhdi
 
-   http://www.apache.org/licenses/LICENSE-2.0
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 ```
 
 ## Disclaimer
