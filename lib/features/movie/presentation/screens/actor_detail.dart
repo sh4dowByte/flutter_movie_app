@@ -4,7 +4,6 @@ import 'package:flutter_movie_app/core/routes.dart';
 import 'package:flutter_movie_app/features/movie/data/models/actor.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_actor_detail_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_actor_notifier.dart';
-import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_recomended_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_image_slider.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/star_rating.dart';
 import 'package:flutter_movie_app/widget/app_error.dart';
@@ -78,6 +77,15 @@ class _ActorDetailPageState extends ConsumerState<ActorDetailPage> {
                         onTap: () => Navigator.pop(context),
                         child: const Icon(
                           Icons.arrow_back_ios_new_rounded,
+                        )),
+                    InkWell(
+                        onTap: () => Navigator.popUntil(
+                              context,
+                              (route) => route
+                                  .isFirst, // Kembali hingga halaman pertama
+                            ),
+                        child: const Icon(
+                          Icons.close,
                         )),
                   ],
                 ),
@@ -197,7 +205,7 @@ class _ActorDetailContentState extends ConsumerState<ActorDetailContent> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(widget.actor.placeOfBirth),
+                    Text(widget.actor.placeOfBirth ?? ''),
                     Text(widget.actor.knownForDepartment,
                         style: Theme.of(context).textTheme.labelSmall),
                     Text(widget.actor.age,
@@ -247,8 +255,8 @@ class _ActorDetailContentState extends ConsumerState<ActorDetailContent> {
               Text(widget.actor.name,
                   style: Theme.of(context).textTheme.displaySmall),
               const SizedBox(height: 10),
-              Text('Birth: ${widget.actor.formatBirth}',
-                  style: Theme.of(context).textTheme.labelSmall),
+              // Text('Birth: ${widget.actor.formatBirth}',
+              //     style: Theme.of(context).textTheme.labelSmall),
               const SizedBox(height: 10),
               Text(widget.actor.biography),
             ],

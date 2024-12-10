@@ -93,16 +93,17 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                         child: const Icon(
                           Icons.arrow_back_ios_new_rounded,
                         )),
-                    // const SizedBox(width: 15),
-                    // InkWell(
-                    //     onTap: () => Navigator.popUntil(
-                    //           context,
-                    //           (route) => route
-                    //               .isFirst, // Kembali hingga halaman pertama
-                    //         ),
-                    //     child: const Icon(
-                    //       Icons.close,
-                    //     )),
+                    const SizedBox(width: 15),
+                    InkWell(
+                      onTap: () => Navigator.popUntil(
+                        context,
+                        (route) =>
+                            route.isFirst, // Kembali hingga halaman pertama
+                      ),
+                      child: const Icon(
+                        Icons.close,
+                      ),
+                    ),
                   ],
                 ),
               ),

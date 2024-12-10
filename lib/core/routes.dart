@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/features/ticket/presentation/screens/screens.dart';
 
 import '../features/movie/presentation/screens/screens.dart';
 import '../screens/menu.dart';
@@ -23,9 +22,6 @@ class Routes {
 
       case movieSearch:
         return MaterialPageRoute(builder: (_) => const MovieSearchPage());
-
-      case seats:
-        return MaterialPageRoute(builder: (_) => const SeatsPage());
 
       case actorDetail:
         final int personId = settings.arguments as int;

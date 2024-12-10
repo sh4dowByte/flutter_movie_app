@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../core/pallete.dart';
 import '../widget/widget.dart';
 import '../features/movie/presentation/screens/screens.dart';
-import '../features/ticket/presentation/screens/screens.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
@@ -18,8 +17,8 @@ class _MenuPageState extends State<MenuPage> {
   // Daftar halaman yang akan ditampilkan sesuai tab yang dipilih
   final List<Widget> _pages = [
     const Center(child: HomePage()),
-    const Center(child: BookingPage()),
-    const Center(child: TicketPage()),
+    const Center(child: Text('TV Series')),
+    const Center(child: Text('Favorite')),
     const Center(child: Text('Profile')),
   ];
 

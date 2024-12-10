@@ -106,6 +106,17 @@ class AppMovieCoverTile extends StatelessWidget {
                   item.title,
                   overflow: TextOverflow.ellipsis,
                 )),
+
+            if (item.character != null) ...[
+              Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: Text(
+                    item.character!,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.labelSmall,
+                  )),
+            ],
             Positioned(
               bottom: 20,
               left: 100,

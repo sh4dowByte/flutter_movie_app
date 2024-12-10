@@ -13,7 +13,7 @@ class StarRating extends StatelessWidget {
     this.maxRange = 10,
     this.maxStars = 5,
     this.starColor = Colors.amber,
-    this.starSize = 20.0,
+    this.starSize = 14.0,
   });
 
   @override

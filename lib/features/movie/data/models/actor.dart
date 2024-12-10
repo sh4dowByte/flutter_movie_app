@@ -12,17 +12,17 @@ class Actor with _$Actor {
     required bool adult,
     @JsonKey(name: 'also_known_as') required List<String> alsoKnownAs,
     required String biography,
-    required String birthday,
+    String? birthday,
     String? deathday,
     required int gender,
     String? homepage,
     required int id,
-    @JsonKey(name: 'imdb_id') required String imdbId,
+    @JsonKey(name: 'imdb_id') String? imdbId,
     @JsonKey(name: 'known_for_department') required String knownForDepartment,
     required String name,
-    @JsonKey(name: 'place_of_birth') required String placeOfBirth,
+    @JsonKey(name: 'place_of_birth') String? placeOfBirth,
     required double popularity,
-    @JsonKey(name: 'profile_path') required String profilePath,
+    @JsonKey(name: 'profile_path') String? profilePath,
   }) = _Actor;
 
   factory Actor.fromJson(Map<String, dynamic> json) => _$ActorFromJson(json);
@@ -30,7 +30,7 @@ class Actor with _$Actor {
 
 extension MovieImageUrl on Actor {
   String _getImageUrl(String size, {bool isBackdrop = false}) {
-    return profilePath.isNotEmpty
+    return profilePath != null
         ? 'https://image.tmdb.org/t/p/$size$profilePath'
         : 'https://img.icons8.com/?size=480&id=gX6VczTLnV3E&format=png';
   }
@@ -45,17 +45,21 @@ extension MovieImageUrl on Actor {
 
   /// Calculate the age based on the birthday
   String get age {
-    final birthDate = DateTime.parse(birthday);
-    final currentDate = DateTime.now();
-    int age = currentDate.year - birthDate.year;
+    try {
+      final birthDate = DateTime.parse(birthday ?? '');
+      final currentDate = DateTime.now();
+      int age = currentDate.year - birthDate.year;
 
-    if (currentDate.month < birthDate.month ||
-        (currentDate.month == birthDate.month &&
-            currentDate.day < birthDate.day)) {
-      age--;
+      if (currentDate.month < birthDate.month ||
+          (currentDate.month == birthDate.month &&
+              currentDate.day < birthDate.day)) {
+        age--;
+      }
+
+      return '$age years old';
+    } catch (e) {
+      return 'Invalid date format';
     }
-
-    return '$age years old';
   }
 
   // String get formatBirth {
@@ -63,11 +67,11 @@ extension MovieImageUrl on Actor {
   // }
 
   String get formatBirth {
-    if (birthday.isEmpty) {
+    if (birthday!.isEmpty) {
       return 'Unknown birth date';
     }
     try {
-      final parsedDate = DateTime.parse(birthday);
+      final parsedDate = DateTime.parse(birthday!);
       // Return only the year
       return DateFormat("d MMMM yyyy").format(parsedDate).toString();
     } catch (e) {
