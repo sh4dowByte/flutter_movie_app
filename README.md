@@ -141,12 +141,6 @@ To build this project locally, you need to add your TMDB API key. Follow the ste
 
 ## License
 
-You can add the MIT License section in your README file like this:
-
----
-
-## License
-
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
 ```
