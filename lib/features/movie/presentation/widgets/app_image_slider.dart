@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/core/routes.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/widget/app_skeleton.dart';
 
@@ -208,11 +209,17 @@ class _AppImageSliderState extends State<AppImageSlider>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            movie[_currentIndex].title,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 20),
-                            maxLines: 1,
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            onTap: () => Navigator.pushNamed(
+                                context, Routes.movieDetail,
+                                arguments: movie[_currentIndex].id),
+                            child: Text(
+                              movie[_currentIndex].title,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontSize: 20),
+                              maxLines: 1,
+                            ),
                           ),
                           if (movie[_currentIndex].character != null) ...[
                             Text(
