@@ -4,7 +4,7 @@
     <img src="https://github.com/sh4dowByte/flutter_movie_app/actions/workflows/main.yaml/badge.svg?branch=release" alt="CI/CD Badge" style="max-width: 100%;">
     <img src="https://badgen.net/badge/Flutter/3.19.3/blue" alt="Flutter Version" style="max-width: 100%;">
     <img src="https://badgen.net/badge/Dart/3.3.1/blue" alt="Dart Version" style="max-width: 100%;">
-    <img src="https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg" alt="Dart Version" style="max-width: 100%;">
+    <img src="https://img.shields.io/badge/License-MIT-lightgrey.svg" alt="Dart Version" style="max-width: 100%;">
 </p>
 
 # Flutter Movie Ticket
@@ -135,8 +135,9 @@ To build this project locally, you need to add your TMDB API key. Follow the ste
 
 ## License
 
-Copyright 2024 Ahmad Juhdi
 ```
+Copyright 2024 Ahmad Juhdi
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
