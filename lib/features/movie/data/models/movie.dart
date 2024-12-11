@@ -26,15 +26,35 @@ class Movie with _$Movie {
   }) = _Movie;
 
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
+  // Tambahkan manual untuk mendukung fromMap
+  factory Movie.fromMap(Map<String, dynamic> map) {
+    return Movie.fromJson(map);
+  }
 }
 
 // Ekstensi untuk menambahkan getter imageUrl
 extension MovieImageUrl on Movie {
+// Tambahkan metode toMap
+  Map<String, dynamic> toMapForFavorite() {
+    return {
+      'id': id,
+      'title': title,
+      'adult': adult,
+      'poster_path': posterPath,
+      'backdrop_path': backdropPath,
+      'original_language': originalLanguage,
+      'original_title': originalTitle,
+      'overview': overview,
+      'popularity': popularity,
+      'release_date': releaseDate,
+      'vote_average': voteAverage,
+      'vote_count': voteCount,
+    };
+  }
+
   String _getImageUrl(String size, {bool isBackdrop = false}) {
     final path = isBackdrop ? backdropPath : posterPath;
-    return path != null
-        ? 'https://image.tmdb.org/t/p/$size$path'
-        : 'https://img.icons8.com/?size=480&id=gX6VczTLnV3E&format=png';
+    return 'https://image.tmdb.org/t/p/$size$path';
   }
 
   String get backdropUrlOriginal => _getImageUrl('original', isBackdrop: true);

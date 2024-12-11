@@ -6,18 +6,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final getActorMoviesProvider =
     Provider((ref) => GetActorMovies(ref.watch(movieRepositoryProvider)));
 
-final actorMoviesProvider =
-    StateNotifierProvider<DetailMovieNotifier, AsyncValue<List<Movie>>>(
-  (ref) {
-    final getActorMovies = ref.watch(getActorMoviesProvider);
-    return DetailMovieNotifier(getActorMovies);
+final actorMoviesProvider = StateNotifierProvider.family<
+    DetailActorMovieNotifier, AsyncValue<List<Movie>>, int>(
+  (ref, movieId) {
+    final getActorDetailMovies = ref.watch(getActorMoviesProvider);
+    final notifier = DetailActorMovieNotifier(getActorDetailMovies);
+    return notifier;
   },
 );
 
-class DetailMovieNotifier extends StateNotifier<AsyncValue<List<Movie>>> {
+class DetailActorMovieNotifier extends StateNotifier<AsyncValue<List<Movie>>> {
   final GetActorMovies _getActorMovies;
 
-  DetailMovieNotifier(this._getActorMovies) : super(const AsyncValue.loading());
+  DetailActorMovieNotifier(this._getActorMovies)
+      : super(const AsyncValue.loading());
 
   bool _isGetting = false;
   bool _isLoadingNextPage = false;

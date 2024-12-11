@@ -11,9 +11,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SeeMorePage extends ConsumerStatefulWidget {
   final int? genreId;
+  final int? actorId;
   final String providerKey;
   final String title;
-  const SeeMorePage(this.title, this.providerKey, {this.genreId, super.key});
+  const SeeMorePage(this.title, this.providerKey,
+      {this.genreId, this.actorId, super.key});
 
   @override
   ConsumerState<SeeMorePage> createState() => SeeMorePageState();
@@ -46,7 +48,7 @@ class SeeMorePageState extends ConsumerState<SeeMorePage> {
         provider = nowPlayingMoviesProvider;
         break;
       case 'actor_movies':
-        provider = actorMoviesProvider;
+        provider = actorMoviesProvider(widget.actorId!);
         break;
       default:
         throw Exception('Invalid providerKey: ${widget.providerKey}');

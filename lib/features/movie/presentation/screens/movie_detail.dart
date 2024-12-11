@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_detail_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_recomended_notifier.dart';
@@ -116,6 +117,13 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                         CachedNetworkImage(
                           height: double.infinity,
                           imageUrl: value.backdropUrlOriginal,
+                          errorWidget: (context, url, error) => Container(
+                            color: Pallete.grey1,
+                            child: Image.asset(
+                              'assets/broken.png',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
                           placeholder: (context, string) {
                             return Stack(
                               fit: StackFit.expand,
@@ -177,6 +185,14 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                   placeholder: (context, string) {
                                     return const AppSkeleton();
                                   },
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                    color: Pallete.grey1,
+                                    child: Image.asset(
+                                      'assets/broken.png',
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 16),

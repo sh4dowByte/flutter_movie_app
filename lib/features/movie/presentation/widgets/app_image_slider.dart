@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/routes.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/widget/app_skeleton.dart';
@@ -99,6 +100,13 @@ class _AppImageSliderState extends State<AppImageSlider>
                 Positioned.fill(
                   child: CachedNetworkImage(
                     imageUrl: movie[index].backdropUrlOriginal,
+                    errorWidget: (context, url, error) => Container(
+                      color: Pallete.grey1,
+                      child: Image.asset(
+                        'assets/broken.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
                     fit: BoxFit
                         .cover, // Gambar akan memenuhi area tanpa mengubah proporsi
                     placeholder: (context, url) {
