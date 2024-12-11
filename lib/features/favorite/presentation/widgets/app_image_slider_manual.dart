@@ -7,8 +7,11 @@ import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 
 class AppImageSliderManual extends StatefulWidget {
   final List<Movie> data;
+  final Function(int)? onTap;
   final Function(Movie)? onChange;
-  const AppImageSliderManual({super.key, required this.data, this.onChange});
+
+  const AppImageSliderManual(
+      {super.key, required this.data, this.onTap, this.onChange});
 
   @override
   State<AppImageSliderManual> createState() => _AppImageSliderManualState();
@@ -19,8 +22,23 @@ class _AppImageSliderManualState extends State<AppImageSliderManual> {
   int _currentPage = 0;
 
   @override
+  void didUpdateWidget(covariant AppImageSliderManual oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_currentPage >= widget.data.length) {
+      _currentPage = widget.data.isNotEmpty ? widget.data.length - 1 : 0;
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.onChange != null && widget.data.isNotEmpty) {
+        widget.onChange!(widget.data[_currentPage]);
+      }
+    });
+
     _pageController.addListener(() {
       final direction = _pageController.position.userScrollDirection;
 
@@ -68,7 +86,7 @@ class _AppImageSliderManualState extends State<AppImageSliderManual> {
         // Blur filter and gradient overlay
         ClipRRect(
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -101,67 +119,40 @@ class _AppImageSliderManualState extends State<AppImageSliderManual> {
                 ? 1 - (_currentPage - index).abs() * 0.2
                 : 0.8;
 
-            return TweenAnimationBuilder(
-              tween: Tween<double>(begin: scale, end: scale),
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOut,
-              builder: (context, value, child) {
-                return Transform.scale(
-                  scale: value,
-                  child: child,
-                );
+            return InkWell(
+              onTap: () {
+                if (widget.onTap != null) {
+                  widget.onTap!(widget.data[index].id);
+                }
               },
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 40),
-                child: Column(
-                  children: [
-                    // Title
-                    Text(
-                      widget.data[index].title,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-
-                    const SizedBox(height: 6),
-
-                    // Additional details
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.av_timer_rounded,
-                          size: 16,
-                          color: Colors.white.withOpacity(0.4),
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          '1 HR 36 MIN | PG',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white.withOpacity(0.4),
+              child: TweenAnimationBuilder(
+                tween: Tween<double>(begin: scale, end: scale),
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOut,
+                builder: (context, value, child) {
+                  return Transform.scale(
+                    scale: value,
+                    child: child,
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: Column(
+                    children: [
+                      // Image content
+                      SizedBox(
+                        width: double.infinity,
+                        height: 391,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: CachedNetworkImage(
+                            imageUrl: widget.data[index].imageUrlW500,
+                            fit: BoxFit.cover,
                           ),
                         ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // Image content
-                    SizedBox(
-                      width: double.infinity,
-                      height: 391,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: CachedNetworkImage(
-                          imageUrl: widget.data[index].imageUrlW500,
-                          fit: BoxFit.cover,
-                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );

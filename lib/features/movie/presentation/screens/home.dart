@@ -5,6 +5,7 @@ import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_no
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_popular_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_top_rated_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_upcoming_notifier.dart';
+import 'package:flutter_movie_app/features/movie/presentation/widgets/app_image_slider.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_movie_card.dart';
 import 'package:flutter_movie_app/widget/widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -17,7 +17,7 @@ class DBService {
   }
 
   Future<Database> _initDB() async {
-    String path = join(await getDatabasesPath(), 'movie.db');
+    String path = join(await getDatabasesPath(), 'movie3.db');
     return await openDatabase(
       path,
       version: 1,

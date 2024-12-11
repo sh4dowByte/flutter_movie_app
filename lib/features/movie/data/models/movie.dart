@@ -8,7 +8,7 @@ part 'movie.g.dart';
 @freezed
 class Movie with _$Movie {
   const factory Movie({
-    required bool adult,
+    bool? adult,
     @JsonKey(name: 'backdrop_path') String? backdropPath,
     @JsonKey(name: 'genre_ids') List<int>? genreIds,
     required int id,
@@ -20,7 +20,7 @@ class Movie with _$Movie {
     @JsonKey(name: 'character') String? character,
     @JsonKey(name: 'release_date') required String releaseDate,
     required String title,
-    required bool video,
+    bool? video,
     @JsonKey(name: 'vote_average') required double voteAverage,
     @JsonKey(name: 'vote_count') required int voteCount,
   }) = _Movie;
@@ -39,7 +39,6 @@ extension MovieImageUrl on Movie {
     return {
       'id': id,
       'title': title,
-      'adult': adult,
       'poster_path': posterPath,
       'backdrop_path': backdropPath,
       'original_language': originalLanguage,

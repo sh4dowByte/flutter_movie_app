@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/features/favorite/presentation/screens/favorite.dart';
 import '../core/pallete.dart';
 import '../widget/widget.dart';
 import '../features/movie/presentation/screens/screens.dart';
@@ -18,7 +19,7 @@ class _MenuPageState extends State<MenuPage> {
   final List<Widget> _pages = [
     const Center(child: HomePage()),
     const Center(child: Text('TV Series')),
-    const Center(child: Text('Favorite')),
+    const Center(child: FavoritePage()),
     const Center(child: Text('Profile')),
   ];
 

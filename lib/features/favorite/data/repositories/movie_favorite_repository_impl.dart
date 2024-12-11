@@ -42,11 +42,11 @@ class MovieFavoriteRepositoryImpl implements MovieFavoriteRepository {
     try {
       final movie = await _dbService.getFavoriteMovie();
       if (movie.isEmpty) {
-        return Left(EmptyDataFailure('Failed to load favorite movies.'));
+        return Left(EmptyDataFailure('Empty favorite movies.'));
       }
       return Right(movie);
     } catch (e) {
-      return Left(NetworkFailure('Unknown error db'));
+      return Left(NetworkFailure(e.toString()));
     }
   }
 }
