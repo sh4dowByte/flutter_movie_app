@@ -10,6 +10,7 @@ class Routes {
   static const String seeMore = '/see_more';
   static const String seats = '/seats';
   static const String actorDetail = '/actor_detail';
+  static const String clipMovie = '/clip_movie';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -26,6 +27,10 @@ class Routes {
       case actorDetail:
         final int personId = settings.arguments as int;
         return MaterialPageRoute(builder: (_) => ActorDetailPage(personId));
+
+      case clipMovie:
+        final int movieId = settings.arguments as int;
+        return MaterialPageRoute(builder: (_) => MovieClipPage(movieId));
 
       case seeMore:
         final args = settings.arguments as Map<String, dynamic>;

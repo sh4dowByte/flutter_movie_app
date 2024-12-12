@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 
 class AppCircleButton extends StatelessWidget {
   final Function()? onTap;
-  final bool isTransparent;
   final Widget? icon;
-  const AppCircleButton(
-      {this.onTap, this.isTransparent = false, this.icon, super.key});
+  const AppCircleButton({this.onTap, this.icon, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,17 +14,7 @@ class AppCircleButton extends StatelessWidget {
         height: 45,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: isTransparent
-              ? Colors.black.withOpacity(0.3)
-              : const Color(
-                  0xFFEBEAEC,
-                ),
-          border: Border.all(
-            color: isTransparent
-                ? Colors.black.withOpacity(0)
-                : const Color(0xFFEBEAEC), // Color of the border
-            width: 1, // Width of the border
-          ),
+          color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.4),
           borderRadius: BorderRadius.circular(55), // Radius for rounded corners
         ),
         child: icon ??

@@ -9,6 +9,8 @@ import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_detail_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_recomended_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_caster.dart';
+import 'package:flutter_movie_app/features/movie/presentation/widgets/app_button_play_trailer.dart';
+import 'package:flutter_movie_app/widget/app_circle_button.dart';
 import 'package:flutter_movie_app/widget/app_error.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -40,15 +42,6 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
           .read(recomendedMoviesProvider(widget.movieId).notifier)
           .getInitialMovies(widget.movieId);
     });
-
-    // _controller = YoutubePlayerController(
-    //   initialVideoId:
-    //       'tzQsSmDc8gw', // Ganti dengan ID video YouTube yang ingin Anda tampilkan
-    //   flags: YoutubePlayerFlags(
-    //     autoPlay: true,
-    //     mute: false,
-    //   ),
-    // );
   }
 
   bool showReadme = true;
@@ -60,12 +53,6 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
     _scrollController.dispose();
     // _controller.dispose();
     super.dispose();
-  }
-
-  String formatRuntime(int runtime) {
-    final hours = runtime ~/ 60; // Hitung jam
-    final minutes = runtime % 60; // Sisa menit
-    return '$hours h $minutes min';
   }
 
   @override
@@ -91,20 +78,21 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    InkWell(
-                        onTap: () => Navigator.pop(context),
-                        child: const Icon(
-                          Icons.arrow_back_ios_new_rounded,
-                        )),
+                    AppCircleButton(
+                      icon: const Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                      ),
+                      onTap: () => Navigator.pop(context),
+                    ),
                     const SizedBox(width: 15),
-                    InkWell(
+                    AppCircleButton(
+                      icon: const Icon(
+                        Icons.close,
+                      ),
                       onTap: () => Navigator.popUntil(
                         context,
                         (route) =>
                             route.isFirst, // Kembali hingga halaman pertama
-                      ),
-                      child: const Icon(
-                        Icons.close,
                       ),
                     ),
                   ],
@@ -225,7 +213,7 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                     Row(
                                       children: [
                                         Text(
-                                          '${value.formattedReleaseDate} ⦿ ${formatRuntime(value.runtime)}',
+                                          '${value.formattedReleaseDate} ⦿ ${value.formatRuntime}',
                                           style: Theme.of(context)
                                               .textTheme
                                               .labelSmall,
@@ -239,38 +227,7 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            gradient: LinearGradient(
-                                              end: Alignment
-                                                  .topCenter, // Awal gradien
-                                              begin: Alignment
-                                                  .bottomCenter, // Akhir gradien
-                                              colors: [
-                                                Colors.white.withOpacity(0.1),
-                                                Colors.white.withOpacity(0.1),
-                                                Colors.white.withOpacity(
-                                                    0.1), // Warna akhir
-                                              ],
-                                            ),
-                                          ),
-                                          width: 130,
-                                          height: 34,
-                                          child: const Row(
-                                            children: [
-                                              Icon(Icons.play_arrow_rounded),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                'Play Trailer',
-                                                style: TextStyle(fontSize: 12),
-                                              )
-                                            ],
-                                          ),
-                                        ),
+                                        AppButtonPlayTrailer(movieId: value.id),
                                         InkWell(
                                           onTap: () {
                                             ref
@@ -441,7 +398,7 @@ class _MovieDetailContentState extends ConsumerState<MovieDetailContent> {
           child: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 16),
-            child: const Text('Cast'),
+            child: const Text('Top Billed Cast'),
           ),
         ),
 

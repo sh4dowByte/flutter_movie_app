@@ -119,20 +119,20 @@ class _HomePageState extends ConsumerState<HomePage> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               height: 64,
               decoration: BoxDecoration(
-                color: const Color(0xFF272727).withOpacity(0.3),
+                color: Colors.grey.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(50),
               ),
-              child: const Row(
+              child: Row(
                 children: [
                   Icon(
                     Icons.search,
-                    color: Color(0xFFD9D9D9),
+                    color: Theme.of(context).hintColor,
                   ),
                   SizedBox(width: 18),
                   Text(
                     'Search...',
                     style: TextStyle(
-                      color: Color(0xFFD9D9D9),
+                      color: Theme.of(context).hintColor,
                     ),
                   ),
                 ],
