@@ -162,7 +162,7 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                       .withOpacity(1),
                                   Theme.of(context)
                                       .scaffoldBackgroundColor
-                                      .withOpacity(0.9),
+                                      .withOpacity(0.8),
 
                                   Colors.transparent, // Warna akhir
                                 ],
@@ -251,6 +251,7 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                               begin: Alignment
                                                   .bottomCenter, // Akhir gradien
                                               colors: [
+                                                Colors.white.withOpacity(0.1),
                                                 Colors.white.withOpacity(0.1),
                                                 Colors.white.withOpacity(
                                                     0.1), // Warna akhir

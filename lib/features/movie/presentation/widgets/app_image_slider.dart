@@ -12,17 +12,14 @@ class AppImageSlider extends StatefulWidget {
   final int maxLength;
   final Function()? onSeeMore;
   const AppImageSlider(
-      {super.key, required this.movie, this.maxLength = 16, this.onSeeMore});
+      {super.key, required this.movie, this.maxLength = 14, this.onSeeMore});
 
   @override
   State<AppImageSlider> createState() => _AppImageSliderState();
 
   static Widget loading() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      child: AppSkeleton(
-        height: 362,
-      ),
+    return const AppSkeleton(
+      height: 362,
     );
   }
 }
@@ -186,7 +183,8 @@ class _AppImageSliderState extends State<AppImageSlider>
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    height: 160,
+                    padding: const EdgeInsets.only(top: 60),
+                    height: 220,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -198,13 +196,11 @@ class _AppImageSliderState extends State<AppImageSlider>
                               .withOpacity(1),
                           Theme.of(context)
                               .scaffoldBackgroundColor
-                              .withOpacity(1),
+                              .withOpacity(0.8),
                           Theme.of(context)
                               .scaffoldBackgroundColor
-                              .withOpacity(0.9),
-                          Theme.of(context)
-                              .scaffoldBackgroundColor
-                              .withOpacity(0.7),
+                              .withOpacity(0.6),
+                          Colors.black.withOpacity(0.3),
                           Colors.transparent, // Warna akhir
                         ],
                       ),

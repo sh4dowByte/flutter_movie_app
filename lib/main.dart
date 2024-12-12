@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Movie App',
       debugShowCheckedModeBanner: false,
       darkTheme: AppTheme.darkTheme,
+      theme: AppTheme.lightTheme,
       themeMode: ThemeMode.dark,
       onGenerateRoute: Routes.generateRoute,
       home: const MenuPage(),

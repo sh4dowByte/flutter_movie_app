@@ -63,4 +63,17 @@ extension MovieImageUrl on Movie {
   String get imageUrlW500 => _getImageUrl('w500');
   String get imageUrlW300 => _getImageUrl('w300');
   String get imageUrlW200 => _getImageUrl('w200');
+
+  String get formattedReleaseDate {
+    if (releaseDate.isEmpty) {
+      return 'Unknown release date';
+    }
+    try {
+      final parsedDate = DateTime.parse(releaseDate);
+      // Return only the year
+      return parsedDate.year.toString();
+    } catch (e) {
+      return 'Invalid release date';
+    }
+  }
 }

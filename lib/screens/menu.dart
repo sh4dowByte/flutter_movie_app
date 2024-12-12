@@ -60,7 +60,7 @@ class _MenuPageState extends State<MenuPage> {
             onTap: _onTabTapped, // Mengubah halaman saat tab ditekan
             type: BottomNavigationBarType.fixed,
             items: [
-              _buildNavItem('home', Colors.blue, 0),
+              _buildNavItem('movie', Colors.blue, 0),
               _buildNavItem('tv', Colors.purple, 1),
               _buildNavItem('favorite', Colors.pink, 2),
               _buildNavItem('profile', Colors.green, 3),

@@ -85,8 +85,7 @@ class _ActorDetailPageState extends ConsumerState<ActorDetailPage> {
                     InkWell(
                         onTap: () => Navigator.popUntil(
                               context,
-                              (route) => route
-                                  .isFirst, // Kembali hingga halaman pertama
+                              (route) => route.isFirst,
                             ),
                         child: const Icon(
                           Icons.close,
@@ -153,6 +152,7 @@ class ActorDetailContent extends ConsumerStatefulWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 10),
           const AppSkeleton(height: 40),
           const SizedBox(height: 10),
           const AppSkeleton(height: 40),

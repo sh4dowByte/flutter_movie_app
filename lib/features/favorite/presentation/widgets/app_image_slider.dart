@@ -5,24 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 
-class AppImageSliderManual extends StatefulWidget {
+class AppImageSlider extends StatefulWidget {
   final List<Movie> data;
   final Function(int)? onTap;
   final Function(Movie)? onChange;
 
-  const AppImageSliderManual(
+  const AppImageSlider(
       {super.key, required this.data, this.onTap, this.onChange});
 
   @override
-  State<AppImageSliderManual> createState() => _AppImageSliderManualState();
+  State<AppImageSlider> createState() => _AppImageSliderState();
 }
 
-class _AppImageSliderManualState extends State<AppImageSliderManual> {
+class _AppImageSliderState extends State<AppImageSlider> {
   final PageController _pageController = PageController(viewportFraction: 0.6);
   int _currentPage = 0;
 
   @override
-  void didUpdateWidget(covariant AppImageSliderManual oldWidget) {
+  void didUpdateWidget(covariant AppImageSlider oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (_currentPage >= widget.data.length) {
       _currentPage = widget.data.isNotEmpty ? widget.data.length - 1 : 0;
@@ -75,10 +75,10 @@ class _AppImageSliderManualState extends State<AppImageSliderManual> {
             child: CachedNetworkImage(
               imageUrl: widget.data[_currentPage.toInt()].backdropUrlW300,
               fit: BoxFit.cover,
-              placeholder: (context, url) => const Center(
-                child: CircularProgressIndicator(),
+              errorWidget: (context, url, error) => CachedNetworkImage(
+                imageUrl: widget.data[_currentPage.toInt()].imageUrlW200,
+                fit: BoxFit.cover,
               ),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
         ],
@@ -96,9 +96,8 @@ class _AppImageSliderManualState extends State<AppImageSliderManual> {
                     Theme.of(context)
                         .scaffoldBackgroundColor
                         .withOpacity(1), // Top darker
-                    Theme.of(context)
-                        .scaffoldBackgroundColor
-                        .withOpacity(0.5), // Center lighter
+                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
                     Theme.of(context)
                         .scaffoldBackgroundColor
                         .withOpacity(1), // Bottom darker
