@@ -7,17 +7,18 @@ final getActorDetailMoviesProvider =
     Provider((ref) => GetActorDetail(ref.watch(movieRepositoryProvider)));
 
 final actorActorDetailMoviesProvider =
-    StateNotifierProvider<DetailMovieNotifier, AsyncValue<Actor>>(
-  (ref) {
+    StateNotifierProvider.family<DetailActorNotifier, AsyncValue<Actor>, int>(
+  (ref, movieId) {
     final getActorDetailMovies = ref.watch(getActorDetailMoviesProvider);
-    return DetailMovieNotifier(getActorDetailMovies);
+    final notifier = DetailActorNotifier(getActorDetailMovies);
+    return notifier;
   },
 );
 
-class DetailMovieNotifier extends StateNotifier<AsyncValue<Actor>> {
+class DetailActorNotifier extends StateNotifier<AsyncValue<Actor>> {
   final GetActorDetail _getActorDetailMovies;
 
-  DetailMovieNotifier(this._getActorDetailMovies)
+  DetailActorNotifier(this._getActorDetailMovies)
       : super(const AsyncValue.loading());
 
   bool _isGetting = false;

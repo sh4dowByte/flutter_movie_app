@@ -2,6 +2,9 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/core/pallete.dart';
+import 'package:flutter_movie_app/features/favorite/presentation/notifiers/movie_favorite_notifier.dart';
+import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_detail_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_recomended_notifier.dart';
@@ -116,6 +119,13 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                         CachedNetworkImage(
                           height: double.infinity,
                           imageUrl: value.backdropUrlOriginal,
+                          errorWidget: (context, url, error) => Container(
+                            color: Pallete.grey1,
+                            child: Image.asset(
+                              'assets/broken.png',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
                           placeholder: (context, string) {
                             return Stack(
                               fit: StackFit.expand,
@@ -152,7 +162,7 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                       .withOpacity(1),
                                   Theme.of(context)
                                       .scaffoldBackgroundColor
-                                      .withOpacity(0.9),
+                                      .withOpacity(0.8),
 
                                   Colors.transparent, // Warna akhir
                                 ],
@@ -177,6 +187,14 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                   placeholder: (context, string) {
                                     return const AppSkeleton();
                                   },
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                    color: Pallete.grey1,
+                                    child: Image.asset(
+                                      'assets/broken.png',
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 16),
@@ -217,35 +235,68 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                     const SizedBox(height: 9),
                                     StarRating(rating: value.voteAverage),
                                     const SizedBox(height: 9),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        gradient: LinearGradient(
-                                          end: Alignment
-                                              .topCenter, // Awal gradien
-                                          begin: Alignment
-                                              .bottomCenter, // Akhir gradien
-                                          colors: [
-                                            Colors.white.withOpacity(0.1),
-                                            Colors.white.withOpacity(
-                                                0.1), // Warna akhir
-                                          ],
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            gradient: LinearGradient(
+                                              end: Alignment
+                                                  .topCenter, // Awal gradien
+                                              begin: Alignment
+                                                  .bottomCenter, // Akhir gradien
+                                              colors: [
+                                                Colors.white.withOpacity(0.1),
+                                                Colors.white.withOpacity(0.1),
+                                                Colors.white.withOpacity(
+                                                    0.1), // Warna akhir
+                                              ],
+                                            ),
+                                          ),
+                                          width: 130,
+                                          height: 34,
+                                          child: const Row(
+                                            children: [
+                                              Icon(Icons.play_arrow_rounded),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                'Play Trailer',
+                                                style: TextStyle(fontSize: 12),
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      width: 130,
-                                      height: 34,
-                                      child: const Row(
-                                        children: [
-                                          Icon(Icons.play_arrow_rounded),
-                                          SizedBox(width: 10),
-                                          Text(
-                                            'Play Trailer',
-                                            style: TextStyle(fontSize: 12),
-                                          )
-                                        ],
-                                      ),
+                                        InkWell(
+                                          onTap: () {
+                                            ref
+                                                .read(favoriteMoviesProvider
+                                                    .notifier)
+                                                .toggleFavoriteMovie(
+                                                    Movie.fromJson(
+                                                        value.toJson()));
+                                          },
+                                          child: Icon(
+                                            Icons.favorite,
+                                            color: ref
+                                                    .watch(
+                                                        favoriteMoviesProvider)
+                                                    .maybeWhen(
+                                                      data: (movies) =>
+                                                          movies.any((movie) =>
+                                                              movie.id ==
+                                                              value.id),
+                                                      orElse: () => false,
+                                                    )
+                                                ? Colors.pink
+                                                : Colors.grey,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),

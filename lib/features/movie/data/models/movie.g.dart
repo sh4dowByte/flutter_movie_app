@@ -7,7 +7,7 @@ part of 'movie.dart';
 // **************************************************************************
 
 _$MovieImpl _$$MovieImplFromJson(Map<String, dynamic> json) => _$MovieImpl(
-      adult: json['adult'] as bool,
+      adult: json['adult'] as bool?,
       backdropPath: json['backdrop_path'] as String?,
       genreIds: (json['genre_ids'] as List<dynamic>?)
           ?.map((e) => (e as num).toInt())
@@ -21,7 +21,7 @@ _$MovieImpl _$$MovieImplFromJson(Map<String, dynamic> json) => _$MovieImpl(
       character: json['character'] as String?,
       releaseDate: json['release_date'] as String,
       title: json['title'] as String,
-      video: json['video'] as bool,
+      video: json['video'] as bool?,
       voteAverage: (json['vote_average'] as num).toDouble(),
       voteCount: (json['vote_count'] as num).toInt(),
     );

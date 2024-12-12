@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/features/favorite/presentation/screens/favorite.dart';
 import '../core/pallete.dart';
 import '../widget/widget.dart';
 import '../features/movie/presentation/screens/screens.dart';
@@ -18,7 +19,7 @@ class _MenuPageState extends State<MenuPage> {
   final List<Widget> _pages = [
     const Center(child: HomePage()),
     const Center(child: Text('TV Series')),
-    const Center(child: Text('Favorite')),
+    const Center(child: FavoritePage()),
     const Center(child: Text('Profile')),
   ];
 
@@ -59,10 +60,10 @@ class _MenuPageState extends State<MenuPage> {
             onTap: _onTabTapped, // Mengubah halaman saat tab ditekan
             type: BottomNavigationBarType.fixed,
             items: [
-              _buildNavItem('home', 0),
-              _buildNavItem('play', 1),
-              _buildNavItem('ticket', 2),
-              _buildNavItem('profile', 3),
+              _buildNavItem('movie', Colors.blue, 0),
+              _buildNavItem('tv', Colors.purple, 1),
+              _buildNavItem('favorite', Colors.pink, 2),
+              _buildNavItem('profile', Colors.green, 3),
             ],
             selectedItemColor:
                 Theme.of(context).primaryColor, // Warna item yang dipilih
@@ -73,7 +74,7 @@ class _MenuPageState extends State<MenuPage> {
     );
   }
 
-  BottomNavigationBarItem _buildNavItem(String icon, int index) {
+  BottomNavigationBarItem _buildNavItem(String icon, Color color, int index) {
     bool isActive = _currentIndex == index;
 
     return BottomNavigationBarItem(
@@ -92,7 +93,7 @@ class _MenuPageState extends State<MenuPage> {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.blue.withOpacity(0.3), // Glow color
+                        color: color.withOpacity(0.3), // Glow color
                         blurRadius: 20, // Spread of the glow
                         spreadRadius: 2, // Intensity of the glow
                       ),
@@ -102,7 +103,7 @@ class _MenuPageState extends State<MenuPage> {
               ),
               AppSvgIcon(
                 icon,
-                color: !isActive ? Pallete.grey1 : Colors.blue,
+                color: !isActive ? Pallete.grey1 : color,
               ),
             ],
           ),

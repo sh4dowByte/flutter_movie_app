@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/core/pallete.dart';
+import 'package:flutter_movie_app/core/routes.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/widget/app_skeleton.dart';
 
@@ -10,17 +12,14 @@ class AppImageSlider extends StatefulWidget {
   final int maxLength;
   final Function()? onSeeMore;
   const AppImageSlider(
-      {super.key, required this.movie, this.maxLength = 16, this.onSeeMore});
+      {super.key, required this.movie, this.maxLength = 14, this.onSeeMore});
 
   @override
   State<AppImageSlider> createState() => _AppImageSliderState();
 
   static Widget loading() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      child: AppSkeleton(
-        height: 362,
-      ),
+    return const AppSkeleton(
+      height: 362,
     );
   }
 }
@@ -98,6 +97,13 @@ class _AppImageSliderState extends State<AppImageSlider>
                 Positioned.fill(
                   child: CachedNetworkImage(
                     imageUrl: movie[index].backdropUrlOriginal,
+                    errorWidget: (context, url, error) => Container(
+                      color: Pallete.grey1,
+                      child: Image.asset(
+                        'assets/broken.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
                     fit: BoxFit
                         .cover, // Gambar akan memenuhi area tanpa mengubah proporsi
                     placeholder: (context, url) {
@@ -177,7 +183,8 @@ class _AppImageSliderState extends State<AppImageSlider>
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    height: 160,
+                    padding: const EdgeInsets.only(top: 60),
+                    height: 220,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -189,13 +196,11 @@ class _AppImageSliderState extends State<AppImageSlider>
                               .withOpacity(1),
                           Theme.of(context)
                               .scaffoldBackgroundColor
-                              .withOpacity(1),
+                              .withOpacity(0.8),
                           Theme.of(context)
                               .scaffoldBackgroundColor
-                              .withOpacity(0.9),
-                          Theme.of(context)
-                              .scaffoldBackgroundColor
-                              .withOpacity(0.7),
+                              .withOpacity(0.6),
+                          Colors.black.withOpacity(0.3),
                           Colors.transparent, // Warna akhir
                         ],
                       ),
@@ -208,11 +213,17 @@ class _AppImageSliderState extends State<AppImageSlider>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            movie[_currentIndex].title,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 20),
-                            maxLines: 1,
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            onTap: () => Navigator.pushNamed(
+                                context, Routes.movieDetail,
+                                arguments: movie[_currentIndex].id),
+                            child: Text(
+                              movie[_currentIndex].title,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontSize: 20),
+                              maxLines: 1,
+                            ),
                           ),
                           if (movie[_currentIndex].character != null) ...[
                             Text(

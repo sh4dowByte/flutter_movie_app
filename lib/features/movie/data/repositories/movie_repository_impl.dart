@@ -155,7 +155,7 @@ class MovieRepositoryImpl implements MovieRepository {
 
       return Right(movies);
     } catch (e) {
-      return Left(NetworkFailure('Failed to load actor.'));
+      return Left(NetworkFailure(e.toString()));
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/routes.dart';
 import 'package:flutter_movie_app/features/movie/data/models/actor.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_actor_detail_notifier.dart';
@@ -26,10 +27,12 @@ class _ActorDetailPageState extends ConsumerState<ActorDetailPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref
-          .read(actorActorDetailMoviesProvider.notifier)
+          .read(actorActorDetailMoviesProvider(widget.actorId).notifier)
           .getInitial(widget.actorId);
 
-      ref.read(actorMoviesProvider.notifier).getInitial(widget.actorId);
+      ref
+          .read(actorMoviesProvider(widget.actorId).notifier)
+          .getInitial(widget.actorId);
     });
   }
 
@@ -51,8 +54,9 @@ class _ActorDetailPageState extends ConsumerState<ActorDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final actorState = ref.watch(actorActorDetailMoviesProvider);
-    final actorMovieState = ref.watch(actorMoviesProvider);
+    final actorState =
+        ref.watch(actorActorDetailMoviesProvider(widget.actorId));
+    final actorMovieState = ref.watch(actorMoviesProvider(widget.actorId));
 
     return Scaffold(
       body: NestedScrollView(
@@ -81,8 +85,7 @@ class _ActorDetailPageState extends ConsumerState<ActorDetailPage> {
                     InkWell(
                         onTap: () => Navigator.popUntil(
                               context,
-                              (route) => route
-                                  .isFirst, // Kembali hingga halaman pertama
+                              (route) => route.isFirst,
                             ),
                         child: const Icon(
                           Icons.close,
@@ -104,7 +107,8 @@ class _ActorDetailPageState extends ConsumerState<ActorDetailPage> {
                           onSeeMore: () => Navigator.pushNamed(
                                   context, Routes.seeMore, arguments: {
                                 'title': 'Acting',
-                                'providerKey': 'actor_movies'
+                                'providerKey': 'actor_movies',
+                                'actorId': widget.actorId
                               })),
                     ),
                   ),
@@ -148,6 +152,7 @@ class ActorDetailContent extends ConsumerStatefulWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 10),
           const AppSkeleton(height: 40),
           const SizedBox(height: 10),
           const AppSkeleton(height: 40),
@@ -198,6 +203,13 @@ class _ActorDetailContentState extends ConsumerState<ActorDetailContent> {
                   placeholder: (context, string) {
                     return const AppSkeleton();
                   },
+                  errorWidget: (context, url, error) => Container(
+                    color: Pallete.grey1,
+                    child: Image.asset(
+                      'assets/broken.png',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(width: 16),

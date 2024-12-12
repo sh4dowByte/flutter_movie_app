@@ -29,7 +29,7 @@ class AppTextSearch extends StatelessWidget {
           enabled: onTap == null,
           controller: controller,
           style: const TextStyle(
-            fontSize: 14, // Ukuran font teks
+            fontSize: 16, // Ukuran font teks
             height: 1.4, // Jarak baris teks
           ),
           onSubmitted: onSubmitted,
@@ -37,7 +37,7 @@ class AppTextSearch extends StatelessWidget {
             isDense: true,
             hintStyle: const TextStyle(
               color: Pallete.grey2,
-              fontSize: 14,
+              fontSize: 16,
             ),
             prefixIcon: icon,
             prefixIconConstraints: const BoxConstraints(
@@ -50,27 +50,27 @@ class AppTextSearch extends StatelessWidget {
               minHeight: 1, // Atur tinggi minimum
             ),
             filled: true,
-            fillColor: Pallete.black1,
+            fillColor: Theme.of(context).scaffoldBackgroundColor,
             hintText: hintText,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide:
-                  BorderSide(color: Theme.of(context).dividerTheme.color!),
+                  BorderSide(color: Theme.of(context).scaffoldBackgroundColor),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide:
-                  BorderSide(color: Theme.of(context).dividerTheme.color!),
+                  BorderSide(color: Theme.of(context).scaffoldBackgroundColor),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide:
-                  BorderSide(color: Theme.of(context).dividerTheme.color!),
+                  BorderSide(color: Theme.of(context).scaffoldBackgroundColor),
             ),
             disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide:
-                  BorderSide(color: Theme.of(context).dividerTheme.color!),
+                  BorderSide(color: Theme.of(context).scaffoldBackgroundColor),
             ),
           ),
         ),

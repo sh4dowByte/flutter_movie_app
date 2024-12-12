@@ -30,6 +30,7 @@ class Routes {
       case seeMore:
         final args = settings.arguments as Map<String, dynamic>;
         final genreId = args['genreId'];
+        final actorId = args['actorId'];
         final title = args['title'];
         final provider = args['providerKey'];
         return MaterialPageRoute(
@@ -37,6 +38,7 @@ class Routes {
                   title,
                   provider,
                   genreId: genreId,
+                  actorId: actorId,
                 ));
 
       case '/':

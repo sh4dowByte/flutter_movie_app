@@ -8,7 +8,7 @@ part 'movie.g.dart';
 @freezed
 class Movie with _$Movie {
   const factory Movie({
-    required bool adult,
+    bool? adult,
     @JsonKey(name: 'backdrop_path') String? backdropPath,
     @JsonKey(name: 'genre_ids') List<int>? genreIds,
     required int id,
@@ -20,21 +20,40 @@ class Movie with _$Movie {
     @JsonKey(name: 'character') String? character,
     @JsonKey(name: 'release_date') required String releaseDate,
     required String title,
-    required bool video,
+    bool? video,
     @JsonKey(name: 'vote_average') required double voteAverage,
     @JsonKey(name: 'vote_count') required int voteCount,
   }) = _Movie;
 
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
+  // Tambahkan manual untuk mendukung fromMap
+  factory Movie.fromMap(Map<String, dynamic> map) {
+    return Movie.fromJson(map);
+  }
 }
 
 // Ekstensi untuk menambahkan getter imageUrl
 extension MovieImageUrl on Movie {
+// Tambahkan metode toMap
+  Map<String, dynamic> toMapForFavorite() {
+    return {
+      'id': id,
+      'title': title,
+      'poster_path': posterPath,
+      'backdrop_path': backdropPath,
+      'original_language': originalLanguage,
+      'original_title': originalTitle,
+      'overview': overview,
+      'popularity': popularity,
+      'release_date': releaseDate,
+      'vote_average': voteAverage,
+      'vote_count': voteCount,
+    };
+  }
+
   String _getImageUrl(String size, {bool isBackdrop = false}) {
     final path = isBackdrop ? backdropPath : posterPath;
-    return path != null
-        ? 'https://image.tmdb.org/t/p/$size$path'
-        : 'https://img.icons8.com/?size=480&id=gX6VczTLnV3E&format=png';
+    return 'https://image.tmdb.org/t/p/$size$path';
   }
 
   String get backdropUrlOriginal => _getImageUrl('original', isBackdrop: true);
@@ -44,4 +63,17 @@ extension MovieImageUrl on Movie {
   String get imageUrlW500 => _getImageUrl('w500');
   String get imageUrlW300 => _getImageUrl('w300');
   String get imageUrlW200 => _getImageUrl('w200');
+
+  String get formattedReleaseDate {
+    if (releaseDate.isEmpty) {
+      return 'Unknown release date';
+    }
+    try {
+      final parsedDate = DateTime.parse(releaseDate);
+      // Return only the year
+      return parsedDate.year.toString();
+    } catch (e) {
+      return 'Invalid release date';
+    }
+  }
 }

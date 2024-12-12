@@ -16,7 +16,7 @@ class AppTheme {
       brightness: Brightness.light,
       fontFamily: GoogleFonts.poppins().fontFamily,
       primaryColor: Pallete.primary,
-      scaffoldBackgroundColor: const Color(0xFFFFFFFF),
+      scaffoldBackgroundColor: const Color(0xFFFAF9F6),
       primaryColorDark: const Color(0xFF3F414E),
       primaryColorLight: Colors.white,
       dividerColor: Colors.grey[100],
@@ -32,7 +32,7 @@ class AppTheme {
       ),
       cardColor: const Color(0xFF3F414E),
       appBarTheme: AppBarTheme(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFFFAF9F6),
         surfaceTintColor: Colors.transparent,
         elevation: 1,
         shadowColor: Colors.black.withOpacity(0.1),

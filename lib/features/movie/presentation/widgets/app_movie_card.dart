@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/routes.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/star_rating.dart';
@@ -42,6 +43,13 @@ class AppMovieCoverBox extends StatelessWidget {
               placeholder: (context, url) => const AppSkeleton(),
             ),
             fit: BoxFit.cover,
+            errorWidget: (context, url, error) => Container(
+              color: Pallete.grey1,
+              child: Image.asset(
+                'assets/broken.png',
+                fit: BoxFit.contain,
+              ),
+            ),
           ),
         ),
       ),
@@ -172,6 +180,13 @@ class AppMovieCoverTile extends StatelessWidget {
                         item.imageUrlW200, // Gambar thumbnail (ukuran kecil)
                     fit: BoxFit.cover,
                     placeholder: (context, url) => const AppSkeleton(),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    color: Pallete.grey1,
+                    child: Image.asset(
+                      'assets/broken.png',
+                      fit: BoxFit.contain,
+                    ),
                   ),
                   fit: BoxFit.cover,
                 ),

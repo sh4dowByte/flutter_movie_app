@@ -43,12 +43,29 @@ class MovieDetail with _$MovieDetail {
       _$MovieDetailFromJson(json);
 }
 
+extension MovieFavorite on MovieDetail {
+  Map<String, dynamic> toMapForFavorite() {
+    return {
+      'id': id,
+      'title': title,
+      'poster_path': posterPath,
+      'backdrop_path': backdropPath,
+      'original_language': originalLanguage,
+      'original_title': originalTitle,
+      'overview': overview,
+      'popularity': popularity,
+      'release_date': releaseDate,
+      'vote_average': voteAverage,
+      'vote_count': voteCount,
+      'video': video,
+    };
+  }
+}
+
 extension MovieImageUrl on MovieDetail {
   String _getImageUrl(String size, {bool isBackdrop = false}) {
     final path = isBackdrop ? backdropPath : posterPath;
-    return path != null
-        ? 'https://image.tmdb.org/t/p/$size$path'
-        : 'https://img.icons8.com/?size=480&id=gX6VczTLnV3E&format=png';
+    return 'https://image.tmdb.org/t/p/$size$path';
   }
 
   String get backdropUrlOriginal => _getImageUrl('original', isBackdrop: true);
