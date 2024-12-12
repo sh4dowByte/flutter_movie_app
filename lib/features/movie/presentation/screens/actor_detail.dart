@@ -7,6 +7,7 @@ import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_ac
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_actor_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_image_slider.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/star_rating.dart';
+import 'package:flutter_movie_app/widget/app_circle_button.dart';
 import 'package:flutter_movie_app/widget/app_error.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -46,12 +47,6 @@ class _ActorDetailPageState extends ConsumerState<ActorDetailPage> {
     super.dispose();
   }
 
-  String formatRuntime(int runtime) {
-    final hours = runtime ~/ 60; // Hitung jam
-    final minutes = runtime % 60; // Sisa menit
-    return '$hours h $minutes min';
-  }
-
   @override
   Widget build(BuildContext context) {
     final actorState =
@@ -77,19 +72,23 @@ class _ActorDetailPageState extends ConsumerState<ActorDetailPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    InkWell(
-                        onTap: () => Navigator.pop(context),
-                        child: const Icon(
-                          Icons.arrow_back_ios_new_rounded,
-                        )),
-                    InkWell(
-                        onTap: () => Navigator.popUntil(
-                              context,
-                              (route) => route.isFirst,
-                            ),
-                        child: const Icon(
-                          Icons.close,
-                        )),
+                    AppCircleButton(
+                      icon: const Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                      ),
+                      onTap: () => Navigator.pop(context),
+                    ),
+                    const SizedBox(width: 15),
+                    AppCircleButton(
+                      icon: const Icon(
+                        Icons.close,
+                      ),
+                      onTap: () => Navigator.popUntil(
+                        context,
+                        (route) =>
+                            route.isFirst, // Kembali hingga halaman pertama
+                      ),
+                    ),
                   ],
                 ),
               ),

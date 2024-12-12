@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/routes.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
+import 'package:flutter_movie_app/features/movie/presentation/widgets/app_button_play_trailer.dart';
 import 'package:flutter_movie_app/widget/app_skeleton.dart';
 
 class AppImageSlider extends StatefulWidget {
@@ -235,35 +236,8 @@ class _AppImageSliderState extends State<AppImageSlider>
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  gradient: LinearGradient(
-                                    end: Alignment.topCenter, // Awal gradien
-                                    begin:
-                                        Alignment.bottomCenter, // Akhir gradien
-                                    colors: [
-                                      Colors.white.withOpacity(0.1),
-                                      Colors.white
-                                          .withOpacity(0.1), // Warna akhir
-                                    ],
-                                  ),
-                                ),
-                                width: 130,
-                                height: 34,
-                                child: const Row(
-                                  children: [
-                                    Icon(Icons.play_arrow_rounded),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      'Play Trailer',
-                                      style: TextStyle(fontSize: 12),
-                                    )
-                                  ],
-                                ),
-                              ),
+                              AppButtonPlayTrailer(
+                                  movieId: movie[_currentIndex].id),
                               Visibility(
                                 visible: _seeMore,
                                 child: InkWell(

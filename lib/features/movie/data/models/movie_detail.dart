@@ -75,7 +75,9 @@ extension MovieImageUrl on MovieDetail {
   String get imageUrlW500 => _getImageUrl('w500');
   String get imageUrlW300 => _getImageUrl('w300');
   String get imageUrlW200 => _getImageUrl('w200');
+}
 
+extension MovieTimeFormat on MovieDetail {
   /// Getter to format the release date or provide a default message.
   String get formattedReleaseDate {
     if (releaseDate.isEmpty) {
@@ -88,6 +90,12 @@ extension MovieImageUrl on MovieDetail {
     } catch (e) {
       return 'Invalid release date';
     }
+  }
+
+  String get formatRuntime {
+    final hours = runtime ~/ 60; // Hitung jam
+    final minutes = runtime % 60; // Sisa menit
+    return '$hours h $minutes min';
   }
 }
 

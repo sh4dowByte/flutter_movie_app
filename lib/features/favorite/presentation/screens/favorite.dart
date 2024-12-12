@@ -28,6 +28,7 @@ class _FavoritePageState extends State<FavoritePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: TabBar(
           indicatorColor: Colors.pink,
           labelColor: Colors.pink,

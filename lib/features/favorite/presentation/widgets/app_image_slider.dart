@@ -73,12 +73,10 @@ class _AppImageSliderState extends State<AppImageSlider> {
         if (widget.data.isNotEmpty) ...[
           Positioned.fill(
             child: CachedNetworkImage(
-              imageUrl: widget.data[_currentPage.toInt()].backdropUrlW300,
+              imageUrl: widget.data[_currentPage.toInt()].backdropPath != null
+                  ? widget.data[_currentPage.toInt()].backdropUrlW300
+                  : widget.data[_currentPage.toInt()].imageUrlW300,
               fit: BoxFit.cover,
-              errorWidget: (context, url, error) => CachedNetworkImage(
-                imageUrl: widget.data[_currentPage.toInt()].imageUrlW200,
-                fit: BoxFit.cover,
-              ),
             ),
           ),
         ],

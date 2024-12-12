@@ -2,6 +2,7 @@ import 'package:flutter_movie_app/core/data/services/tmdb_services.dart';
 import 'package:flutter_movie_app/features/movie/data/models/actor.dart';
 import 'package:flutter_movie_app/features/movie/data/models/cast.dart';
 import 'package:flutter_movie_app/features/movie/data/models/genres.dart';
+import 'package:flutter_movie_app/features/movie/data/models/movie_clip.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
 import '../models/movie.dart';
 
@@ -18,6 +19,24 @@ class MovieService extends TMDBService {
         return movies.map((movie) => Movie.fromJson(movie)).toList();
       } else {
         throw Exception('Failed to fetch popular movies');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<List<MovieClip>> fetchMovieClip(int movieId) async {
+    try {
+      final response =
+          await dio.get('/3/movie/$movieId/videos', queryParameters: {
+        'language': 'en-US',
+      });
+
+      if (response.statusCode == 200) {
+        final List moviesClip = response.data['results'];
+        return moviesClip.map((movie) => MovieClip.fromJson(movie)).toList();
+      } else {
+        throw Exception('Failed to fetch clip movies');
       }
     } catch (e) {
       throw Exception('Error: $e');

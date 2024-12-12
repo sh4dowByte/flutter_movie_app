@@ -1,6 +1,7 @@
 import 'package:flutter_movie_app/core/errors/failure.dart';
 import 'package:flutter_movie_app/features/movie/data/models/actor.dart';
 import 'package:flutter_movie_app/features/movie/data/models/genres.dart';
+import 'package:flutter_movie_app/features/movie/data/models/movie_clip.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
 
 import '../../domain/repositories/movie_repository.dart';
@@ -23,6 +24,20 @@ class MovieRepositoryImpl implements MovieRepository {
       return Right(movies);
     } catch (e) {
       return Left(NetworkFailure('Failed to load upcoming movies.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<MovieClip>>> getMovieClips(int movieId) async {
+    print(movieId);
+    try {
+      final movies = await _movieService.fetchMovieClip(movieId);
+      if (movies.isEmpty) {
+        return Left(EmptyDataFailure('No clip movies found.'));
+      }
+      return Right(movies);
+    } catch (e) {
+      return Left(NetworkFailure('Failed to load clip movies.'));
     }
   }
 
