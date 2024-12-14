@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/features/favorite/presentation/screens/favorite.dart';
+import 'package:flutter_movie_app/features/settings/presentation/screens/settings.dart';
 import '../core/pallete.dart';
 import '../widget/widget.dart';
 import '../features/movie/presentation/screens/screens.dart';
@@ -20,7 +21,7 @@ class _MenuPageState extends State<MenuPage> {
     const Center(child: HomePage()),
     const Center(child: Text('TV Series')),
     const Center(child: FavoritePage()),
-    const Center(child: Text('Profile')),
+    const Center(child: SettingsPage()),
   ];
 
   void _onTabTapped(int index) {
@@ -63,7 +64,7 @@ class _MenuPageState extends State<MenuPage> {
               _buildNavItem('movie', Colors.blue, 0),
               _buildNavItem('tv', Colors.purple, 1),
               _buildNavItem('favorite', Colors.pink, 2),
-              _buildNavItem('profile', Colors.green, 3),
+              _buildNavItem('settings', Colors.green, 3),
             ],
             selectedItemColor:
                 Theme.of(context).primaryColor, // Warna item yang dipilih

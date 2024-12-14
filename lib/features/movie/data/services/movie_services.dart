@@ -7,6 +7,8 @@ import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
 import '../models/movie.dart';
 
 class MovieService extends TMDBService {
+  MovieService(super.ref);
+
   Future<List<Movie>> fetchPopularMovies(int page) async {
     try {
       final response = await dio.get('/3/movie/popular', queryParameters: {
@@ -82,7 +84,6 @@ class MovieService extends TMDBService {
   Future<List<Movie>> searchMovies(String keyword, {int page = 1}) async {
     try {
       final response = await dio.get('/3/search/movie', queryParameters: {
-        'language': 'en-US',
         'page': page,
         'query': keyword,
       });

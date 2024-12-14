@@ -376,8 +376,7 @@ class _MovieDetailContentState extends ConsumerState<MovieDetailContent> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(widget.movie.title,
-                  style: Theme.of(context).textTheme.displaySmall),
+              Text(widget.movie.title, style: const TextStyle(fontSize: 26)),
               const SizedBox(height: 10),
               Text(
                 'Release Date: ${widget.movie.releaseDate}',

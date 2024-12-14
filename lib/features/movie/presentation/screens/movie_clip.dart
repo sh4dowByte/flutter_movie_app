@@ -55,13 +55,45 @@ class MovieClipPageState extends ConsumerState<MovieClipPage> {
   }
 }
 
-class AppMovieClipCover extends StatelessWidget {
+class AppMovieClipCover extends StatefulWidget {
   const AppMovieClipCover({
     super.key,
     required this.item,
   });
 
   final MovieClip item;
+
+  @override
+  State<AppMovieClipCover> createState() => _AppMovieClipCoverState();
+
+  static Widget loading() {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: 10, // Jumlah skeleton placeholder
+      itemBuilder: (context, index) {
+        return skeleton();
+      },
+    );
+  }
+
+  static Padding skeleton() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
+      child: AppSkeleton(
+        height: 230,
+      ),
+    );
+  }
+}
+
+class _AppMovieClipCoverState extends State<AppMovieClipCover> {
+  String? channelName;
+  String? channelProfileImage;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +106,9 @@ class AppMovieClipCover extends StatelessWidget {
               scheme: 'https',
               host: 'www.youtube.com',
               path: 'watch',
-              queryParameters: {'v': item.key}, // Tambahkan parameter video ID
+              queryParameters: {
+                'v': widget.item.key
+              }, // Tambahkan parameter video ID
             ),
             mode: LaunchMode.externalApplication)) {
           throw Exception('Could not launch ');
@@ -86,18 +120,18 @@ class AppMovieClipCover extends StatelessWidget {
           children: [
             Center(
               child: SizedBox(
-                height: 230,
+                height: 200,
                 width: double.infinity,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(10),
                   child: CachedNetworkImage(
                     imageUrl:
-                        'https://img.youtube.com/vi/${item.key}/hqdefault.jpg',
+                        'https://img.youtube.com/vi/${widget.item.key}/hqdefault.jpg',
                     fit: BoxFit.cover,
                     placeholder: (context, url) {
                       return CachedNetworkImage(
                         imageUrl:
-                            'https://img.youtube.com/vi/${item.key}/default.jpg',
+                            'https://img.youtube.com/vi/${widget.item.key}/default.jpg',
                         fit: BoxFit.cover,
                       );
                     },
@@ -125,13 +159,12 @@ class AppMovieClipCover extends StatelessWidget {
                 height: 70,
                 width: double.infinity,
                 decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
                   gradient: LinearGradient(
                     end: Alignment.topCenter, // Awal gradien
                     begin: Alignment.bottomCenter, // Akhir gradien
                     colors: [
-                      Theme.of(context)
-                          .scaffoldBackgroundColor
-                          .withOpacity(0.8),
+                      Colors.black.withOpacity(0.8),
                       Colors.black.withOpacity(0.7),
                       Colors.transparent, // Warna akhir
                     ],
@@ -146,9 +179,12 @@ class AppMovieClipCover extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(item.name, maxLines: 2),
-                      Text(item.type,
-                          style: Theme.of(context).textTheme.labelSmall),
+                      Text(widget.item.name,
+                          style: const TextStyle(color: Colors.white),
+                          maxLines: 2),
+                      Text(widget.item.type,
+                          style: const TextStyle(
+                              fontSize: 11, color: Colors.grey)),
                     ],
                   ),
                 ),
@@ -156,25 +192,6 @@ class AppMovieClipCover extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  static Widget loading() {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: 10, // Jumlah skeleton placeholder
-      itemBuilder: (context, index) {
-        return skeleton();
-      },
-    );
-  }
-
-  static Padding skeleton() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
-      child: AppSkeleton(
-        height: 230,
       ),
     );
   }

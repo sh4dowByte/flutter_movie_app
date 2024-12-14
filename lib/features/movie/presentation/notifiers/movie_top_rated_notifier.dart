@@ -66,7 +66,7 @@ class TopRatedMovieNotifier extends StateNotifier<AsyncValue<List<Movie>>> {
 
     result.fold(
       (failure) {
-        state = AsyncValue.error(failure.message, StackTrace.current);
+        // state = AsyncValue.error(failure.message, StackTrace.current);
       },
       (movies) {
         state = AsyncValue.data([
