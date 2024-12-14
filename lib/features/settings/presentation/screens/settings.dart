@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/features/settings/presentation/notifiers/adult_notifier.dart';
 import 'package:flutter_movie_app/features/settings/presentation/notifiers/language_notifier.dart';
+import 'package:flutter_movie_app/widget/app_icons8.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../widget/app_svg_icon.dart';
@@ -140,14 +141,42 @@ class ChoseLanguageComponent extends StatelessWidget {
       {
         'lang': 'id-ID',
         'country': 'Indonesia',
+        'flag': 'lph_obIfg-jT',
       },
       {
         'lang': 'en-US',
         'country': 'United States',
+        'flag': 'kmhygyVC3wiA',
       },
       {
         'lang': 'ja-JP',
         'country': 'Jepang',
+        'flag': 'McQbrq9qaQye',
+      },
+      {
+        'lang': 'ko-KR',
+        'country': 'Korea',
+        'flag': '-_RS8ho736Fs',
+      },
+      {
+        'lang': 'ar-SA',
+        'country': 'Arabic',
+        'flag': 'NA7wq_gDd9d7',
+      },
+      {
+        'lang': 'zh-CN',
+        'country': 'Chinese',
+        'flag': 'Ej50Oe3crXwF',
+      },
+      {
+        'lang': 'th-TH',
+        'country': 'Thailand',
+        'flag': 'IWVDTvmUNsig',
+      },
+      {
+        'lang': 'vi-VN',
+        'country': 'Vietnam',
+        'flag': '2egPD0I7yi4-',
       },
     ];
 
@@ -169,10 +198,11 @@ class ChoseLanguageComponent extends StatelessWidget {
               hoverColor: Colors.transparent,
               child: Row(
                 children: [
-                  const Icon(
-                    Icons.language,
-                    color: Colors.green,
-                  ),
+                  AppIcons8.getById(item['flag'] ?? '', width: 35, height: 35),
+                  // const Icon(
+                  //   Icons.language,
+                  //   color: Colors.green,
+                  // ),
                   const SizedBox(width: 8),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
