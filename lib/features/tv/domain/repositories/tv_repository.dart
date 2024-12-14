@@ -13,9 +13,9 @@ abstract class TvRepository {
       int seriesId, int sessionNumber);
 
   Future<Either<Failure, List<Tv>>> getDiscoverTv(int page, int genreId);
+  Future<Either<Failure, List<Tv>>> getAiringTodayTv(int page);
   Future<Either<Failure, List<Tv>>> getPopularTv(int page);
   Future<Either<Failure, List<Tv>>> getTopRatedTv(int page);
-  Future<Either<Failure, List<Tv>>> getAiringTodayTv(int page);
   Future<Either<Failure, List<Tv>>> getOnTheAirTv(int page);
 
   Future<Either<Failure, List<Tv>>> getSearchTv(int page, String keyword);

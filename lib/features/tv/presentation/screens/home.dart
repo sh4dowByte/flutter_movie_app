@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_discover_notifier.dart';
-import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_genre_notifier.dart';
-import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_now_playing_notifier.dart';
-import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_popular_notifier.dart';
-import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_top_rated_notifier.dart';
-import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_upcoming_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_discover_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_genre_notifier.dart';
+import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_on_the_air_notifier.dart';
+import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_popular_notifier.dart';
+import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_top_rated_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_image_slider.dart';
 import 'package:flutter_movie_app/features/settings/presentation/notifiers/language_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_airing_today_notifier.dart';
@@ -27,7 +24,7 @@ class _TvPageState extends ConsumerState<TvPage> {
   final ScrollController _scrollControllerPopular = ScrollController();
   final ScrollController _scrollControllerDiscover = ScrollController();
   final ScrollController _scrollControllerTopRated = ScrollController();
-  final ScrollController _scrollControllerUpcoming = ScrollController();
+  final ScrollController _scrollControllerOnTheAir = ScrollController();
   int genreId = 0;
 
   @override
@@ -47,21 +44,21 @@ class _TvPageState extends ConsumerState<TvPage> {
     _scrollControllerPopular.addListener(() {
       if (_scrollControllerPopular.position.pixels >=
           _scrollControllerPopular.position.maxScrollExtent) {
-        ref.read(popularMoviesProvider.notifier).getNextPage();
+        ref.read(popularTvProvider.notifier).getNextPage();
       }
     });
 
     _scrollControllerTopRated.addListener(() {
       if (_scrollControllerTopRated.position.pixels >=
           _scrollControllerTopRated.position.maxScrollExtent) {
-        ref.read(topRatedMoviesProvider.notifier).getNextPage();
+        ref.read(topRatedTvProvider.notifier).getNextPage();
       }
     });
 
-    _scrollControllerUpcoming.addListener(() {
-      if (_scrollControllerUpcoming.position.pixels >=
-          _scrollControllerUpcoming.position.maxScrollExtent) {
-        ref.read(upcomingMoviesProvider.notifier).getNextPage();
+    _scrollControllerOnTheAir.addListener(() {
+      if (_scrollControllerOnTheAir.position.pixels >=
+          _scrollControllerOnTheAir.position.maxScrollExtent) {
+        ref.read(onTheAirTvProvider.notifier).getNextPage();
       }
     });
   }
@@ -71,13 +68,15 @@ class _TvPageState extends ConsumerState<TvPage> {
     //     .read(discoverMoviesProvider.notifier)
     //     .getInitialMovies(genreId: genreId);
     // ref.read(nowPlayingMoviesProvider.notifier).getInitialMovies();
-    // ref.read(popularMoviesProvider.notifier).getInitialMovies();
     // ref.read(topRatedMoviesProvider.notifier).getInitialMovies();
     // ref.read(upcomingMoviesProvider.notifier).getInitialMovies();
 
     ref.read(genreTvProvider.notifier).getInitial();
     ref.read(airingTvTodayProvider.notifier).getInitial();
     ref.read(discoverTvProvider.notifier).getInitial();
+    ref.read(popularTvProvider.notifier).getInitial();
+    ref.read(onTheAirTvProvider.notifier).getInitial();
+    ref.read(topRatedTvProvider.notifier).getInitial();
   }
 
   @override
@@ -85,18 +84,16 @@ class _TvPageState extends ConsumerState<TvPage> {
     _scrollControllerDiscover.dispose();
     _scrollControllerPopular.dispose();
     _scrollControllerTopRated.dispose();
-    _scrollControllerUpcoming.dispose();
+    _scrollControllerOnTheAir.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final movieStateNowPlaying = ref.watch(nowPlayingMoviesProvider);
-    final movieStatePopular = ref.watch(popularMoviesProvider);
-    final genresState = ref.watch(genreMoviesProvider);
-    final topRatedMovieState = ref.watch(topRatedMoviesProvider);
-    final upcomingMovieState = ref.watch(upcomingMoviesProvider);
-
+    final topRatedTvState = ref.watch(topRatedTvProvider);
+    final onTheAirTvState = ref.watch(onTheAirTvProvider);
+    final genresState = ref.watch(genreTvProvider);
+    final tvStatePopular = ref.watch(popularTvProvider);
     final discoverTvState = ref.watch(discoverTvProvider);
     final airingTodayStateState = ref.watch(airingTvTodayProvider);
 
@@ -111,7 +108,7 @@ class _TvPageState extends ConsumerState<TvPage> {
       body: ListView(
         padding: const EdgeInsets.only(top: 0),
         children: [
-          // Now Playing
+          // Airing Today
           airingTodayStateState.when(
             loading: () => AppImageSlider.loading(),
             error: (error, stackTrace) => Center(child: Text('Error: $error')),
@@ -120,9 +117,9 @@ class _TvPageState extends ConsumerState<TvPage> {
               child: AppImageSlider(
                 tv: data,
                 onSeeMore: () {
-                  Navigator.pushNamed(context, Routes.seeMore, arguments: {
-                    'title': 'Now Playing',
-                    'providerKey': 'now_playing'
+                  Navigator.pushNamed(context, Routes.seeMoreTv, arguments: {
+                    'title': 'Airing Today',
+                    'providerKey': 'airing_today'
                   });
                 },
               ),
@@ -133,7 +130,7 @@ class _TvPageState extends ConsumerState<TvPage> {
           // Search
           InkWell(
             hoverColor: Colors.transparent, // Hapus efek hover
-            onTap: () => Navigator.pushNamed(context, Routes.movieSearch),
+            onTap: () => Navigator.pushNamed(context, Routes.tvSearch),
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 11),
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -192,7 +189,7 @@ class _TvPageState extends ConsumerState<TvPage> {
               children: [
                 const Text('Discover'),
                 InkWell(
-                  onTap: () => Navigator.pushNamed(context, Routes.seeMore,
+                  onTap: () => Navigator.pushNamed(context, Routes.seeMoreTv,
                       arguments: {
                         'title': 'Discover',
                         'genreId': genreId,
@@ -236,146 +233,146 @@ class _TvPageState extends ConsumerState<TvPage> {
           const SizedBox(height: 23),
 
           // Popular
-          // Padding(
-          //   padding:
-          //       const EdgeInsets.symmetric(horizontal: 12).copyWith(bottom: 16),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       const Text('Popular Movies'),
-          //       InkWell(
-          //         onTap: () => Navigator.pushNamed(context, Routes.seeMore,
-          //             arguments: {
-          //               'title': 'Popular Movies',
-          //               'providerKey': 'popular'
-          //             }),
-          //         child: Text(
-          //           'See More',
-          //           style: Theme.of(context).textTheme.bodySmall,
-          //         ),
-          //       )
-          //     ],
-          //   ),
-          // ),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12).copyWith(bottom: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Popular Tv'),
+                InkWell(
+                  onTap: () => Navigator.pushNamed(context, Routes.seeMoreTv,
+                      arguments: {
+                        'title': 'Popular Tv',
+                        'providerKey': 'popular'
+                      }),
+                  child: Text(
+                    'See More',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                )
+              ],
+            ),
+          ),
 
-          // movieStatePopular.when(
-          //   data: (data) => SizedBox(
-          //     height: 220,
-          //     child: ListView.builder(
-          //         shrinkWrap: true,
-          //         controller: _scrollControllerPopular,
-          //         itemCount: data.length,
-          //         scrollDirection: Axis.horizontal,
-          //         itemBuilder: (context, index) {
-          //           final item = data[index];
+          tvStatePopular.when(
+            data: (data) => SizedBox(
+              height: 220,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  controller: _scrollControllerPopular,
+                  itemCount: data.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    final item = data[index];
 
-          //           EdgeInsets margin = EdgeInsets.only(
-          //             left: index == 0 ? 11 : 4,
-          //             right: index == data.length - 1 ? 11 : 4,
-          //           );
+                    EdgeInsets margin = EdgeInsets.only(
+                      left: index == 0 ? 11 : 4,
+                      right: index == data.length - 1 ? 11 : 4,
+                    );
 
-          //           return AppMovieCoverBox(item: item, margin: margin);
-          //         }),
-          //   ),
-          //   loading: () => AppMovieCoverBox.loading(),
-          //   error: (error, stackTrace) => Center(child: Text('Error: $error')),
-          // ),
+                    return AppTvCoverBox(item: item, margin: margin);
+                  }),
+            ),
+            loading: () => AppTvCoverBox.loading(),
+            error: (error, stackTrace) => Center(child: Text('Error: $error')),
+          ),
 
           const SizedBox(height: 23),
 
           // Top Rated
-          // Padding(
-          //   padding:
-          //       const EdgeInsets.symmetric(horizontal: 12).copyWith(bottom: 16),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       const Text('Top Rated Movies'),
-          //       InkWell(
-          //         onTap: () => Navigator.pushNamed(context, Routes.seeMore,
-          //             arguments: {
-          //               'title': 'Top Rated Movies',
-          //               'providerKey': 'top_rated'
-          //             }),
-          //         child: Text(
-          //           'See More',
-          //           style: Theme.of(context).textTheme.bodySmall,
-          //         ),
-          //       )
-          //     ],
-          //   ),
-          // ),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12).copyWith(bottom: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Top Rated Tv'),
+                InkWell(
+                  onTap: () => Navigator.pushNamed(context, Routes.seeMoreTv,
+                      arguments: {
+                        'title': 'Top Rated Tv',
+                        'providerKey': 'top_rated'
+                      }),
+                  child: Text(
+                    'See More',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                )
+              ],
+            ),
+          ),
 
-          // topRatedMovieState.when(
-          //   data: (data) => SizedBox(
-          //     height: 220,
-          //     child: ListView.builder(
-          //         shrinkWrap: true,
-          //         controller: _scrollControllerTopRated,
-          //         itemCount: data.length,
-          //         scrollDirection: Axis.horizontal,
-          //         itemBuilder: (context, index) {
-          //           final item = data[index];
+          topRatedTvState.when(
+            data: (data) => SizedBox(
+              height: 220,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  controller: _scrollControllerTopRated,
+                  itemCount: data.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    final item = data[index];
 
-          //           EdgeInsets margin = EdgeInsets.only(
-          //             left: index == 0 ? 11 : 4,
-          //             right: index == data.length - 1 ? 11 : 4,
-          //           );
+                    EdgeInsets margin = EdgeInsets.only(
+                      left: index == 0 ? 11 : 4,
+                      right: index == data.length - 1 ? 11 : 4,
+                    );
 
-          //           return AppMovieCoverBox(item: item, margin: margin);
-          //         }),
-          //   ),
-          //   loading: () => AppMovieCoverBox.loading(),
-          //   error: (error, stackTrace) => Center(child: Text('Error: $error')),
-          // ),
+                    return AppTvCoverBox(item: item, margin: margin);
+                  }),
+            ),
+            loading: () => AppTvCoverBox.loading(),
+            error: (error, stackTrace) => Center(child: Text('Error: $error')),
+          ),
 
           const SizedBox(height: 23),
 
-          // Upcoming
-          // Padding(
-          //   padding:
-          //       const EdgeInsets.symmetric(horizontal: 12).copyWith(bottom: 16),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       const Text('Upcoming Movies'),
-          //       InkWell(
-          //         onTap: () => Navigator.pushNamed(context, Routes.seeMore,
-          //             arguments: {
-          //               'title': 'Upcoming Movies',
-          //               'providerKey': 'upcoming'
-          //             }),
-          //         child: Text(
-          //           'See More',
-          //           style: Theme.of(context).textTheme.bodySmall,
-          //         ),
-          //       )
-          //     ],
-          //   ),
-          // ),
+          // On The Air
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12).copyWith(bottom: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('On The Air'),
+                InkWell(
+                  onTap: () => Navigator.pushNamed(context, Routes.seeMoreTv,
+                      arguments: {
+                        'title': 'On The Air',
+                        'providerKey': 'on_the_air'
+                      }),
+                  child: Text(
+                    'See More',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                )
+              ],
+            ),
+          ),
 
-          // upcomingMovieState.when(
-          //   data: (data) => SizedBox(
-          //     height: 220,
-          //     child: ListView.builder(
-          //         shrinkWrap: true,
-          //         controller: _scrollControllerUpcoming,
-          //         itemCount: data.length,
-          //         scrollDirection: Axis.horizontal,
-          //         itemBuilder: (context, index) {
-          //           final item = data[index];
+          onTheAirTvState.when(
+            data: (data) => SizedBox(
+              height: 220,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  controller: _scrollControllerOnTheAir,
+                  itemCount: data.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    final item = data[index];
 
-          //           EdgeInsets margin = EdgeInsets.only(
-          //             left: index == 0 ? 11 : 4,
-          //             right: index == data.length - 1 ? 11 : 4,
-          //           );
+                    EdgeInsets margin = EdgeInsets.only(
+                      left: index == 0 ? 11 : 4,
+                      right: index == data.length - 1 ? 11 : 4,
+                    );
 
-          //           return AppMovieCoverBox(item: item, margin: margin);
-          //         }),
-          //   ),
-          //   loading: () => AppMovieCoverBox.loading(),
-          //   error: (error, stackTrace) => Center(child: Text('Error: $error')),
-          // )
+                    return AppTvCoverBox(item: item, margin: margin);
+                  }),
+            ),
+            loading: () => AppTvCoverBox.loading(),
+            error: (error, stackTrace) => Center(child: Text('Error: $error')),
+          )
         ],
       ),
     );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/features/tv/presentation/screens/see_more.dart';
+import 'package:flutter_movie_app/features/tv/presentation/screens/tv_search.dart';
 
 import '../features/movie/presentation/screens/screens.dart';
 import '../screens/menu.dart';
@@ -7,7 +9,9 @@ class Routes {
   static const String menu = '/menu';
   static const String movieDetail = '/movie_detail';
   static const String movieSearch = '/movie_search';
+  static const String tvSearch = '/tv_search';
   static const String seeMore = '/see_more';
+  static const String seeMoreTv = '/see_more_tv';
   static const String seats = '/seats';
   static const String actorDetail = '/actor_detail';
   static const String clipMovie = '/clip_movie';
@@ -23,6 +27,9 @@ class Routes {
 
       case movieSearch:
         return MaterialPageRoute(builder: (_) => const MovieSearchPage());
+
+      case tvSearch:
+        return MaterialPageRoute(builder: (_) => const TvSearchPage());
 
       case actorDetail:
         final int personId = settings.arguments as int;
@@ -40,6 +47,20 @@ class Routes {
         final provider = args['providerKey'];
         return MaterialPageRoute(
             builder: (_) => SeeMorePage(
+                  title,
+                  provider,
+                  genreId: genreId,
+                  actorId: actorId,
+                ));
+
+      case seeMoreTv:
+        final args = settings.arguments as Map<String, dynamic>;
+        final genreId = args['genreId'];
+        final actorId = args['actorId'];
+        final title = args['title'];
+        final provider = args['providerKey'];
+        return MaterialPageRoute(
+            builder: (_) => SeeMoreTvPage(
                   title,
                   provider,
                   genreId: genreId,

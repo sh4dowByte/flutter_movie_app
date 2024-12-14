@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/routes.dart';
-import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/star_rating.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 import 'package:flutter_movie_app/widget/app_skeleton.dart';
@@ -138,7 +137,7 @@ class AppTvCoverTile extends StatelessWidget {
                         ),
                         const SizedBox(width: 5),
                         Text(
-                          '(${item.formattedAirDate.isNotEmpty ? DateTime.parse(item.formattedAirDate).year : 'Unknown'})',
+                          '(${item.formattedAirDate})',
                           style: Theme.of(context)
                               .textTheme
                               .labelSmall!
