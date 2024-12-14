@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/features/favorite/presentation/screens/favorite.dart';
 import 'package:flutter_movie_app/features/settings/presentation/screens/settings.dart';
+import 'package:flutter_movie_app/features/tv/presentation/screens/home.dart';
 import '../core/pallete.dart';
 import '../widget/widget.dart';
 import '../features/movie/presentation/screens/screens.dart';
@@ -19,7 +20,7 @@ class _MenuPageState extends State<MenuPage> {
   // Daftar halaman yang akan ditampilkan sesuai tab yang dipilih
   final List<Widget> _pages = [
     const Center(child: HomePage()),
-    const Center(child: Text('TV Series')),
+    const Center(child: TvPage()),
     const Center(child: FavoritePage()),
     const Center(child: SettingsPage()),
   ];

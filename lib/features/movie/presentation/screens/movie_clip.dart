@@ -87,9 +87,6 @@ class AppMovieClipCover extends StatefulWidget {
 }
 
 class _AppMovieClipCoverState extends State<AppMovieClipCover> {
-  String? channelName;
-  String? channelProfileImage;
-
   @override
   void initState() {
     super.initState();

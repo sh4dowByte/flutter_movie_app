@@ -1,5 +1,6 @@
 // ignore_for_file: unused_element
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class AppIcons8 extends StatelessWidget {
@@ -14,26 +15,12 @@ class AppIcons8 extends StatelessWidget {
   }) {
     final image = 'https://img.icons8.com/?size=$size&id=$id&format=png';
 
-    return Image.network(
-      image,
+    return CachedNetworkImage(
+      imageUrl: image,
       fit: fit ?? BoxFit.cover,
       width: width?.toDouble(),
       height: height?.toDouble(),
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) {
-          return child;
-        }
-
-        return Center(
-          child: CircularProgressIndicator(
-            value: loadingProgress.expectedTotalBytes != null
-                ? loadingProgress.cumulativeBytesLoaded /
-                    (loadingProgress.expectedTotalBytes ?? 1)
-                : null,
-          ),
-        );
-      },
-      errorBuilder: (context, error, stackTrace) {
+      errorWidget: (context, error, stackTrace) {
         return const Center(
           child: Icon(Icons.new_releases_outlined),
         );
