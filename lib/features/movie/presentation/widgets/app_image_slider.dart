@@ -189,20 +189,25 @@ class _AppImageSliderState extends State<AppImageSlider>
                     width: double.infinity,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        end: Alignment.topCenter, // Awal gradien
-                        begin: Alignment.bottomCenter, // Akhir gradien
+                        end: Alignment.topCenter,
+                        begin: Alignment.bottomCenter,
                         colors: [
                           Theme.of(context)
                               .scaffoldBackgroundColor
                               .withOpacity(1),
                           Theme.of(context)
                               .scaffoldBackgroundColor
+                              .withOpacity(0.9),
+                          Theme.of(context)
+                              .scaffoldBackgroundColor
                               .withOpacity(0.8),
                           Theme.of(context)
                               .scaffoldBackgroundColor
                               .withOpacity(0.6),
-                          Colors.black.withOpacity(0.3),
-                          Colors.transparent, // Warna akhir
+                          Theme.of(context)
+                              .scaffoldBackgroundColor
+                              .withOpacity(0.2),
+                          Colors.transparent,
                         ],
                       ),
                     ),
@@ -260,32 +265,32 @@ class _AppImageSliderState extends State<AppImageSlider>
                 ),
 
                 // Backdrop top
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    height: 80,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        end: Alignment.bottomCenter, // Awal gradien
-                        begin: Alignment.topCenter, // Akhir gradien
-                        colors: [
-                          Theme.of(context)
-                              .scaffoldBackgroundColor
-                              .withOpacity(0.9),
+                // Align(
+                //   alignment: Alignment.topCenter,
+                //   child: Container(
+                //     height: 80,
+                //     width: double.infinity,
+                //     decoration: BoxDecoration(
+                //       gradient: LinearGradient(
+                //         end: Alignment.bottomCenter, // Awal gradien
+                //         begin: Alignment.topCenter, // Akhir gradien
+                //         colors: [
+                //           Theme.of(context)
+                //               .scaffoldBackgroundColor
+                //               .withOpacity(0.9),
 
-                          Theme.of(context)
-                              .scaffoldBackgroundColor
-                              .withOpacity(0.5),
-                          Theme.of(context)
-                              .scaffoldBackgroundColor
-                              .withOpacity(0.2),
-                          Colors.transparent, // Warna akhir
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                //           Theme.of(context)
+                //               .scaffoldBackgroundColor
+                //               .withOpacity(0.5),
+                //           Theme.of(context)
+                //               .scaffoldBackgroundColor
+                //               .withOpacity(0.2),
+                //           Colors.transparent, // Warna akhir
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             );
           },

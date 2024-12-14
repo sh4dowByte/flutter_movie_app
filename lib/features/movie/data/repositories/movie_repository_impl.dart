@@ -29,7 +29,6 @@ class MovieRepositoryImpl implements MovieRepository {
 
   @override
   Future<Either<Failure, List<MovieClip>>> getMovieClips(int movieId) async {
-    print(movieId);
     try {
       final movies = await _movieService.fetchMovieClip(movieId);
       if (movies.isEmpty) {

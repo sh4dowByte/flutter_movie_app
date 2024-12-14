@@ -7,6 +7,7 @@ import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_to
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_upcoming_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_image_slider.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_movie_card.dart';
+import 'package:flutter_movie_app/features/settings/presentation/notifiers/language_notifier.dart';
 import 'package:flutter_movie_app/widget/widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,14 +31,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref
-          .read(discoverMoviesProvider.notifier)
-          .getInitialMovies(genreId: genreId);
-      ref.read(genreMoviesProvider.notifier).getInitial();
-      ref.read(nowPlayingMoviesProvider.notifier).getInitialMovies();
-      ref.read(popularMoviesProvider.notifier).getInitialMovies();
-      ref.read(topRatedMoviesProvider.notifier).getInitialMovies();
-      ref.read(upcomingMoviesProvider.notifier).getInitialMovies();
+      initData();
     });
 
     _scrollControllerDiscover.addListener(() {
@@ -69,6 +63,17 @@ class _HomePageState extends ConsumerState<HomePage> {
     });
   }
 
+  void initData() {
+    ref
+        .read(discoverMoviesProvider.notifier)
+        .getInitialMovies(genreId: genreId);
+    ref.read(genreMoviesProvider.notifier).getInitial();
+    ref.read(nowPlayingMoviesProvider.notifier).getInitialMovies();
+    ref.read(popularMoviesProvider.notifier).getInitialMovies();
+    ref.read(topRatedMoviesProvider.notifier).getInitialMovies();
+    ref.read(upcomingMoviesProvider.notifier).getInitialMovies();
+  }
+
   @override
   void dispose() {
     _scrollControllerDiscover.dispose();
@@ -86,6 +91,13 @@ class _HomePageState extends ConsumerState<HomePage> {
     final discoverMovieState = ref.watch(discoverMoviesProvider);
     final topRatedMovieState = ref.watch(topRatedMoviesProvider);
     final upcomingMovieState = ref.watch(upcomingMoviesProvider);
+
+    // Listen perubahan bahasa
+    ref.listen<String>(languageProvider, (previous, next) {
+      if (previous != next) {
+        initData();
+      }
+    });
 
     return Scaffold(
       body: ListView(
@@ -128,7 +140,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                     Icons.search,
                     color: Theme.of(context).hintColor,
                   ),
-                  SizedBox(width: 18),
+                  const SizedBox(width: 18),
                   Text(
                     'Search...',
                     style: TextStyle(

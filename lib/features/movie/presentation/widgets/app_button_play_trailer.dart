@@ -21,9 +21,9 @@ class AppButtonPlayTrailer extends StatelessWidget {
             end: Alignment.topCenter, // Awal gradien
             begin: Alignment.bottomCenter, // Akhir gradien
             colors: [
-              Colors.white.withOpacity(0.1),
-              Colors.white.withOpacity(0.1),
-              Colors.white.withOpacity(0.1), // Warna akhir
+              Theme.of(context).hintColor.withOpacity(0.1),
+              Theme.of(context).hintColor.withOpacity(0.1),
+              Theme.of(context).hintColor.withOpacity(0.1), // Warna akhir
             ],
           ),
         ),

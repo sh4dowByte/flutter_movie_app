@@ -10,13 +10,14 @@ class AppTheme {
   static ThemeData get lightTheme {
     Color primaryTextColor = const Color(0xFF3F414E);
     Color secondaryTextColor = const Color(0xFF7B7F9E);
+    Color scaffoldColor = const Color(0xFFF2F8FC);
 
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
       fontFamily: GoogleFonts.poppins().fontFamily,
       primaryColor: Pallete.primary,
-      scaffoldBackgroundColor: const Color(0xFFFAF9F6),
+      scaffoldBackgroundColor: scaffoldColor,
       primaryColorDark: const Color(0xFF3F414E),
       primaryColorLight: Colors.white,
       dividerColor: Colors.grey[100],
@@ -26,13 +27,15 @@ class AppTheme {
         overlayColor: MaterialStateProperty.all(
             Colors.transparent), // Menonaktifkan hover
       ),
+      bottomNavigationBarTheme:
+          BottomNavigationBarThemeData(backgroundColor: scaffoldColor),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: Color(0xFF22215B), // Warna latar belakang
         foregroundColor: Colors.white,
       ),
       cardColor: const Color(0xFF3F414E),
       appBarTheme: AppBarTheme(
-        backgroundColor: const Color(0xFFFAF9F6),
+        backgroundColor: scaffoldColor,
         surfaceTintColor: Colors.transparent,
         elevation: 1,
         shadowColor: Colors.black.withOpacity(0.1),
@@ -41,16 +44,15 @@ class AppTheme {
         trackOutlineWidth: MaterialStateProperty.resolveWith((states) => 0),
         thumbColor: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.selected)) {
-            return Pallete.primary; // Warna tombol saat aktif
+            return Colors.green; // Warna tombol saat aktif
           }
           return Colors.white; // Warna tombol saat tidak aktif
         }),
         trackColor: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.selected)) {
-            return Pallete.primary
-                .withOpacity(0.3); // Warna lintasan saat aktif
+            return Colors.green.withOpacity(0.3); // Warna lintasan saat aktif
           }
-          return const Color(0xFF00BCD4); // Warna lintasan saat tidak aktif
+          return Colors.pink; // Warna lintasan saat tidak aktif
         }),
       ),
       textTheme: textTheme(primaryTextColor, secondaryTextColor),
@@ -91,16 +93,15 @@ class AppTheme {
         trackOutlineWidth: MaterialStateProperty.resolveWith((states) => 0),
         thumbColor: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.selected)) {
-            return Pallete.primary; // Warna tombol saat aktif
+            return Colors.green; // Warna tombol saat aktif
           }
           return Colors.white; // Warna tombol saat tidak aktif
         }),
         trackColor: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.selected)) {
-            return Pallete.primary
-                .withOpacity(0.3); // Warna lintasan saat aktif
+            return Colors.green.withOpacity(0.3); // Warna lintasan saat aktif
           }
-          return const Color(0xFF00BCD4); // Warna lintasan saat tidak aktif
+          return Colors.pink; // Warna lintasan saat tidak aktif
         }),
       ),
       splashColor: Colors.transparent, // Menghilangkan efek splash

@@ -94,8 +94,8 @@ class _AppImageSliderState extends State<AppImageSlider> {
                     Theme.of(context)
                         .scaffoldBackgroundColor
                         .withOpacity(1), // Top darker
-                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
-                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.4),
+                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.4),
                     Theme.of(context)
                         .scaffoldBackgroundColor
                         .withOpacity(1), // Bottom darker
