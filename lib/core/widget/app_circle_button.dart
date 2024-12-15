@@ -14,18 +14,18 @@ class AppCircleButton extends StatelessWidget {
         height: 45,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          // color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.4),
+          color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.4),
           borderRadius: BorderRadius.circular(55),
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context)
-                  .scaffoldBackgroundColor
-                  .withOpacity(0.7)
-                  .withOpacity(0.4), // Glow color
-              blurRadius: 10, // Spread of the glow
-              spreadRadius: -2, // Intensity of the glow
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Theme.of(context)
+          //         .scaffoldBackgroundColor
+          //         .withOpacity(0.7)
+          //         .withOpacity(0.4), // Glow color
+          //     blurRadius: 10, // Spread of the glow
+          //     spreadRadius: -2, // Intensity of the glow
+          //   ),
+          // ],
         ),
         child: icon ??
             const Icon(

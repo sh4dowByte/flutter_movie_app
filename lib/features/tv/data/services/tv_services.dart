@@ -4,6 +4,7 @@ import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 import 'package:flutter_movie_app/features/people/data/models/tv_credits.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_detail.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_seasons.dart';
+import 'package:intl/intl.dart';
 
 class TVService extends TMDBService {
   TVService(super.ref);
@@ -61,8 +62,19 @@ class TVService extends TMDBService {
 
   Future<List<Tv>> fetchAiringTodayTv(int page) async {
     try {
-      final response = await dio.get('/3/tv/airing_today', queryParameters: {
+      // final response = await dio.get('/3/tv/airing_today', queryParameters: {
+      //   'page': page,
+      // });
+
+      final todayString = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      final response = await dio.get('/3/discover/tv', queryParameters: {
+        'include_adult': false,
+        'language': 'en-US',
         'page': page,
+        'sort_by': 'popularity.desc',
+        'with_genres': 16, // Anime
+        'air_date.lte': todayString,
+        'air_date.gte': todayString,
       });
 
       if (response.statusCode == 200) {

@@ -81,18 +81,40 @@ class _ActorDetailPageState extends ConsumerState<ActorDetailPage>
               centerTitle: true,
               elevation: 0.0,
               leadingWidth: 0.0,
-              title: TabBar(
-                indicatorColor: Colors.pink,
-                labelColor: Colors.pink,
-                isScrollable: true,
-                tabAlignment: TabAlignment.center,
-                dividerColor: Colors.transparent,
-                controller: _tabController,
-                tabs: const [
-                  Tab(text: 'Movie'),
-                  Tab(text: 'Tv Series'),
-                ],
-              ),
+              actions: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                          ),
+                          color: Colors.white,
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.close,
+                          ),
+                          color: Colors.white,
+                          onPressed: () => Navigator.popUntil(
+                            context,
+                            (route) =>
+                                route.isFirst, // Kembali hingga halaman pertama
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
               flexibleSpace: FlexibleSpaceBar(
                 background: Stack(
                   children: [
@@ -110,26 +132,38 @@ class _ActorDetailPageState extends ConsumerState<ActorDetailPage>
                             actorId: widget.actorId),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        AppCircleButton(
-                          icon: const Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                          ),
-                          onTap: () => Navigator.pop(context),
+                    Container(
+                      height: 60,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 8),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter, // Awal gradien
+                          end: Alignment.bottomCenter, // Akhir gradien
+                          colors: [
+                            Colors.black.withOpacity(0.8),
+                            Colors.black.withOpacity(0.6),
+                            Colors.black.withOpacity(0.3),
+                            // Colors.black.withOpacity(0.001),
+                            Colors.transparent,
+                          ],
                         ),
-                        AppCircleButton(
-                          icon: const Icon(
-                            Icons.close,
-                          ),
-                          onTap: () => Navigator.popUntil(
-                            context,
-                            (route) =>
-                                route.isFirst, // Kembali hingga halaman pertama
-                          ),
+                      ),
+                      child: Center(
+                        child: TabBar(
+                          indicatorColor: Colors.white,
+                          labelColor: Colors.white,
+                          unselectedLabelColor: Colors.grey[400],
+                          isScrollable: true,
+                          tabAlignment: TabAlignment.center,
+                          dividerColor: Colors.transparent,
+                          controller: _tabController,
+                          tabs: const [
+                            Tab(text: 'Movie'),
+                            Tab(text: 'Tv Series'),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),

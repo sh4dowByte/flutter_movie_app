@@ -6,6 +6,7 @@ import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
+import 'package:flutter_movie_app/features/tv/presentation/widgets/app_button_play_video.dart';
 
 class AppImageSlider extends StatefulWidget {
   final List<Tv> tv;
@@ -237,8 +238,8 @@ class _AppImageSliderState extends State<AppImageSlider>
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              // AppButtonPlayTrailer(
-                              //     tvId: tv[_currentIndex].id),
+                              AppButtonPlayVideo(
+                                  seriesId: tv[_currentIndex].id),
                               Visibility(
                                 visible: _seeMore,
                                 child: InkWell(
