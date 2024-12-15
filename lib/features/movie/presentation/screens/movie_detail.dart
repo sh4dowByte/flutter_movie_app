@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/pallete.dart';
+import 'package:flutter_movie_app/core/utils/date_helper.dart';
+import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/features/favorite/presentation/notifiers/movie_favorite_notifier.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
@@ -10,15 +12,15 @@ import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_de
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_recomended_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_caster.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_button_play_trailer.dart';
-import 'package:flutter_movie_app/widget/app_circle_button.dart';
-import 'package:flutter_movie_app/widget/app_error.dart';
+import 'package:flutter_movie_app/core/widget/app_circle_button.dart';
+import 'package:flutter_movie_app/core/widget/app_error.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../../../../widget/app_skeleton.dart';
-import '../widgets/app_cast_image.dart';
+import '../../../../core/widget/app_skeleton.dart';
+import '../../../../core/widget/app_cast_image.dart';
 import '../widgets/app_movie_card.dart';
-import '../widgets/star_rating.dart';
+import '../../../../core/widget/star_rating.dart';
 
 class MovieDetailPage extends ConsumerStatefulWidget {
   const MovieDetailPage(this.movieId, {super.key});
@@ -106,7 +108,9 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                       children: [
                         CachedNetworkImage(
                           height: double.infinity,
-                          imageUrl: value.backdropUrlOriginal,
+                          imageUrl: ImageUrlHelper.getBackdropUrl(
+                              value.backdropPath,
+                              size: ImageSize.original),
                           errorWidget: (context, url, error) => Container(
                             color: Pallete.grey1,
                             child: Image.asset(
@@ -119,7 +123,9 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                               fit: StackFit.expand,
                               children: [
                                 CachedNetworkImage(
-                                  imageUrl: value.backdropUrlW300,
+                                  imageUrl: ImageUrlHelper.getBackdropUrl(
+                                      value.backdropPath,
+                                      size: ImageSize.w300),
                                   fit: BoxFit.cover,
                                 ),
                                 BackdropFilter(
@@ -170,7 +176,9 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                 child: CachedNetworkImage(
                                   height: 150,
                                   width: 100,
-                                  imageUrl: value.imageUrlW300,
+                                  imageUrl: ImageUrlHelper.getPosterUrl(
+                                      value.posterPath,
+                                      size: ImageSize.w300),
                                   fit: BoxFit.cover,
                                   placeholder: (context, string) {
                                     return const AppSkeleton();
@@ -213,7 +221,7 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                     Row(
                                       children: [
                                         Text(
-                                          '${value.formattedReleaseDate} ⦿ ${value.formatRuntime}',
+                                          '${DateHelper.toYear(value.releaseDate)} ⦿ ${DateHelper.formatRuntime(value.runtime)}',
                                           style: Theme.of(context)
                                               .textTheme
                                               .labelSmall,

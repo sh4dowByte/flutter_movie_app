@@ -7,21 +7,21 @@ import 'dart:async' as _i7;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:dio/dio.dart' as _i3;
+import 'package:flutter_movie_app/core/data/models/genres.dart' as _i9;
 import 'package:flutter_movie_app/core/errors/failure.dart' as _i8;
-import 'package:flutter_movie_app/features/movie/data/models/actor.dart' as _i5;
-import 'package:flutter_movie_app/features/movie/data/models/cast.dart' as _i13;
-import 'package:flutter_movie_app/features/movie/data/models/genres.dart'
-    as _i9;
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart'
     as _i11;
 import 'package:flutter_movie_app/features/movie/data/models/movie_clip.dart'
     as _i10;
 import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart'
-    as _i4;
+    as _i5;
 import 'package:flutter_movie_app/features/movie/data/services/movie_services.dart'
     as _i12;
 import 'package:flutter_movie_app/features/movie/domain/repositories/movie_repository.dart'
     as _i6;
+import 'package:flutter_movie_app/features/people/data/models/cast.dart'
+    as _i13;
+import 'package:flutter_riverpod/flutter_riverpod.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -57,8 +57,9 @@ class _FakeDio_1 extends _i1.SmartFake implements _i3.Dio {
         );
 }
 
-class _FakeMovieDetail_2 extends _i1.SmartFake implements _i4.MovieDetail {
-  _FakeMovieDetail_2(
+class _FakeRef_2<State extends Object?> extends _i1.SmartFake
+    implements _i4.Ref<State> {
+  _FakeRef_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -67,8 +68,8 @@ class _FakeMovieDetail_2 extends _i1.SmartFake implements _i4.MovieDetail {
         );
 }
 
-class _FakeActor_3 extends _i1.SmartFake implements _i5.Actor {
-  _FakeActor_3(
+class _FakeMovieDetail_3 extends _i1.SmartFake implements _i5.MovieDetail {
+  _FakeMovieDetail_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -104,22 +105,22 @@ class MockMovieRepository extends _i1.Mock implements _i6.MovieRepository {
       ) as _i7.Future<_i2.Either<_i8.Failure, List<_i9.Genres>>>);
 
   @override
-  _i7.Future<_i2.Either<_i8.Failure, _i4.MovieDetail>> getMovieDetail(
+  _i7.Future<_i2.Either<_i8.Failure, _i5.MovieDetail>> getMovieDetail(
           int? movieId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getMovieDetail,
           [movieId],
         ),
-        returnValue: _i7.Future<_i2.Either<_i8.Failure, _i4.MovieDetail>>.value(
-            _FakeEither_0<_i8.Failure, _i4.MovieDetail>(
+        returnValue: _i7.Future<_i2.Either<_i8.Failure, _i5.MovieDetail>>.value(
+            _FakeEither_0<_i8.Failure, _i5.MovieDetail>(
           this,
           Invocation.method(
             #getMovieDetail,
             [movieId],
           ),
         )),
-      ) as _i7.Future<_i2.Either<_i8.Failure, _i4.MovieDetail>>);
+      ) as _i7.Future<_i2.Either<_i8.Failure, _i5.MovieDetail>>);
 
   @override
   _i7.Future<_i2.Either<_i8.Failure, List<_i10.MovieClip>>> getMovieClips(
@@ -296,43 +297,6 @@ class MockMovieRepository extends _i1.Mock implements _i6.MovieRepository {
           ),
         )),
       ) as _i7.Future<_i2.Either<_i8.Failure, List<_i11.Movie>>>);
-
-  @override
-  _i7.Future<_i2.Either<_i8.Failure, _i5.Actor>> getActorDetail(
-          int? personId) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getActorDetail,
-          [personId],
-        ),
-        returnValue: _i7.Future<_i2.Either<_i8.Failure, _i5.Actor>>.value(
-            _FakeEither_0<_i8.Failure, _i5.Actor>(
-          this,
-          Invocation.method(
-            #getActorDetail,
-            [personId],
-          ),
-        )),
-      ) as _i7.Future<_i2.Either<_i8.Failure, _i5.Actor>>);
-
-  @override
-  _i7.Future<_i2.Either<_i8.Failure, List<_i11.Movie>>> getActorMovies(
-          int? personId) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getActorMovies,
-          [personId],
-        ),
-        returnValue:
-            _i7.Future<_i2.Either<_i8.Failure, List<_i11.Movie>>>.value(
-                _FakeEither_0<_i8.Failure, List<_i11.Movie>>(
-          this,
-          Invocation.method(
-            #getActorMovies,
-            [personId],
-          ),
-        )),
-      ) as _i7.Future<_i2.Either<_i8.Failure, List<_i11.Movie>>>);
 }
 
 /// A class which mocks [MovieService].
@@ -360,6 +324,15 @@ class MockMovieService extends _i1.Mock implements _i12.MovieService {
         ),
         returnValueForMissingStub: null,
       );
+
+  @override
+  _i4.Ref<Object?> get ref => (super.noSuchMethod(
+        Invocation.getter(#ref),
+        returnValue: _FakeRef_2<Object?>(
+          this,
+          Invocation.getter(#ref),
+        ),
+      ) as _i4.Ref<Object?>);
 
   @override
   _i7.Future<List<_i11.Movie>> fetchPopularMovies(int? page) =>
@@ -440,20 +413,20 @@ class MockMovieService extends _i1.Mock implements _i12.MovieService {
       ) as _i7.Future<List<_i11.Movie>>);
 
   @override
-  _i7.Future<_i4.MovieDetail> fetchMovieDetails(int? movieId) =>
+  _i7.Future<_i5.MovieDetail> fetchMovieDetails(int? movieId) =>
       (super.noSuchMethod(
         Invocation.method(
           #fetchMovieDetails,
           [movieId],
         ),
-        returnValue: _i7.Future<_i4.MovieDetail>.value(_FakeMovieDetail_2(
+        returnValue: _i7.Future<_i5.MovieDetail>.value(_FakeMovieDetail_3(
           this,
           Invocation.method(
             #fetchMovieDetails,
             [movieId],
           ),
         )),
-      ) as _i7.Future<_i4.MovieDetail>);
+      ) as _i7.Future<_i5.MovieDetail>);
 
   @override
   _i7.Future<List<_i13.Cast>> fetchMovieCaster(int? movieId) =>
@@ -487,31 +460,6 @@ class MockMovieService extends _i1.Mock implements _i12.MovieService {
             #page: page,
             #genres: genres,
           },
-        ),
-        returnValue: _i7.Future<List<_i11.Movie>>.value(<_i11.Movie>[]),
-      ) as _i7.Future<List<_i11.Movie>>);
-
-  @override
-  _i7.Future<_i5.Actor> fetchActorDetail(int? personId) => (super.noSuchMethod(
-        Invocation.method(
-          #fetchActorDetail,
-          [personId],
-        ),
-        returnValue: _i7.Future<_i5.Actor>.value(_FakeActor_3(
-          this,
-          Invocation.method(
-            #fetchActorDetail,
-            [personId],
-          ),
-        )),
-      ) as _i7.Future<_i5.Actor>);
-
-  @override
-  _i7.Future<List<_i11.Movie>> fetchActorMovies(int? personId) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #fetchActorMovies,
-          [personId],
         ),
         returnValue: _i7.Future<List<_i11.Movie>>.value(<_i11.Movie>[]),
       ) as _i7.Future<List<_i11.Movie>>);

@@ -33,7 +33,7 @@ class Movie with _$Movie {
 }
 
 // Ekstensi untuk menambahkan getter imageUrl
-extension MovieImageUrl on Movie {
+extension MovieFavorite on Movie {
 // Tambahkan metode toMap
   Map<String, dynamic> toMapForFavorite() {
     return {
@@ -49,31 +49,5 @@ extension MovieImageUrl on Movie {
       'vote_average': voteAverage,
       'vote_count': voteCount,
     };
-  }
-
-  String _getImageUrl(String size, {bool isBackdrop = false}) {
-    final path = isBackdrop ? backdropPath : posterPath;
-    return 'https://image.tmdb.org/t/p/$size$path';
-  }
-
-  String get backdropUrlOriginal => _getImageUrl('original', isBackdrop: true);
-  String get backdropUrlW500 => _getImageUrl('w500', isBackdrop: true);
-  String get backdropUrlW300 => _getImageUrl('w300', isBackdrop: true);
-  String get imageUrlOriginal => _getImageUrl('original');
-  String get imageUrlW500 => _getImageUrl('w500');
-  String get imageUrlW300 => _getImageUrl('w300');
-  String get imageUrlW200 => _getImageUrl('w200');
-
-  String get formattedReleaseDate {
-    if (releaseDate.isEmpty) {
-      return 'Unknown release date';
-    }
-    try {
-      final parsedDate = DateTime.parse(releaseDate);
-      // Return only the year
-      return parsedDate.year.toString();
-    } catch (e) {
-      return 'Invalid release date';
-    }
   }
 }

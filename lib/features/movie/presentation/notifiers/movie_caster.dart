@@ -1,4 +1,4 @@
-import 'package:flutter_movie_app/features/movie/data/models/cast.dart';
+import 'package:flutter_movie_app/features/people/data/models/cast.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/services/movie_services.dart';
 

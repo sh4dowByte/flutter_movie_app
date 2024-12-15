@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie_clip.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_clip_notifier.dart';
-import 'package:flutter_movie_app/widget/app_skeleton.dart';
+import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -87,9 +87,6 @@ class AppMovieClipCover extends StatefulWidget {
 }
 
 class _AppMovieClipCoverState extends State<AppMovieClipCover> {
-  String? channelName;
-  String? channelProfileImage;
-
   @override
   void initState() {
     super.initState();

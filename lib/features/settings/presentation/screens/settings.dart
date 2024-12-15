@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/features/settings/presentation/notifiers/adult_notifier.dart';
 import 'package:flutter_movie_app/features/settings/presentation/notifiers/language_notifier.dart';
-import 'package:flutter_movie_app/widget/app_icons8.dart';
+import 'package:flutter_movie_app/core/widget/app_icons8.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../widget/app_svg_icon.dart';
+import '../../../../core/widget/app_svg_icon.dart';
 import '../notifiers/theme_notifier.dart';
 
 class SettingsPage extends ConsumerWidget {
@@ -57,7 +57,7 @@ class SettingsPage extends ConsumerWidget {
                 },
                 child: Row(
                   children: [
-                    Text(currentLanguage),
+                    ChoseLanguageComponent.getLabel(context, currentLanguage),
                     const SizedBox(width: 10),
                     const Icon(
                       Icons.arrow_forward_ios_rounded,
@@ -103,7 +103,7 @@ class AppMenuTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -135,56 +135,82 @@ class ChoseLanguageComponent extends StatelessWidget {
     this.onSelect,
   });
 
+  static List<Map<dynamic, String>> language = [
+    {
+      'lang': 'id-ID',
+      'country': 'Indonesia',
+      'flag': 'lph_obIfg-jT',
+    },
+    {
+      'lang': 'en-US',
+      'country': 'United States',
+      'flag': 'kmhygyVC3wiA',
+    },
+    {
+      'lang': 'ja-JP',
+      'country': 'Japanese',
+      'flag': 'McQbrq9qaQye',
+      'info': 'More anime trailers'
+    },
+    {
+      'lang': 'ko-KR',
+      'country': 'Korea',
+      'flag': '-_RS8ho736Fs',
+    },
+    {
+      'lang': 'ar-SA',
+      'country': 'Arabic',
+      'flag': 'NA7wq_gDd9d7',
+    },
+    {
+      'lang': 'zh-CN',
+      'country': 'Chinese',
+      'flag': 'Ej50Oe3crXwF',
+    },
+    {
+      'lang': 'th-TH',
+      'country': 'Thailand',
+      'flag': 'IWVDTvmUNsig',
+    },
+    {
+      'lang': 'vi-VN',
+      'country': 'Vietnam',
+      'flag': '2egPD0I7yi4-',
+    },
+  ];
+
+  static Widget getLabel(BuildContext context, String lang) {
+    final item = language.firstWhere(
+      (element) => element['lang'] == lang,
+      orElse: () => language[0],
+    );
+
+    return Row(
+      children: [
+        // Icon berdasarkan flag
+        AppIcons8.getById(
+          item['flag'] ?? '',
+          width: 25,
+          height: 25,
+        ),
+        const SizedBox(width: 8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(item['country'] ?? ''),
+          ],
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Map<dynamic, String>> language = [
-      {
-        'lang': 'id-ID',
-        'country': 'Indonesia',
-        'flag': 'lph_obIfg-jT',
-      },
-      {
-        'lang': 'en-US',
-        'country': 'United States',
-        'flag': 'kmhygyVC3wiA',
-      },
-      {
-        'lang': 'ja-JP',
-        'country': 'Jepang',
-        'flag': 'McQbrq9qaQye',
-      },
-      {
-        'lang': 'ko-KR',
-        'country': 'Korea',
-        'flag': '-_RS8ho736Fs',
-      },
-      {
-        'lang': 'ar-SA',
-        'country': 'Arabic',
-        'flag': 'NA7wq_gDd9d7',
-      },
-      {
-        'lang': 'zh-CN',
-        'country': 'Chinese',
-        'flag': 'Ej50Oe3crXwF',
-      },
-      {
-        'lang': 'th-TH',
-        'country': 'Thailand',
-        'flag': 'IWVDTvmUNsig',
-      },
-      {
-        'lang': 'vi-VN',
-        'country': 'Vietnam',
-        'flag': '2egPD0I7yi4-',
-      },
-    ];
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: ListView.builder(
         shrinkWrap: true,
-        itemCount: language.length, // Jumlah skeleton placeholder
+        itemCount: language.length,
         itemBuilder: (context, index) {
           final item = language[index];
           return Padding(
@@ -199,18 +225,26 @@ class ChoseLanguageComponent extends StatelessWidget {
               child: Row(
                 children: [
                   AppIcons8.getById(item['flag'] ?? '', width: 35, height: 35),
-                  // const Icon(
-                  //   Icons.language,
-                  //   color: Colors.green,
-                  // ),
                   const SizedBox(width: 8),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(item['lang']!),
-                      Text(
-                        item['country']!,
-                        style: Theme.of(context).textTheme.labelSmall,
+                      Text(item['country']!),
+                      Row(
+                        children: [
+                          Text(
+                            item['lang']!,
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            item['info'] ?? '',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall!
+                                .copyWith(fontStyle: FontStyle.italic),
+                          ),
+                        ],
                       ),
                     ],
                   ),

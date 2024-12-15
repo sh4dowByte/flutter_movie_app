@@ -1,4 +1,4 @@
-import 'package:flutter_movie_app/features/movie/data/models/genres.dart';
+import 'package:flutter_movie_app/core/data/models/genres.dart';
 import 'package:flutter_movie_app/features/movie/domain/usecases/get_genre_movies.dart';
 import 'package:flutter_movie_app/features/movie/presentation/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -62,43 +62,6 @@ extension MovieFavorite on MovieDetail {
   }
 }
 
-extension MovieImageUrl on MovieDetail {
-  String _getImageUrl(String size, {bool isBackdrop = false}) {
-    final path = isBackdrop ? backdropPath : posterPath;
-    return 'https://image.tmdb.org/t/p/$size$path';
-  }
-
-  String get backdropUrlOriginal => _getImageUrl('original', isBackdrop: true);
-  String get backdropUrlW500 => _getImageUrl('w500', isBackdrop: true);
-  String get backdropUrlW300 => _getImageUrl('w300', isBackdrop: true);
-  String get imageUrlOriginal => _getImageUrl('original');
-  String get imageUrlW500 => _getImageUrl('w500');
-  String get imageUrlW300 => _getImageUrl('w300');
-  String get imageUrlW200 => _getImageUrl('w200');
-}
-
-extension MovieTimeFormat on MovieDetail {
-  /// Getter to format the release date or provide a default message.
-  String get formattedReleaseDate {
-    if (releaseDate.isEmpty) {
-      return 'Unknown release date';
-    }
-    try {
-      final parsedDate = DateTime.parse(releaseDate);
-      // Return only the year
-      return parsedDate.year.toString();
-    } catch (e) {
-      return 'Invalid release date';
-    }
-  }
-
-  String get formatRuntime {
-    final hours = runtime ~/ 60; // Hitung jam
-    final minutes = runtime % 60; // Sisa menit
-    return '$hours h $minutes min';
-  }
-}
-
 @freezed
 class Genre with _$Genre {
   const factory Genre({

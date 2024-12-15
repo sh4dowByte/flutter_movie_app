@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 
 class AppImageSlider extends StatefulWidget {
@@ -74,8 +75,10 @@ class _AppImageSliderState extends State<AppImageSlider> {
           Positioned.fill(
             child: CachedNetworkImage(
               imageUrl: widget.data[_currentPage.toInt()].backdropPath != null
-                  ? widget.data[_currentPage.toInt()].backdropUrlW300
-                  : widget.data[_currentPage.toInt()].imageUrlW300,
+                  ? ImageUrlHelper.getBackdropUrl(
+                      widget.data[_currentPage.toInt()].backdropPath)
+                  : ImageUrlHelper.getPosterUrl(
+                      widget.data[_currentPage.toInt()].posterPath),
               fit: BoxFit.cover,
             ),
           ),
@@ -143,7 +146,9 @@ class _AppImageSliderState extends State<AppImageSlider> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: CachedNetworkImage(
-                            imageUrl: widget.data[index].imageUrlW500,
+                            imageUrl: ImageUrlHelper.getPosterUrl(
+                                widget.data[index].posterPath,
+                                size: ImageSize.w500),
                             fit: BoxFit.cover,
                           ),
                         ),
