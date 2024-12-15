@@ -1,4 +1,4 @@
-import 'package:flutter_movie_app/features/tv/data/models/tv_credits.dart';
+import 'package:flutter_movie_app/features/people/data/models/tv_credits.dart';
 import 'package:flutter_movie_app/features/tv/domain/usecases/get_credits_tv.dart';
 import 'package:flutter_movie_app/features/tv/presentation/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

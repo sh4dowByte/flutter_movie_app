@@ -1,10 +1,10 @@
 import 'package:flutter_movie_app/features/people/data/models/actor.dart';
 import 'package:flutter_movie_app/features/people/domain/usecases/get_actor_detail.dart';
-import 'package:flutter_movie_app/features/movie/presentation/providers.dart';
+import 'package:flutter_movie_app/features/people/presentation/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final getActorDetailMoviesProvider =
-    Provider((ref) => GetActorDetail(ref.watch(movieRepositoryProvider)));
+    Provider((ref) => GetActorDetail(ref.watch(peopleRepositoryProvider)));
 
 final actorActorDetailMoviesProvider =
     StateNotifierProvider.family<DetailActorNotifier, AsyncValue<Actor>, int>(

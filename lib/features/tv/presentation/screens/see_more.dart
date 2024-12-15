@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/features/people/presentation/notifier/tv_actor_notifier.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_airing_today_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_discover_notifier.dart';
@@ -33,6 +34,9 @@ class SeeMoreTvPageState extends ConsumerState<SeeMoreTvPage> {
     switch (widget.providerKey) {
       case 'popular':
         provider = popularTvProvider;
+        break;
+      case 'actor_tv':
+        provider = actorTvProvider(widget.actorId!);
         break;
       case 'discover':
         provider = discoverTvProvider;

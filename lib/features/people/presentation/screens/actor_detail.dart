@@ -6,10 +6,14 @@ import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
 import 'package:flutter_movie_app/core/widget/star_rating.dart';
 import 'package:flutter_movie_app/core/widget/app_circle_button.dart';
 import 'package:flutter_movie_app/core/widget/app_error.dart';
+import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/features/people/data/models/actor.dart';
 import 'package:flutter_movie_app/features/people/presentation/notifier/actor_detail_notifier.dart';
 import 'package:flutter_movie_app/features/people/presentation/notifier/movie_actor_notifier.dart';
-import 'package:flutter_movie_app/features/movie/presentation/widgets/app_image_slider.dart';
+import 'package:flutter_movie_app/features/people/presentation/notifier/tv_actor_notifier.dart';
+import 'package:flutter_movie_app/features/people/presentation/widgets/app_movie_image_slider.dart';
+import 'package:flutter_movie_app/features/people/presentation/widgets/app_tv_image_slider.dart';
+import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ActorDetailPage extends ConsumerStatefulWidget {
@@ -20,10 +24,16 @@ class ActorDetailPage extends ConsumerStatefulWidget {
   ConsumerState<ActorDetailPage> createState() => _ActorDetailPageState();
 }
 
-class _ActorDetailPageState extends ConsumerState<ActorDetailPage> {
+class _ActorDetailPageState extends ConsumerState<ActorDetailPage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
   @override
   void initState() {
     super.initState();
+
+    _tabController = TabController(length: 2, vsync: this);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref
           .read(actorActorDetailMoviesProvider(widget.actorId).notifier)
@@ -31,6 +41,10 @@ class _ActorDetailPageState extends ConsumerState<ActorDetailPage> {
 
       ref
           .read(actorMoviesProvider(widget.actorId).notifier)
+          .getInitial(widget.actorId);
+
+      ref
+          .read(actorTvProvider(widget.actorId).notifier)
           .getInitial(widget.actorId);
     });
   }
@@ -42,6 +56,7 @@ class _ActorDetailPageState extends ConsumerState<ActorDetailPage> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -50,6 +65,7 @@ class _ActorDetailPageState extends ConsumerState<ActorDetailPage> {
     final actorState =
         ref.watch(actorActorDetailMoviesProvider(widget.actorId));
     final actorMovieState = ref.watch(actorMoviesProvider(widget.actorId));
+    final actorTvState = ref.watch(actorTvProvider(widget.actorId));
 
     return Scaffold(
       body: NestedScrollView(
@@ -57,58 +73,65 @@ class _ActorDetailPageState extends ConsumerState<ActorDetailPage> {
         headerSliverBuilder: (BuildContext context, bool innnerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              expandedHeight: 400.0,
+              expandedHeight: 450.0,
               floating: false,
               pinned: true,
               automaticallyImplyLeading: false,
               titleSpacing: 0.0,
-              centerTitle: false,
+              centerTitle: true,
               elevation: 0.0,
               leadingWidth: 0.0,
-              title: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AppCircleButton(
-                      icon: const Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                      ),
-                      onTap: () => Navigator.pop(context),
-                    ),
-                    const SizedBox(width: 15),
-                    AppCircleButton(
-                      icon: const Icon(
-                        Icons.close,
-                      ),
-                      onTap: () => Navigator.popUntil(
-                        context,
-                        (route) =>
-                            route.isFirst, // Kembali hingga halaman pertama
-                      ),
-                    ),
-                  ],
-                ),
+              title: TabBar(
+                indicatorColor: Colors.pink,
+                labelColor: Colors.pink,
+                isScrollable: true,
+                tabAlignment: TabAlignment.center,
+                dividerColor: Colors.transparent,
+                controller: _tabController,
+                tabs: const [
+                  Tab(text: 'Movie'),
+                  Tab(text: 'Tv Series'),
+                ],
               ),
               flexibleSpace: FlexibleSpaceBar(
-                background: Container(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  child: actorMovieState.when(
-                    loading: () => AppImageSlider.loading(),
-                    error: (error, stackTrace) =>
-                        Center(child: Text('Error: $error')),
-                    data: (data) => SizedBox(
-                      height: 362,
-                      child: AppImageSlider(
-                          movie: data,
-                          onSeeMore: () => Navigator.pushNamed(
-                                  context, Routes.seeMore, arguments: {
-                                'title': 'Acting',
-                                'providerKey': 'actor_movies',
-                                'actorId': widget.actorId
-                              })),
+                background: Stack(
+                  children: [
+                    TabBarView(
+                      controller: _tabController,
+                      children: [
+                        // Movie
+                        MovieTabComponent(
+                            actorMovieState: actorMovieState,
+                            actorId: widget.actorId),
+
+                        // Tv Series
+                        TvTabComponent(
+                            actorTvState: actorTvState,
+                            actorId: widget.actorId),
+                      ],
                     ),
-                  ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AppCircleButton(
+                          icon: const Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                          ),
+                          onTap: () => Navigator.pop(context),
+                        ),
+                        AppCircleButton(
+                          icon: const Icon(
+                            Icons.close,
+                          ),
+                          onTap: () => Navigator.popUntil(
+                            context,
+                            (route) =>
+                                route.isFirst, // Kembali hingga halaman pertama
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -130,6 +153,72 @@ class _ActorDetailPageState extends ConsumerState<ActorDetailPage> {
               },
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class MovieTabComponent extends StatelessWidget {
+  const MovieTabComponent({
+    super.key,
+    required this.actorMovieState,
+    required this.actorId,
+  });
+
+  final AsyncValue<List<Movie>> actorMovieState;
+  final int actorId;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: actorMovieState.when(
+        loading: () => AppMovieImageSlider.loading(),
+        error: (error, stackTrace) => Center(child: Text('Error: $error')),
+        data: (data) => SizedBox(
+          height: 362,
+          child: AppMovieImageSlider(
+              movie: data,
+              onSeeMore: () => Navigator.pushNamed(context, Routes.seeMore,
+                      arguments: {
+                        'title': 'Acting',
+                        'providerKey': 'actor_movies',
+                        'actorId': actorId
+                      })),
+        ),
+      ),
+    );
+  }
+}
+
+class TvTabComponent extends StatelessWidget {
+  const TvTabComponent({
+    super.key,
+    required this.actorTvState,
+    required this.actorId,
+  });
+
+  final AsyncValue<List<Tv>> actorTvState;
+  final int actorId;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: actorTvState.when(
+        loading: () => AppTvImageSlider.loading(),
+        error: (error, stackTrace) => Center(child: Text('Error: $error')),
+        data: (data) => SizedBox(
+          height: 362,
+          child: AppTvImageSlider(
+              tv: data,
+              onSeeMore: () => Navigator.pushNamed(context, Routes.seeMoreTv,
+                      arguments: {
+                        'title': 'Acting',
+                        'providerKey': 'actor_tv',
+                        'actorId': actorId
+                      })),
         ),
       ),
     );

@@ -18,6 +18,7 @@ class Tv with _$Tv {
     required String overview,
     required double popularity,
     @JsonKey(name: 'poster_path') String? posterPath,
+    @JsonKey(name: 'character') String? character,
     @JsonKey(name: 'first_air_date') required String firstAirDate,
     required String name,
     @JsonKey(name: 'vote_average') required double voteAverage,

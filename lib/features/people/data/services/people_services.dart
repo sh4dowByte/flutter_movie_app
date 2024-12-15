@@ -1,6 +1,7 @@
 import 'package:flutter_movie_app/core/data/services/tmdb_services.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/features/people/data/models/actor.dart';
+import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 
 class PeopleService extends TMDBService {
   PeopleService(super.ref);
@@ -36,6 +37,26 @@ class PeopleService extends TMDBService {
       if (response.statusCode == 200) {
         final List movies = response.data['cast'];
         return movies.map((movie) => Movie.fromJson(movie)).toList();
+      } else {
+        throw Exception('Failed to fetch actor movies');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<List<Tv>> fetchActorTv(int personId) async {
+    try {
+      final response = await dio.get(
+        '/3/person/$personId/tv_credits',
+        queryParameters: {
+          'language': 'en-US',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List movies = response.data['cast'];
+        return movies.map((movie) => Tv.fromJson(movie)).toList();
       } else {
         throw Exception('Failed to fetch actor movies');
       }

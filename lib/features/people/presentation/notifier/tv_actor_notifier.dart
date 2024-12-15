@@ -1,38 +1,37 @@
-import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
-import 'package:flutter_movie_app/features/people/domain/usecases/get_actor_movies.dart';
+import 'package:flutter_movie_app/features/people/domain/usecases/get_actor_tv.dart';
 import 'package:flutter_movie_app/features/people/presentation/providers.dart';
+import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final getActorMoviesProvider =
-    Provider((ref) => GetActorMovies(ref.watch(peopleRepositoryProvider)));
+final getActorTvProvider =
+    Provider((ref) => GetActorTv(ref.watch(peopleRepositoryProvider)));
 
-final actorMoviesProvider = StateNotifierProvider.family<
-    DetailActorMovieNotifier, AsyncValue<List<Movie>>, int>(
-  (ref, movieId) {
-    final getActorDetailMovies = ref.watch(getActorMoviesProvider);
-    final notifier = DetailActorMovieNotifier(getActorDetailMovies);
+final actorTvProvider = StateNotifierProvider.family<DetailActorTvNotifier,
+    AsyncValue<List<Tv>>, int>(
+  (ref, seriesId) {
+    final getActorDetailTv = ref.watch(getActorTvProvider);
+    final notifier = DetailActorTvNotifier(getActorDetailTv);
     return notifier;
   },
 );
 
-class DetailActorMovieNotifier extends StateNotifier<AsyncValue<List<Movie>>> {
-  final GetActorMovies _getActorMovies;
+class DetailActorTvNotifier extends StateNotifier<AsyncValue<List<Tv>>> {
+  final GetActorTv _getActorTv;
 
-  DetailActorMovieNotifier(this._getActorMovies)
-      : super(const AsyncValue.loading());
+  DetailActorTvNotifier(this._getActorTv) : super(const AsyncValue.loading());
 
   bool _isGetting = false;
   bool _isLoadingNextPage = false;
 
   // Memuat halaman pertama
-  Future<void> getInitial(int movieId) async {
+  Future<void> getInitial(int seriesId) async {
     if (_isGetting) return;
 
     _isGetting = true;
 
     state = const AsyncValue.loading(); // Tampilkan loading untuk data awal
 
-    final result = await _getActorMovies(movieId); // Reset ke halaman 1
+    final result = await _getActorTv(seriesId); // Reset ke halaman 1
 
     result.fold(
       (failure) {

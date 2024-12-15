@@ -7,12 +7,12 @@ import 'package:flutter_movie_app/core/utils/date_helper.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/features/favorite/presentation/notifiers/movie_favorite_notifier.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
-import 'package:flutter_movie_app/features/movie/presentation/widgets/app_button_play_trailer.dart';
 import 'package:flutter_movie_app/core/widget/star_rating.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_detail.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_credit_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_detail_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_recomended_notifier.dart';
+import 'package:flutter_movie_app/features/tv/presentation/widgets/app_button_play_video.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_tv_card.dart';
 import 'package:flutter_movie_app/core/widget/app_cast_image.dart';
 import 'package:flutter_movie_app/core/widget/app_circle_button.dart';
@@ -236,7 +236,7 @@ class _TvDetailPageState extends ConsumerState<TvDetailPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        AppButtonPlayTrailer(movieId: value.id),
+                                        AppButtonPlayVideo(seriesId: value.id),
                                         InkWell(
                                           onTap: () {
                                             ref

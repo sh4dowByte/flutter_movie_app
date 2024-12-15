@@ -36,6 +36,8 @@ mixin _$Tv {
   double get popularity => throw _privateConstructorUsedError;
   @JsonKey(name: 'poster_path')
   String? get posterPath => throw _privateConstructorUsedError;
+  @JsonKey(name: 'character')
+  String? get character => throw _privateConstructorUsedError;
   @JsonKey(name: 'first_air_date')
   String get firstAirDate => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
@@ -65,6 +67,7 @@ abstract class $TvCopyWith<$Res> {
       String overview,
       double popularity,
       @JsonKey(name: 'poster_path') String? posterPath,
+      @JsonKey(name: 'character') String? character,
       @JsonKey(name: 'first_air_date') String firstAirDate,
       String name,
       @JsonKey(name: 'vote_average') double voteAverage,
@@ -93,6 +96,7 @@ class _$TvCopyWithImpl<$Res, $Val extends Tv> implements $TvCopyWith<$Res> {
     Object? overview = null,
     Object? popularity = null,
     Object? posterPath = freezed,
+    Object? character = freezed,
     Object? firstAirDate = null,
     Object? name = null,
     Object? voteAverage = null,
@@ -139,6 +143,10 @@ class _$TvCopyWithImpl<$Res, $Val extends Tv> implements $TvCopyWith<$Res> {
           ? _value.posterPath
           : posterPath // ignore: cast_nullable_to_non_nullable
               as String?,
+      character: freezed == character
+          ? _value.character
+          : character // ignore: cast_nullable_to_non_nullable
+              as String?,
       firstAirDate: null == firstAirDate
           ? _value.firstAirDate
           : firstAirDate // ignore: cast_nullable_to_non_nullable
@@ -176,6 +184,7 @@ abstract class _$$TvImplCopyWith<$Res> implements $TvCopyWith<$Res> {
       String overview,
       double popularity,
       @JsonKey(name: 'poster_path') String? posterPath,
+      @JsonKey(name: 'character') String? character,
       @JsonKey(name: 'first_air_date') String firstAirDate,
       String name,
       @JsonKey(name: 'vote_average') double voteAverage,
@@ -201,6 +210,7 @@ class __$$TvImplCopyWithImpl<$Res> extends _$TvCopyWithImpl<$Res, _$TvImpl>
     Object? overview = null,
     Object? popularity = null,
     Object? posterPath = freezed,
+    Object? character = freezed,
     Object? firstAirDate = null,
     Object? name = null,
     Object? voteAverage = null,
@@ -247,6 +257,10 @@ class __$$TvImplCopyWithImpl<$Res> extends _$TvCopyWithImpl<$Res, _$TvImpl>
           ? _value.posterPath
           : posterPath // ignore: cast_nullable_to_non_nullable
               as String?,
+      character: freezed == character
+          ? _value.character
+          : character // ignore: cast_nullable_to_non_nullable
+              as String?,
       firstAirDate: null == firstAirDate
           ? _value.firstAirDate
           : firstAirDate // ignore: cast_nullable_to_non_nullable
@@ -282,6 +296,7 @@ class _$TvImpl implements _Tv {
       required this.overview,
       required this.popularity,
       @JsonKey(name: 'poster_path') this.posterPath,
+      @JsonKey(name: 'character') this.character,
       @JsonKey(name: 'first_air_date') required this.firstAirDate,
       required this.name,
       @JsonKey(name: 'vote_average') required this.voteAverage,
@@ -331,6 +346,9 @@ class _$TvImpl implements _Tv {
   @JsonKey(name: 'poster_path')
   final String? posterPath;
   @override
+  @JsonKey(name: 'character')
+  final String? character;
+  @override
   @JsonKey(name: 'first_air_date')
   final String firstAirDate;
   @override
@@ -344,7 +362,7 @@ class _$TvImpl implements _Tv {
 
   @override
   String toString() {
-    return 'Tv(adult: $adult, backdropPath: $backdropPath, genreIds: $genreIds, id: $id, originCountry: $originCountry, originalLanguage: $originalLanguage, originalName: $originalName, overview: $overview, popularity: $popularity, posterPath: $posterPath, firstAirDate: $firstAirDate, name: $name, voteAverage: $voteAverage, voteCount: $voteCount)';
+    return 'Tv(adult: $adult, backdropPath: $backdropPath, genreIds: $genreIds, id: $id, originCountry: $originCountry, originalLanguage: $originalLanguage, originalName: $originalName, overview: $overview, popularity: $popularity, posterPath: $posterPath, character: $character, firstAirDate: $firstAirDate, name: $name, voteAverage: $voteAverage, voteCount: $voteCount)';
   }
 
   @override
@@ -369,6 +387,8 @@ class _$TvImpl implements _Tv {
                 other.popularity == popularity) &&
             (identical(other.posterPath, posterPath) ||
                 other.posterPath == posterPath) &&
+            (identical(other.character, character) ||
+                other.character == character) &&
             (identical(other.firstAirDate, firstAirDate) ||
                 other.firstAirDate == firstAirDate) &&
             (identical(other.name, name) || other.name == name) &&
@@ -392,6 +412,7 @@ class _$TvImpl implements _Tv {
       overview,
       popularity,
       posterPath,
+      character,
       firstAirDate,
       name,
       voteAverage,
@@ -425,6 +446,7 @@ abstract class _Tv implements Tv {
       required final String overview,
       required final double popularity,
       @JsonKey(name: 'poster_path') final String? posterPath,
+      @JsonKey(name: 'character') final String? character,
       @JsonKey(name: 'first_air_date') required final String firstAirDate,
       required final String name,
       @JsonKey(name: 'vote_average') required final double voteAverage,
@@ -458,6 +480,9 @@ abstract class _Tv implements Tv {
   @override
   @JsonKey(name: 'poster_path')
   String? get posterPath;
+  @override
+  @JsonKey(name: 'character')
+  String? get character;
   @override
   @JsonKey(name: 'first_air_date')
   String get firstAirDate;

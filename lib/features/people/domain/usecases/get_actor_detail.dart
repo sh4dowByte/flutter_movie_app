@@ -2,10 +2,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_movie_app/core/errors/failure.dart';
 import 'package:flutter_movie_app/features/people/data/models/actor.dart';
-import 'package:flutter_movie_app/features/movie/domain/repositories/movie_repository.dart';
+import 'package:flutter_movie_app/features/people/domain/repositories/people_repository.dart';
 
 class GetActorDetail {
-  final MovieRepository _repository;
+  final PeopleRepository _repository;
 
   GetActorDetail(this._repository);
 

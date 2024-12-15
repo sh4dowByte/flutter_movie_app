@@ -1,7 +1,7 @@
 import 'package:flutter_movie_app/core/data/services/tmdb_services.dart';
 import 'package:flutter_movie_app/core/data/models/genres.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
-import 'package:flutter_movie_app/features/tv/data/models/tv_credits.dart';
+import 'package:flutter_movie_app/features/people/data/models/tv_credits.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_detail.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_seasons.dart';
 
