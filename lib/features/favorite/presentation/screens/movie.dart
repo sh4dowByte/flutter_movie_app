@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/core/utils/date_helper.dart';
 import 'package:flutter_movie_app/features/favorite/presentation/notifiers/movie_favorite_notifier.dart';
 import 'package:flutter_movie_app/features/favorite/presentation/widgets/app_image_slider.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
@@ -82,7 +83,7 @@ class _MovieFavoritePageState extends ConsumerState<MovieFavoritePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          movie!.formattedReleaseDate,
+                          DateHelper.toYear(movie!.releaseDate),
                           style: Theme.of(context).textTheme.labelSmall,
                         ),
                         const SizedBox(width: 10),

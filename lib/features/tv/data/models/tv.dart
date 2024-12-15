@@ -26,31 +26,3 @@ class Tv with _$Tv {
 
   factory Tv.fromJson(Map<String, dynamic> json) => _$TvFromJson(json);
 }
-
-extension TvImageUrl on Tv {
-  String _getImageUrl(String size, {bool isBackdrop = false}) {
-    final path = isBackdrop ? backdropPath : posterPath;
-    return 'https://image.tmdb.org/t/p/$size$path';
-  }
-
-  String get backdropUrlOriginal => _getImageUrl('original', isBackdrop: true);
-  String get backdropUrlW500 => _getImageUrl('w500', isBackdrop: true);
-  String get backdropUrlW300 => _getImageUrl('w300', isBackdrop: true);
-  String get imageUrlOriginal => _getImageUrl('original');
-  String get imageUrlW500 => _getImageUrl('w500');
-  String get imageUrlW300 => _getImageUrl('w300');
-  String get imageUrlW200 => _getImageUrl('w200');
-
-  String get formattedAirDate {
-    if (firstAirDate.isEmpty) {
-      return 'Unknown release date';
-    }
-    try {
-      final parsedDate = DateTime.parse(firstAirDate);
-      // Return only the year
-      return parsedDate.year.toString();
-    } catch (e) {
-      return 'Invalid release date';
-    }
-  }
-}

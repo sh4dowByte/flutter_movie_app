@@ -27,7 +27,7 @@ class DiscoverTvNotifier extends StateNotifier<AsyncValue<List<Tv>>> {
 
   // Memuat halaman pertama
   Future<void> getInitial({genreId = 0}) async {
-    if (_isGetting) return;
+    if (_isGetting && _currentGenre == genreId) return;
 
     _isGetting = true;
     _isPageEnded = false;

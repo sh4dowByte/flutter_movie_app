@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/pallete.dart';
+import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 import 'package:flutter_movie_app/widget/app_skeleton.dart';
 
@@ -95,7 +96,9 @@ class _AppImageSliderState extends State<AppImageSlider>
               children: [
                 Positioned.fill(
                   child: CachedNetworkImage(
-                    imageUrl: tv[index].backdropUrlOriginal,
+                    imageUrl: ImageUrlHelper.getBackdropUrl(
+                        tv[index].backdropPath,
+                        size: ImageSize.original),
                     errorWidget: (context, url, error) => Container(
                       color: Pallete.grey1,
                       child: Image.asset(
@@ -110,7 +113,8 @@ class _AppImageSliderState extends State<AppImageSlider>
                         fit: StackFit.expand,
                         children: [
                           CachedNetworkImage(
-                            imageUrl: tv[index].backdropUrlW300,
+                            imageUrl: ImageUrlHelper.getBackdropUrl(
+                                tv[index].backdropPath),
                             fit: BoxFit.cover,
                           ),
                           BackdropFilter(

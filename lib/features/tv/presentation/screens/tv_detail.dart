@@ -7,30 +7,26 @@ import 'package:flutter_movie_app/core/utils/date_helper.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/features/favorite/presentation/notifiers/movie_favorite_notifier.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
-import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
-import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_detail_notifier.dart';
-import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_recomended_notifier.dart';
-import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_caster.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_button_play_trailer.dart';
+import 'package:flutter_movie_app/features/movie/presentation/widgets/star_rating.dart';
+import 'package:flutter_movie_app/features/tv/data/models/tv_detail.dart';
+import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_detail_notifier.dart';
 import 'package:flutter_movie_app/widget/app_circle_button.dart';
 import 'package:flutter_movie_app/widget/app_error.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../../../widget/app_skeleton.dart';
-import '../widgets/app_cast_image.dart';
-import '../widgets/app_movie_card.dart';
-import '../widgets/star_rating.dart';
 
-class MovieDetailPage extends ConsumerStatefulWidget {
-  const MovieDetailPage(this.movieId, {super.key});
-  final int movieId;
+class TvDetailPage extends ConsumerStatefulWidget {
+  const TvDetailPage(this.seriesId, {super.key});
+  final int seriesId;
 
   @override
-  ConsumerState<MovieDetailPage> createState() => _MovieDetailPageState();
+  ConsumerState<TvDetailPage> createState() => _TvDetailPageState();
 }
 
-class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
+class _TvDetailPageState extends ConsumerState<TvDetailPage> {
   // late YoutubePlayerController _controller;
 
   @override
@@ -38,11 +34,11 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref
-          .read(detailMoviesProvider(widget.movieId).notifier)
-          .getInitial(widget.movieId);
-      ref
-          .read(recomendedMoviesProvider(widget.movieId).notifier)
-          .getInitialMovies(widget.movieId);
+          .read(detailTvProvider(widget.seriesId).notifier)
+          .getInitial(widget.seriesId);
+      // ref
+      //     .read(recomendedMoviesProvider(widget.seriesId).notifier)
+      //     .getInitialMovies(widget.seriesId);
     });
   }
 
@@ -59,7 +55,7 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final movieState = ref.watch(detailMoviesProvider(widget.movieId));
+    final tvState = ref.watch(detailTvProvider(widget.seriesId));
 
     return Scaffold(
       body: NestedScrollView(
@@ -103,7 +99,7 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
               flexibleSpace: FlexibleSpaceBar(
                 background: Container(
                   color: Theme.of(context).scaffoldBackgroundColor,
-                  child: movieState.when(
+                  child: tvState.when(
                     data: (value) => Stack(
                       children: [
                         CachedNetworkImage(
@@ -200,15 +196,15 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                   children: [
                                     Row(
                                       children: [
-                                        Expanded(
-                                          child: Text(
-                                            value.genres
-                                                .map((e) => e.name.toString())
-                                                .join(', '),
-                                            style:
-                                                const TextStyle(fontSize: 12),
-                                          ),
-                                        ),
+                                        // Expanded(
+                                        //   child: Text(
+                                        //     value.genres
+                                        //         .map((e) => e.name.toString())
+                                        //         .join(', '),
+                                        //     style:
+                                        //         const TextStyle(fontSize: 12),
+                                        //   ),
+                                        // ),
                                         if (value.adult) ...[
                                           CachedNetworkImage(
                                               width: 28,
@@ -221,7 +217,8 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                     Row(
                                       children: [
                                         Text(
-                                          '${DateHelper.toYear(value.releaseDate)} ⦿ ${DateHelper.formatRuntime(value.runtime)}',
+                                          DateHelper.toYear(
+                                              value.firstAirDate!),
                                           style: Theme.of(context)
                                               .textTheme
                                               .labelSmall,
@@ -291,13 +288,13 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
             Builder(
               builder: (BuildContext context) {
                 return SingleChildScrollView(
-                  child: movieState.when(
-                      data: (data) => MovieDetailContent(movie: data),
+                  child: tvState.when(
+                      data: (data) => TvDetailContent(tv: data),
                       error: (error, stackTrace) => AppError(
                             error as Failure,
                             stackTrace: stackTrace,
                           ),
-                      loading: () => MovieDetailContent.loading()),
+                      loading: () => TvDetailContent.loading()),
                 );
               },
             ),
@@ -308,12 +305,12 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
   }
 }
 
-class MovieDetailContent extends ConsumerStatefulWidget {
-  final MovieDetail movie;
-  const MovieDetailContent({super.key, required this.movie});
+class TvDetailContent extends ConsumerStatefulWidget {
+  final TvDetail tv;
+  const TvDetailContent({super.key, required this.tv});
 
   @override
-  ConsumerState<MovieDetailContent> createState() => _MovieDetailContentState();
+  ConsumerState<TvDetailContent> createState() => TvDetailContentState();
 
   static Widget loading() {
     return Padding(
@@ -339,42 +336,39 @@ class MovieDetailContent extends ConsumerStatefulWidget {
             );
           }),
           const SizedBox(height: 20),
-          AppCastImage.loading(),
-          const SizedBox(height: 20),
-          AppMovieCoverBox.loading()
         ],
       ),
     );
   }
 }
 
-class _MovieDetailContentState extends ConsumerState<MovieDetailContent> {
+class TvDetailContentState extends ConsumerState<TvDetailContent> {
   final ScrollController _scrollControllerRecomended = ScrollController();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref
-          .read(movieCasterProvider(widget.movie.id).notifier)
-          .fetchMovieCaster(widget.movie.id);
+      // ref
+      //     .read(movieCasterProvider(widget.tv.id).notifier)
+      //     .fetchMovieCaster(widget.tv.id);
     });
 
-    _scrollControllerRecomended.addListener(() {
-      if (_scrollControllerRecomended.position.pixels >=
-          _scrollControllerRecomended.position.maxScrollExtent) {
-        ref
-            .read(recomendedMoviesProvider(widget.movie.id).notifier)
-            .getNextPage();
-      }
-    });
+    // _scrollControllerRecomended.addListener(() {
+    //   if (_scrollControllerRecomended.position.pixels >=
+    //       _scrollControllerRecomended.position.maxScrollExtent) {
+    //     ref
+    //         .read(recomendedMoviesProvider(widget.movie.id).notifier)
+    //         .getNextPage();
+    //   }
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    final recomendedState =
-        ref.watch(recomendedMoviesProvider(widget.movie.id));
-    final casterState = ref.watch(movieCasterProvider(widget.movie.id));
+    // final recomendedState =
+    //     ref.watch(recomendedMoviesProvider(widget.movie.id));
+    // final casterState = ref.watch(movieCasterProvider(widget.movie.id));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -384,14 +378,14 @@ class _MovieDetailContentState extends ConsumerState<MovieDetailContent> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(widget.movie.title, style: const TextStyle(fontSize: 26)),
+              Text(widget.tv.name, style: const TextStyle(fontSize: 26)),
               const SizedBox(height: 10),
               Text(
-                'Release Date: ${widget.movie.releaseDate}',
+                'Release Date: ${widget.tv.firstAirDate}',
                 style: Theme.of(context).textTheme.labelMedium,
               ),
               const SizedBox(height: 10),
-              Text(widget.movie.overview),
+              Text(widget.tv.overview),
             ],
           ),
         ),
@@ -399,83 +393,83 @@ class _MovieDetailContentState extends ConsumerState<MovieDetailContent> {
         const SizedBox(height: 20),
 
         // Caster
-        Offstage(
-          offstage:
-              !(casterState.value != null && casterState.value!.isNotEmpty),
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 16),
-            child: const Text('Top Billed Cast'),
-          ),
-        ),
+        // Offstage(
+        //   offstage:
+        //       !(casterState.value != null && casterState.value!.isNotEmpty),
+        //   child: Padding(
+        //     padding:
+        //         const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 16),
+        //     child: const Text('Top Billed Cast'),
+        //   ),
+        // ),
 
-        casterState.when(
-          data: (data) => data.isNotEmpty
-              ? SizedBox(
-                  height: 130,
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: data.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        final item = data[index];
+        // casterState.when(
+        //   data: (data) => data.isNotEmpty
+        //       ? SizedBox(
+        //           height: 130,
+        //           child: ListView.builder(
+        //               shrinkWrap: true,
+        //               itemCount: data.length,
+        //               scrollDirection: Axis.horizontal,
+        //               itemBuilder: (context, index) {
+        //                 final item = data[index];
 
-                        EdgeInsets margin = EdgeInsets.only(
-                          left: index == 0 ? 11 : 4,
-                          right: index == data.length - 1 ? 11 : 4,
-                        );
+        //                 EdgeInsets margin = EdgeInsets.only(
+        //                   left: index == 0 ? 11 : 4,
+        //                   right: index == data.length - 1 ? 11 : 4,
+        //                 );
 
-                        return AppCastImage(item: item, margin: margin);
-                      }),
-                )
-              : Container(),
-          loading: () => AppCastImage.loading(),
-          error: (error, stackTrace) => Center(child: Text('Error: $error')),
-        ),
+        //                 return AppCastImage(item: item, margin: margin);
+        //               }),
+        //         )
+        //       : Container(),
+        //   loading: () => AppCastImage.loading(),
+        //   error: (error, stackTrace) => Center(child: Text('Error: $error')),
+        // ),
 
         const SizedBox(height: 20),
 
         // Recomended
-        Visibility(
-          visible: recomendedState.when(
-            data: (movies) => (movies.isNotEmpty),
-            loading: () => false, // Sembunyikan saat loading
-            error: (error, _) => false, // Tampilkan jika ada error
-          ),
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 16),
-            child: const Text('Recomended'),
-          ),
-        ),
-        recomendedState.when(
-          data: (data) => data.isNotEmpty
-              ? SizedBox(
-                  height: 220,
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      controller: _scrollControllerRecomended,
-                      itemCount: data.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        final item = data[index];
+        // Visibility(
+        //   visible: recomendedState.when(
+        //     data: (movies) => (movies.isNotEmpty),
+        //     loading: () => false, // Sembunyikan saat loading
+        //     error: (error, _) => false, // Tampilkan jika ada error
+        //   ),
+        //   child: Padding(
+        //     padding:
+        //         const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 16),
+        //     child: const Text('Recomended'),
+        //   ),
+        // ),
+        // recomendedState.when(
+        //   data: (data) => data.isNotEmpty
+        //       ? SizedBox(
+        //           height: 220,
+        //           child: ListView.builder(
+        //               shrinkWrap: true,
+        //               controller: _scrollControllerRecomended,
+        //               itemCount: data.length,
+        //               scrollDirection: Axis.horizontal,
+        //               itemBuilder: (context, index) {
+        //                 final item = data[index];
 
-                        EdgeInsets margin = EdgeInsets.only(
-                          left: index == 0 ? 20 : 4,
-                          right: index == data.length - 1 ? 20 : 4,
-                        );
+        //                 EdgeInsets margin = EdgeInsets.only(
+        //                   left: index == 0 ? 20 : 4,
+        //                   right: index == data.length - 1 ? 20 : 4,
+        //                 );
 
-                        return AppMovieCoverBox(
-                          item: item,
-                          margin: margin,
-                          // replaceRoute: true,
-                        );
-                      }),
-                )
-              : Container(),
-          loading: () => AppMovieCoverBox.loading(),
-          error: (error, _) => Center(child: Text('Error: $error')),
-        ),
+        //                 return AppMovieCoverBox(
+        //                   item: item,
+        //                   margin: margin,
+        //                   // replaceRoute: true,
+        //                 );
+        //               }),
+        //         )
+        //       : Container(),
+        //   loading: () => AppMovieCoverBox.loading(),
+        //   error: (error, _) => Center(child: Text('Error: $error')),
+        // ),
 
         const SizedBox(height: 40),
       ],

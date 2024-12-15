@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/routes.dart';
+import 'package:flutter_movie_app/core/utils/date_helper.dart';
+import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/star_rating.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 import 'package:flutter_movie_app/widget/app_skeleton.dart';
@@ -24,10 +26,10 @@ class AppTvCoverBox extends StatelessWidget {
       hoverColor: Colors.transparent,
       onTap: () {
         if (replaceRoute) {
-          Navigator.pushReplacementNamed(context, Routes.movieDetail,
+          Navigator.pushReplacementNamed(context, Routes.tvDetail,
               arguments: item.id);
         } else {
-          Navigator.pushNamed(context, Routes.movieDetail, arguments: item.id);
+          Navigator.pushNamed(context, Routes.tvDetail, arguments: item.id);
         }
       },
       child: Container(
@@ -36,9 +38,11 @@ class AppTvCoverBox extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(13),
           child: CachedNetworkImage(
-            imageUrl: item.imageUrlOriginal,
+            imageUrl: ImageUrlHelper.getPosterUrl(item.posterPath,
+                size: ImageSize.original),
             placeholder: (context, url) => CachedNetworkImage(
-              imageUrl: item.imageUrlW200, // Gambar thumbnail (ukuran kecil)
+              imageUrl: ImageUrlHelper.getPosterUrl(item.posterPath,
+                  size: ImageSize.w92), // Gambar thumbnail (ukuran kecil)
               fit: BoxFit.cover,
               placeholder: (context, url) => const AppSkeleton(),
             ),
@@ -95,10 +99,10 @@ class AppTvCoverTile extends StatelessWidget {
       hoverColor: Colors.transparent,
       onTap: () {
         if (replaceRoute) {
-          Navigator.pushReplacementNamed(context, Routes.movieDetail,
+          Navigator.pushReplacementNamed(context, Routes.tvDetail,
               arguments: item.id);
         } else {
-          Navigator.pushNamed(context, Routes.movieDetail, arguments: item.id);
+          Navigator.pushNamed(context, Routes.tvDetail, arguments: item.id);
         }
       },
       child: Container(
@@ -137,7 +141,7 @@ class AppTvCoverTile extends StatelessWidget {
                         ),
                         const SizedBox(width: 5),
                         Text(
-                          '(${item.formattedAirDate})',
+                          DateHelper.toYear(item.firstAirDate),
                           style: Theme.of(context)
                               .textTheme
                               .labelSmall!
@@ -164,13 +168,9 @@ class AppTvCoverTile extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(13),
                 child: CachedNetworkImage(
-                  imageUrl: item.imageUrlW200,
-                  placeholder: (context, url) => CachedNetworkImage(
-                    imageUrl:
-                        item.imageUrlW200, // Gambar thumbnail (ukuran kecil)
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => const AppSkeleton(),
-                  ),
+                  imageUrl: ImageUrlHelper.getPosterUrl(item.posterPath,
+                      size: ImageSize.w185),
+                  placeholder: (context, url) => const AppSkeleton(),
                   errorWidget: (context, url, error) => Container(
                     color: Pallete.grey1,
                     child: Image.asset(

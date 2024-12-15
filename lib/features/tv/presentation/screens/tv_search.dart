@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_search_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_search_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_tv_card.dart';
 import 'package:flutter_movie_app/widget/app_error.dart';

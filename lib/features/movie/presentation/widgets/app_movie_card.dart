@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/routes.dart';
+import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/star_rating.dart';
 import 'package:flutter_movie_app/widget/app_skeleton.dart';
@@ -36,9 +37,11 @@ class AppMovieCoverBox extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(13),
           child: CachedNetworkImage(
-            imageUrl: item.imageUrlOriginal,
+            imageUrl: ImageUrlHelper.getPosterUrl(item.posterPath,
+                size: ImageSize.original),
             placeholder: (context, url) => CachedNetworkImage(
-              imageUrl: item.imageUrlW200, // Gambar thumbnail (ukuran kecil)
+              imageUrl: ImageUrlHelper.getPosterUrl(item.posterPath,
+                  size: ImageSize.w92), // Gambar thumbnail (ukuran kecil)
               fit: BoxFit.cover,
               placeholder: (context, url) => const AppSkeleton(),
             ),
@@ -174,10 +177,11 @@ class AppMovieCoverTile extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(13),
                 child: CachedNetworkImage(
-                  imageUrl: item.imageUrlW200,
+                  imageUrl: ImageUrlHelper.getPosterUrl(item.posterPath,
+                      size: ImageSize.w92),
                   placeholder: (context, url) => CachedNetworkImage(
-                    imageUrl:
-                        item.imageUrlW200, // Gambar thumbnail (ukuran kecil)
+                    imageUrl: ImageUrlHelper.getPosterUrl(item.posterPath,
+                        size: ImageSize.w92), // Gambar thumbnail (ukuran kecil)
                     fit: BoxFit.cover,
                     placeholder: (context, url) => const AppSkeleton(),
                   ),

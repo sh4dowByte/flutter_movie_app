@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/routes.dart';
+import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_button_play_trailer.dart';
 import 'package:flutter_movie_app/widget/app_skeleton.dart';
@@ -97,7 +98,9 @@ class _AppImageSliderState extends State<AppImageSlider>
               children: [
                 Positioned.fill(
                   child: CachedNetworkImage(
-                    imageUrl: movie[index].backdropUrlOriginal,
+                    imageUrl: ImageUrlHelper.getBackdropUrl(
+                        movie[index].backdropPath,
+                        size: ImageSize.original),
                     errorWidget: (context, url, error) => Container(
                       color: Pallete.grey1,
                       child: Image.asset(
@@ -112,7 +115,8 @@ class _AppImageSliderState extends State<AppImageSlider>
                         fit: StackFit.expand,
                         children: [
                           CachedNetworkImage(
-                            imageUrl: movie[index].backdropUrlW300,
+                            imageUrl: ImageUrlHelper.getBackdropUrl(
+                                movie[index].backdropPath),
                             fit: BoxFit.cover,
                           ),
                           BackdropFilter(
