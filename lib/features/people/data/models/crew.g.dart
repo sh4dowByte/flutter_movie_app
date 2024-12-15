@@ -7,24 +7,21 @@ part of 'crew.dart';
 // **************************************************************************
 
 _$CrewImpl _$$CrewImplFromJson(Map<String, dynamic> json) => _$CrewImpl(
-      job: json['job'] as String,
-      department: json['department'] as String,
-      creditId: json['credit_id'] as String,
       adult: json['adult'] as bool,
-      gender: (json['gender'] as num?)?.toInt(),
+      gender: (json['gender'] as num).toInt(),
       id: (json['id'] as num).toInt(),
       knownForDepartment: json['known_for_department'] as String,
       name: json['name'] as String,
       originalName: json['original_name'] as String,
       popularity: (json['popularity'] as num).toDouble(),
       profilePath: json['profile_path'] as String?,
+      creditId: json['credit_id'] as String,
+      department: json['department'] as String,
+      job: json['job'] as String,
     );
 
 Map<String, dynamic> _$$CrewImplToJson(_$CrewImpl instance) =>
     <String, dynamic>{
-      'job': instance.job,
-      'department': instance.department,
-      'credit_id': instance.creditId,
       'adult': instance.adult,
       'gender': instance.gender,
       'id': instance.id,
@@ -33,4 +30,7 @@ Map<String, dynamic> _$$CrewImplToJson(_$CrewImpl instance) =>
       'original_name': instance.originalName,
       'popularity': instance.popularity,
       'profile_path': instance.profilePath,
+      'credit_id': instance.creditId,
+      'department': instance.department,
+      'job': instance.job,
     };

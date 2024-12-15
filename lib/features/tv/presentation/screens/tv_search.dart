@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_search_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_tv_card.dart';
-import 'package:flutter_movie_app/widget/app_error.dart';
-import 'package:flutter_movie_app/widget/app_text_search.dart';
+import 'package:flutter_movie_app/core/widget/app_error.dart';
+import 'package:flutter_movie_app/core/widget/app_text_search.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TvSearchPage extends ConsumerStatefulWidget {

@@ -20,12 +20,8 @@ Crew _$CrewFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Crew {
-  String get job => throw _privateConstructorUsedError;
-  String get department => throw _privateConstructorUsedError;
-  @JsonKey(name: 'credit_id')
-  String get creditId => throw _privateConstructorUsedError;
   bool get adult => throw _privateConstructorUsedError;
-  int? get gender => throw _privateConstructorUsedError;
+  int get gender => throw _privateConstructorUsedError;
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'known_for_department')
   String get knownForDepartment => throw _privateConstructorUsedError;
@@ -35,6 +31,10 @@ mixin _$Crew {
   double get popularity => throw _privateConstructorUsedError;
   @JsonKey(name: 'profile_path')
   String? get profilePath => throw _privateConstructorUsedError;
+  @JsonKey(name: 'credit_id')
+  String get creditId => throw _privateConstructorUsedError;
+  String get department => throw _privateConstructorUsedError;
+  String get job => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,17 +47,17 @@ abstract class $CrewCopyWith<$Res> {
       _$CrewCopyWithImpl<$Res, Crew>;
   @useResult
   $Res call(
-      {String job,
-      String department,
-      @JsonKey(name: 'credit_id') String creditId,
-      bool adult,
-      int? gender,
+      {bool adult,
+      int gender,
       int id,
       @JsonKey(name: 'known_for_department') String knownForDepartment,
       String name,
       @JsonKey(name: 'original_name') String originalName,
       double popularity,
-      @JsonKey(name: 'profile_path') String? profilePath});
+      @JsonKey(name: 'profile_path') String? profilePath,
+      @JsonKey(name: 'credit_id') String creditId,
+      String department,
+      String job});
 }
 
 /// @nodoc
@@ -73,39 +73,27 @@ class _$CrewCopyWithImpl<$Res, $Val extends Crew>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? job = null,
-    Object? department = null,
-    Object? creditId = null,
     Object? adult = null,
-    Object? gender = freezed,
+    Object? gender = null,
     Object? id = null,
     Object? knownForDepartment = null,
     Object? name = null,
     Object? originalName = null,
     Object? popularity = null,
     Object? profilePath = freezed,
+    Object? creditId = null,
+    Object? department = null,
+    Object? job = null,
   }) {
     return _then(_value.copyWith(
-      job: null == job
-          ? _value.job
-          : job // ignore: cast_nullable_to_non_nullable
-              as String,
-      department: null == department
-          ? _value.department
-          : department // ignore: cast_nullable_to_non_nullable
-              as String,
-      creditId: null == creditId
-          ? _value.creditId
-          : creditId // ignore: cast_nullable_to_non_nullable
-              as String,
       adult: null == adult
           ? _value.adult
           : adult // ignore: cast_nullable_to_non_nullable
               as bool,
-      gender: freezed == gender
+      gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -130,6 +118,18 @@ class _$CrewCopyWithImpl<$Res, $Val extends Crew>
           ? _value.profilePath
           : profilePath // ignore: cast_nullable_to_non_nullable
               as String?,
+      creditId: null == creditId
+          ? _value.creditId
+          : creditId // ignore: cast_nullable_to_non_nullable
+              as String,
+      department: null == department
+          ? _value.department
+          : department // ignore: cast_nullable_to_non_nullable
+              as String,
+      job: null == job
+          ? _value.job
+          : job // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -142,17 +142,17 @@ abstract class _$$CrewImplCopyWith<$Res> implements $CrewCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String job,
-      String department,
-      @JsonKey(name: 'credit_id') String creditId,
-      bool adult,
-      int? gender,
+      {bool adult,
+      int gender,
       int id,
       @JsonKey(name: 'known_for_department') String knownForDepartment,
       String name,
       @JsonKey(name: 'original_name') String originalName,
       double popularity,
-      @JsonKey(name: 'profile_path') String? profilePath});
+      @JsonKey(name: 'profile_path') String? profilePath,
+      @JsonKey(name: 'credit_id') String creditId,
+      String department,
+      String job});
 }
 
 /// @nodoc
@@ -165,39 +165,27 @@ class __$$CrewImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? job = null,
-    Object? department = null,
-    Object? creditId = null,
     Object? adult = null,
-    Object? gender = freezed,
+    Object? gender = null,
     Object? id = null,
     Object? knownForDepartment = null,
     Object? name = null,
     Object? originalName = null,
     Object? popularity = null,
     Object? profilePath = freezed,
+    Object? creditId = null,
+    Object? department = null,
+    Object? job = null,
   }) {
     return _then(_$CrewImpl(
-      job: null == job
-          ? _value.job
-          : job // ignore: cast_nullable_to_non_nullable
-              as String,
-      department: null == department
-          ? _value.department
-          : department // ignore: cast_nullable_to_non_nullable
-              as String,
-      creditId: null == creditId
-          ? _value.creditId
-          : creditId // ignore: cast_nullable_to_non_nullable
-              as String,
       adult: null == adult
           ? _value.adult
           : adult // ignore: cast_nullable_to_non_nullable
               as bool,
-      gender: freezed == gender
+      gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -222,6 +210,18 @@ class __$$CrewImplCopyWithImpl<$Res>
           ? _value.profilePath
           : profilePath // ignore: cast_nullable_to_non_nullable
               as String?,
+      creditId: null == creditId
+          ? _value.creditId
+          : creditId // ignore: cast_nullable_to_non_nullable
+              as String,
+      department: null == department
+          ? _value.department
+          : department // ignore: cast_nullable_to_non_nullable
+              as String,
+      job: null == job
+          ? _value.job
+          : job // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -229,33 +229,26 @@ class __$$CrewImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$CrewImpl implements _Crew {
-  const _$CrewImpl(
-      {required this.job,
-      required this.department,
-      @JsonKey(name: 'credit_id') required this.creditId,
-      required this.adult,
-      this.gender,
+  _$CrewImpl(
+      {required this.adult,
+      required this.gender,
       required this.id,
       @JsonKey(name: 'known_for_department') required this.knownForDepartment,
       required this.name,
       @JsonKey(name: 'original_name') required this.originalName,
       required this.popularity,
-      @JsonKey(name: 'profile_path') this.profilePath});
+      @JsonKey(name: 'profile_path') this.profilePath,
+      @JsonKey(name: 'credit_id') required this.creditId,
+      required this.department,
+      required this.job});
 
   factory _$CrewImpl.fromJson(Map<String, dynamic> json) =>
       _$$CrewImplFromJson(json);
 
   @override
-  final String job;
-  @override
-  final String department;
-  @override
-  @JsonKey(name: 'credit_id')
-  final String creditId;
-  @override
   final bool adult;
   @override
-  final int? gender;
+  final int gender;
   @override
   final int id;
   @override
@@ -271,10 +264,17 @@ class _$CrewImpl implements _Crew {
   @override
   @JsonKey(name: 'profile_path')
   final String? profilePath;
+  @override
+  @JsonKey(name: 'credit_id')
+  final String creditId;
+  @override
+  final String department;
+  @override
+  final String job;
 
   @override
   String toString() {
-    return 'Crew(job: $job, department: $department, creditId: $creditId, adult: $adult, gender: $gender, id: $id, knownForDepartment: $knownForDepartment, name: $name, originalName: $originalName, popularity: $popularity, profilePath: $profilePath)';
+    return 'Crew(adult: $adult, gender: $gender, id: $id, knownForDepartment: $knownForDepartment, name: $name, originalName: $originalName, popularity: $popularity, profilePath: $profilePath, creditId: $creditId, department: $department, job: $job)';
   }
 
   @override
@@ -282,11 +282,6 @@ class _$CrewImpl implements _Crew {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CrewImpl &&
-            (identical(other.job, job) || other.job == job) &&
-            (identical(other.department, department) ||
-                other.department == department) &&
-            (identical(other.creditId, creditId) ||
-                other.creditId == creditId) &&
             (identical(other.adult, adult) || other.adult == adult) &&
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.id, id) || other.id == id) &&
@@ -298,16 +293,18 @@ class _$CrewImpl implements _Crew {
             (identical(other.popularity, popularity) ||
                 other.popularity == popularity) &&
             (identical(other.profilePath, profilePath) ||
-                other.profilePath == profilePath));
+                other.profilePath == profilePath) &&
+            (identical(other.creditId, creditId) ||
+                other.creditId == creditId) &&
+            (identical(other.department, department) ||
+                other.department == department) &&
+            (identical(other.job, job) || other.job == job));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      job,
-      department,
-      creditId,
       adult,
       gender,
       id,
@@ -315,7 +312,10 @@ class _$CrewImpl implements _Crew {
       name,
       originalName,
       popularity,
-      profilePath);
+      profilePath,
+      creditId,
+      department,
+      job);
 
   @JsonKey(ignore: true)
   @override
@@ -332,33 +332,26 @@ class _$CrewImpl implements _Crew {
 }
 
 abstract class _Crew implements Crew {
-  const factory _Crew(
-      {required final String job,
-      required final String department,
-      @JsonKey(name: 'credit_id') required final String creditId,
-      required final bool adult,
-      final int? gender,
+  factory _Crew(
+      {required final bool adult,
+      required final int gender,
       required final int id,
       @JsonKey(name: 'known_for_department')
       required final String knownForDepartment,
       required final String name,
       @JsonKey(name: 'original_name') required final String originalName,
       required final double popularity,
-      @JsonKey(name: 'profile_path') final String? profilePath}) = _$CrewImpl;
+      @JsonKey(name: 'profile_path') final String? profilePath,
+      @JsonKey(name: 'credit_id') required final String creditId,
+      required final String department,
+      required final String job}) = _$CrewImpl;
 
   factory _Crew.fromJson(Map<String, dynamic> json) = _$CrewImpl.fromJson;
 
   @override
-  String get job;
-  @override
-  String get department;
-  @override
-  @JsonKey(name: 'credit_id')
-  String get creditId;
-  @override
   bool get adult;
   @override
-  int? get gender;
+  int get gender;
   @override
   int get id;
   @override
@@ -374,6 +367,13 @@ abstract class _Crew implements Crew {
   @override
   @JsonKey(name: 'profile_path')
   String? get profilePath;
+  @override
+  @JsonKey(name: 'credit_id')
+  String get creditId;
+  @override
+  String get department;
+  @override
+  String get job;
   @override
   @JsonKey(ignore: true)
   _$$CrewImplCopyWith<_$CrewImpl> get copyWith =>

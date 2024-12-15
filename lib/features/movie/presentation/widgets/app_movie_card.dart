@@ -4,8 +4,8 @@ import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/routes.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
-import 'package:flutter_movie_app/features/movie/presentation/widgets/star_rating.dart';
-import 'package:flutter_movie_app/widget/app_skeleton.dart';
+import 'package:flutter_movie_app/core/widget/star_rating.dart';
+import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
 
 class AppMovieCoverBox extends StatelessWidget {
   const AppMovieCoverBox({
@@ -41,7 +41,7 @@ class AppMovieCoverBox extends StatelessWidget {
                 size: ImageSize.original),
             placeholder: (context, url) => CachedNetworkImage(
               imageUrl: ImageUrlHelper.getPosterUrl(item.posterPath,
-                  size: ImageSize.w92), // Gambar thumbnail (ukuran kecil)
+                  size: ImageSize.w185), // Gambar thumbnail (ukuran kecil)
               fit: BoxFit.cover,
               placeholder: (context, url) => const AppSkeleton(),
             ),
@@ -178,10 +178,11 @@ class AppMovieCoverTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(13),
                 child: CachedNetworkImage(
                   imageUrl: ImageUrlHelper.getPosterUrl(item.posterPath,
-                      size: ImageSize.w92),
+                      size: ImageSize.w185),
                   placeholder: (context, url) => CachedNetworkImage(
                     imageUrl: ImageUrlHelper.getPosterUrl(item.posterPath,
-                        size: ImageSize.w92), // Gambar thumbnail (ukuran kecil)
+                        size:
+                            ImageSize.w185), // Gambar thumbnail (ukuran kecil)
                     fit: BoxFit.cover,
                     placeholder: (context, url) => const AppSkeleton(),
                   ),

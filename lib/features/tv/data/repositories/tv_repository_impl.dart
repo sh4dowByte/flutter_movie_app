@@ -1,6 +1,7 @@
 import 'package:flutter_movie_app/core/errors/failure.dart';
-import 'package:flutter_movie_app/features/movie/data/models/genres.dart';
+import 'package:flutter_movie_app/core/data/models/genres.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
+import 'package:flutter_movie_app/features/tv/data/models/tv_credits.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_detail.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_seasons.dart';
 import 'package:flutter_movie_app/features/tv/data/services/tv_services.dart';
@@ -129,6 +130,27 @@ class TvRepositoryImpl implements TvRepository {
       return Right(tv);
     } catch (e) {
       return Left(NetworkFailure('Failed to load on the tv sessions.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Tv>>> getRecomendedTv(
+      int page, int seriesId) async {
+    try {
+      final tv = await _tvService.fetchRecomendedTv(seriesId, page: page);
+      return Right(tv);
+    } catch (e) {
+      return Left(NetworkFailure('Failed to load on recomended tv.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TvCredits>> getTvCredits(int seriesId) async {
+    try {
+      final tv = await _tvService.fetchCreditTv(seriesId);
+      return Right(tv);
+    } catch (e) {
+      return Left(NetworkFailure('Failed to load credit tv.'));
     }
   }
 }

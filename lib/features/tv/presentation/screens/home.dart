@@ -8,7 +8,7 @@ import 'package:flutter_movie_app/features/tv/presentation/widgets/app_image_sli
 import 'package:flutter_movie_app/features/settings/presentation/notifiers/language_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_airing_today_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_tv_card.dart';
-import 'package:flutter_movie_app/widget/widget.dart';
+import 'package:flutter_movie_app/core/widget/widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/routes.dart';

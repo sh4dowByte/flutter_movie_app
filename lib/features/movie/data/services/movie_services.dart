@@ -1,7 +1,7 @@
 import 'package:flutter_movie_app/core/data/services/tmdb_services.dart';
-import 'package:flutter_movie_app/features/movie/data/models/actor.dart';
-import 'package:flutter_movie_app/features/movie/data/models/cast.dart';
-import 'package:flutter_movie_app/features/movie/data/models/genres.dart';
+import 'package:flutter_movie_app/features/people/data/models/actor.dart';
+import 'package:flutter_movie_app/features/people/data/models/cast.dart';
+import 'package:flutter_movie_app/core/data/models/genres.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie_clip.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
 import '../models/movie.dart';

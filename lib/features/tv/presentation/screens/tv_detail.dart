@@ -8,15 +8,19 @@ import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/features/favorite/presentation/notifiers/movie_favorite_notifier.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_button_play_trailer.dart';
-import 'package:flutter_movie_app/features/movie/presentation/widgets/star_rating.dart';
+import 'package:flutter_movie_app/core/widget/star_rating.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_detail.dart';
+import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_credit_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_detail_notifier.dart';
-import 'package:flutter_movie_app/widget/app_circle_button.dart';
-import 'package:flutter_movie_app/widget/app_error.dart';
+import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_recomended_notifier.dart';
+import 'package:flutter_movie_app/features/tv/presentation/widgets/app_tv_card.dart';
+import 'package:flutter_movie_app/core/widget/app_cast_image.dart';
+import 'package:flutter_movie_app/core/widget/app_circle_button.dart';
+import 'package:flutter_movie_app/core/widget/app_error.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../../../../widget/app_skeleton.dart';
+import '../../../../core/widget/app_skeleton.dart';
 
 class TvDetailPage extends ConsumerStatefulWidget {
   const TvDetailPage(this.seriesId, {super.key});
@@ -196,15 +200,15 @@ class _TvDetailPageState extends ConsumerState<TvDetailPage> {
                                   children: [
                                     Row(
                                       children: [
-                                        // Expanded(
-                                        //   child: Text(
-                                        //     value.genres
-                                        //         .map((e) => e.name.toString())
-                                        //         .join(', '),
-                                        //     style:
-                                        //         const TextStyle(fontSize: 12),
-                                        //   ),
-                                        // ),
+                                        Expanded(
+                                          child: Text(
+                                            value.genres!
+                                                .map((e) => e.name.toString())
+                                                .join(', '),
+                                            style:
+                                                const TextStyle(fontSize: 12),
+                                          ),
+                                        ),
                                         if (value.adult) ...[
                                           CachedNetworkImage(
                                               width: 28,
@@ -349,26 +353,27 @@ class TvDetailContentState extends ConsumerState<TvDetailContent> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // ref
-      //     .read(movieCasterProvider(widget.tv.id).notifier)
-      //     .fetchMovieCaster(widget.tv.id);
+      ref
+          .read(recomendedTvProvider(widget.tv.id).notifier)
+          .getInitial(widget.tv.id);
+
+      ref
+          .read(creditTvProvider(widget.tv.id).notifier)
+          .getInitial(widget.tv.id);
     });
 
-    // _scrollControllerRecomended.addListener(() {
-    //   if (_scrollControllerRecomended.position.pixels >=
-    //       _scrollControllerRecomended.position.maxScrollExtent) {
-    //     ref
-    //         .read(recomendedMoviesProvider(widget.movie.id).notifier)
-    //         .getNextPage();
-    //   }
-    // });
+    _scrollControllerRecomended.addListener(() {
+      if (_scrollControllerRecomended.position.pixels >=
+          _scrollControllerRecomended.position.maxScrollExtent) {
+        ref.read(recomendedTvProvider(widget.tv.id).notifier).getNextPage();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // final recomendedState =
-    //     ref.watch(recomendedMoviesProvider(widget.movie.id));
-    // final casterState = ref.watch(movieCasterProvider(widget.movie.id));
+    final recomendedState = ref.watch(recomendedTvProvider(widget.tv.id));
+    final casterState = ref.watch(creditTvProvider(widget.tv.id));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -393,83 +398,82 @@ class TvDetailContentState extends ConsumerState<TvDetailContent> {
         const SizedBox(height: 20),
 
         // Caster
-        // Offstage(
-        //   offstage:
-        //       !(casterState.value != null && casterState.value!.isNotEmpty),
-        //   child: Padding(
-        //     padding:
-        //         const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 16),
-        //     child: const Text('Top Billed Cast'),
-        //   ),
-        // ),
+        Offstage(
+          offstage: false,
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 16),
+            child: const Text('Top Billed Cast'),
+          ),
+        ),
 
-        // casterState.when(
-        //   data: (data) => data.isNotEmpty
-        //       ? SizedBox(
-        //           height: 130,
-        //           child: ListView.builder(
-        //               shrinkWrap: true,
-        //               itemCount: data.length,
-        //               scrollDirection: Axis.horizontal,
-        //               itemBuilder: (context, index) {
-        //                 final item = data[index];
+        casterState.when(
+          data: (data) => data.cast.isNotEmpty
+              ? SizedBox(
+                  height: 130,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: data.cast.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        final item = data.cast[index];
 
-        //                 EdgeInsets margin = EdgeInsets.only(
-        //                   left: index == 0 ? 11 : 4,
-        //                   right: index == data.length - 1 ? 11 : 4,
-        //                 );
+                        EdgeInsets margin = EdgeInsets.only(
+                          left: index == 0 ? 11 : 4,
+                          right: index == data.cast.length - 1 ? 11 : 4,
+                        );
 
-        //                 return AppCastImage(item: item, margin: margin);
-        //               }),
-        //         )
-        //       : Container(),
-        //   loading: () => AppCastImage.loading(),
-        //   error: (error, stackTrace) => Center(child: Text('Error: $error')),
-        // ),
+                        return AppCastImage(item: item, margin: margin);
+                      }),
+                )
+              : Container(),
+          loading: () => AppCastImage.loading(),
+          error: (error, stackTrace) => Center(child: Text('Error: $error')),
+        ),
 
         const SizedBox(height: 20),
 
         // Recomended
-        // Visibility(
-        //   visible: recomendedState.when(
-        //     data: (movies) => (movies.isNotEmpty),
-        //     loading: () => false, // Sembunyikan saat loading
-        //     error: (error, _) => false, // Tampilkan jika ada error
-        //   ),
-        //   child: Padding(
-        //     padding:
-        //         const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 16),
-        //     child: const Text('Recomended'),
-        //   ),
-        // ),
-        // recomendedState.when(
-        //   data: (data) => data.isNotEmpty
-        //       ? SizedBox(
-        //           height: 220,
-        //           child: ListView.builder(
-        //               shrinkWrap: true,
-        //               controller: _scrollControllerRecomended,
-        //               itemCount: data.length,
-        //               scrollDirection: Axis.horizontal,
-        //               itemBuilder: (context, index) {
-        //                 final item = data[index];
+        Visibility(
+          visible: recomendedState.when(
+            data: (movies) => (movies.isNotEmpty),
+            loading: () => false, // Sembunyikan saat loading
+            error: (error, _) => false, // Tampilkan jika ada error
+          ),
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 16),
+            child: const Text('Recomended'),
+          ),
+        ),
+        recomendedState.when(
+          data: (data) => data.isNotEmpty
+              ? SizedBox(
+                  height: 220,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      controller: _scrollControllerRecomended,
+                      itemCount: data.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        final item = data[index];
 
-        //                 EdgeInsets margin = EdgeInsets.only(
-        //                   left: index == 0 ? 20 : 4,
-        //                   right: index == data.length - 1 ? 20 : 4,
-        //                 );
+                        EdgeInsets margin = EdgeInsets.only(
+                          left: index == 0 ? 20 : 4,
+                          right: index == data.length - 1 ? 20 : 4,
+                        );
 
-        //                 return AppMovieCoverBox(
-        //                   item: item,
-        //                   margin: margin,
-        //                   // replaceRoute: true,
-        //                 );
-        //               }),
-        //         )
-        //       : Container(),
-        //   loading: () => AppMovieCoverBox.loading(),
-        //   error: (error, _) => Center(child: Text('Error: $error')),
-        // ),
+                        return AppTvCoverBox(
+                          item: item,
+                          margin: margin,
+                          // replaceRoute: true,
+                        );
+                      }),
+                )
+              : Container(),
+          loading: () => AppTvCoverBox.loading(),
+          error: (error, _) => Center(child: Text('Error: $error')),
+        ),
 
         const SizedBox(height: 40),
       ],

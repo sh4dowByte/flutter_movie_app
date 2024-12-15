@@ -4,7 +4,7 @@ import 'package:flutter_movie_app/features/favorite/domain/repositories/movie_fa
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 
 import 'package:dartz/dartz.dart';
-import 'package:flutter_movie_app/widget/app_error.dart';
+import 'package:flutter_movie_app/core/widget/app_error.dart';
 
 class MovieFavoriteRepositoryImpl implements MovieFavoriteRepository {
   final DBService _dbService;

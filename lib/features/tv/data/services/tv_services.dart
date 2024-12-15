@@ -1,6 +1,7 @@
 import 'package:flutter_movie_app/core/data/services/tmdb_services.dart';
-import 'package:flutter_movie_app/features/movie/data/models/genres.dart';
+import 'package:flutter_movie_app/core/data/models/genres.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
+import 'package:flutter_movie_app/features/tv/data/models/tv_credits.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_detail.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_seasons.dart';
 
@@ -97,6 +98,26 @@ class TVService extends TMDBService {
     }
   }
 
+  Future<List<Tv>> fetchRecomendedTv(int seriesId, {int page = 1}) async {
+    try {
+      final response = await dio.get(
+        '/3/tv/$seriesId/recommendations',
+        queryParameters: {
+          'page': page,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List tv = response.data['results'];
+        return tv.map((data) => Tv.fromJson(data)).toList();
+      } else {
+        throw Exception('Failed to fetch recommended tv');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
   Future<List<Tv>> searchTv(String keyword, {int page = 1}) async {
     try {
       final response = await dio.get('/3/search/tv', queryParameters: {
@@ -156,6 +177,21 @@ class TVService extends TMDBService {
         return data.map((data) => Genres.fromJson(data)).toList();
       } else {
         throw Exception('Failed to fetch genre');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<TvCredits> fetchCreditTv(int seriesId) async {
+    try {
+      final response = await dio.get('/3/tv/$seriesId/credits');
+
+      if (response.statusCode == 200) {
+        final credit = response.data;
+        return TvCredits.fromJson(credit);
+      } else {
+        throw Exception('Failed to fetch credit tv');
       }
     } catch (e) {
       throw Exception('Error: $e');

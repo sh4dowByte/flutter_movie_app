@@ -2,17 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/routes.dart';
-import 'package:flutter_movie_app/features/movie/data/models/actor.dart';
-import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_actor_detail_notifier.dart';
-import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_actor_notifier.dart';
+import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
+import 'package:flutter_movie_app/core/widget/star_rating.dart';
+import 'package:flutter_movie_app/core/widget/app_circle_button.dart';
+import 'package:flutter_movie_app/core/widget/app_error.dart';
+import 'package:flutter_movie_app/features/people/data/models/actor.dart';
+import 'package:flutter_movie_app/features/people/presentation/notifier/actor_detail_notifier.dart';
+import 'package:flutter_movie_app/features/people/presentation/notifier/movie_actor_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_image_slider.dart';
-import 'package:flutter_movie_app/features/movie/presentation/widgets/star_rating.dart';
-import 'package:flutter_movie_app/widget/app_circle_button.dart';
-import 'package:flutter_movie_app/widget/app_error.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-
-import '../../../../widget/app_skeleton.dart';
 
 class ActorDetailPage extends ConsumerStatefulWidget {
   const ActorDetailPage(this.actorId, {super.key});

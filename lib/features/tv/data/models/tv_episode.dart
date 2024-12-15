@@ -1,6 +1,6 @@
 // ignore_for_file: invalid_annotation_target
 
-import 'package:flutter_movie_app/features/tv/data/models/crew.dart';
+import 'package:flutter_movie_app/features/people/data/models/crew.dart';
 import 'package:flutter_movie_app/features/tv/data/models/guest_star.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

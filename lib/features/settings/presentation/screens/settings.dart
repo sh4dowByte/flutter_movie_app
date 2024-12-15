@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/features/settings/presentation/notifiers/adult_notifier.dart';
 import 'package:flutter_movie_app/features/settings/presentation/notifiers/language_notifier.dart';
-import 'package:flutter_movie_app/widget/app_icons8.dart';
+import 'package:flutter_movie_app/core/widget/app_icons8.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../widget/app_svg_icon.dart';
+import '../../../../core/widget/app_svg_icon.dart';
 import '../notifiers/theme_notifier.dart';
 
 class SettingsPage extends ConsumerWidget {

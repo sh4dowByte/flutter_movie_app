@@ -8,7 +8,7 @@ import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_up
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_image_slider.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_movie_card.dart';
 import 'package:flutter_movie_app/features/settings/presentation/notifiers/language_notifier.dart';
-import 'package:flutter_movie_app/widget/widget.dart';
+import 'package:flutter_movie_app/core/widget/widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/routes.dart';

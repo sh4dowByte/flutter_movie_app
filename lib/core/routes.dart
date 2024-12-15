@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/features/people/presentation/screens/actor_detail.dart';
 import 'package:flutter_movie_app/features/tv/presentation/screens/see_more.dart';
 import 'package:flutter_movie_app/features/tv/presentation/screens/tv_detail.dart';
 import 'package:flutter_movie_app/features/tv/presentation/screens/tv_search.dart';
 
 import '../features/movie/presentation/screens/screens.dart';
-import '../screens/menu.dart';
+import 'screens/menu.dart';
 
 class Routes {
   static const String menu = '/menu';

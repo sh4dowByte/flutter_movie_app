@@ -4,8 +4,8 @@ import 'package:flutter_movie_app/features/favorite/presentation/notifiers/movie
 import 'package:flutter_movie_app/features/favorite/presentation/widgets/app_image_slider.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_movie_card.dart';
-import 'package:flutter_movie_app/features/movie/presentation/widgets/star_rating.dart';
-import 'package:flutter_movie_app/widget/app_error.dart';
+import 'package:flutter_movie_app/core/widget/star_rating.dart';
+import 'package:flutter_movie_app/core/widget/app_error.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/routes.dart';

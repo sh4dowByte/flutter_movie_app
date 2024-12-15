@@ -12,15 +12,15 @@ import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_de
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_recomended_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_caster.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_button_play_trailer.dart';
-import 'package:flutter_movie_app/widget/app_circle_button.dart';
-import 'package:flutter_movie_app/widget/app_error.dart';
+import 'package:flutter_movie_app/core/widget/app_circle_button.dart';
+import 'package:flutter_movie_app/core/widget/app_error.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../../../../widget/app_skeleton.dart';
-import '../widgets/app_cast_image.dart';
+import '../../../../core/widget/app_skeleton.dart';
+import '../../../../core/widget/app_cast_image.dart';
 import '../widgets/app_movie_card.dart';
-import '../widgets/star_rating.dart';
+import '../../../../core/widget/star_rating.dart';
 
 class MovieDetailPage extends ConsumerStatefulWidget {
   const MovieDetailPage(this.movieId, {super.key});

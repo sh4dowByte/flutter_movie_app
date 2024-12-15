@@ -1,5 +1,5 @@
-import 'package:flutter_movie_app/features/movie/data/models/actor.dart';
-import 'package:flutter_movie_app/features/movie/domain/usecases/get_actor_detail.dart';
+import 'package:flutter_movie_app/features/people/data/models/actor.dart';
+import 'package:flutter_movie_app/features/people/domain/usecases/get_actor_detail.dart';
 import 'package:flutter_movie_app/features/movie/presentation/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

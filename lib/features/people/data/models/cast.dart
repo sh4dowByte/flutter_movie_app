@@ -16,8 +16,8 @@ class Cast with _$Cast {
     @JsonKey(name: 'original_name') required String originalName,
     required double popularity,
     @JsonKey(name: 'profile_path') String? profilePath,
-    @JsonKey(name: 'cast_id') required int castId,
-    required String character,
+    // @JsonKey(name: 'cast_id') required int castId,
+    String? character,
     @JsonKey(name: 'credit_id') required String creditId,
     required int order,
   }) = _Cast;

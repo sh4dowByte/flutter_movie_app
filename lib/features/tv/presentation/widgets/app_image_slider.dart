@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
-import 'package:flutter_movie_app/widget/app_skeleton.dart';
+import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
 
 class AppImageSlider extends StatefulWidget {
   final List<Tv> tv;

@@ -30,10 +30,9 @@ mixin _$Cast {
   String get originalName => throw _privateConstructorUsedError;
   double get popularity => throw _privateConstructorUsedError;
   @JsonKey(name: 'profile_path')
-  String? get profilePath => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cast_id')
-  int get castId => throw _privateConstructorUsedError;
-  String get character => throw _privateConstructorUsedError;
+  String? get profilePath =>
+      throw _privateConstructorUsedError; // @JsonKey(name: 'cast_id') required int castId,
+  String? get character => throw _privateConstructorUsedError;
   @JsonKey(name: 'credit_id')
   String get creditId => throw _privateConstructorUsedError;
   int get order => throw _privateConstructorUsedError;
@@ -57,8 +56,7 @@ abstract class $CastCopyWith<$Res> {
       @JsonKey(name: 'original_name') String originalName,
       double popularity,
       @JsonKey(name: 'profile_path') String? profilePath,
-      @JsonKey(name: 'cast_id') int castId,
-      String character,
+      String? character,
       @JsonKey(name: 'credit_id') String creditId,
       int order});
 }
@@ -84,8 +82,7 @@ class _$CastCopyWithImpl<$Res, $Val extends Cast>
     Object? originalName = null,
     Object? popularity = null,
     Object? profilePath = freezed,
-    Object? castId = null,
-    Object? character = null,
+    Object? character = freezed,
     Object? creditId = null,
     Object? order = null,
   }) {
@@ -122,14 +119,10 @@ class _$CastCopyWithImpl<$Res, $Val extends Cast>
           ? _value.profilePath
           : profilePath // ignore: cast_nullable_to_non_nullable
               as String?,
-      castId: null == castId
-          ? _value.castId
-          : castId // ignore: cast_nullable_to_non_nullable
-              as int,
-      character: null == character
+      character: freezed == character
           ? _value.character
           : character // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       creditId: null == creditId
           ? _value.creditId
           : creditId // ignore: cast_nullable_to_non_nullable
@@ -158,8 +151,7 @@ abstract class _$$CastImplCopyWith<$Res> implements $CastCopyWith<$Res> {
       @JsonKey(name: 'original_name') String originalName,
       double popularity,
       @JsonKey(name: 'profile_path') String? profilePath,
-      @JsonKey(name: 'cast_id') int castId,
-      String character,
+      String? character,
       @JsonKey(name: 'credit_id') String creditId,
       int order});
 }
@@ -182,8 +174,7 @@ class __$$CastImplCopyWithImpl<$Res>
     Object? originalName = null,
     Object? popularity = null,
     Object? profilePath = freezed,
-    Object? castId = null,
-    Object? character = null,
+    Object? character = freezed,
     Object? creditId = null,
     Object? order = null,
   }) {
@@ -220,14 +211,10 @@ class __$$CastImplCopyWithImpl<$Res>
           ? _value.profilePath
           : profilePath // ignore: cast_nullable_to_non_nullable
               as String?,
-      castId: null == castId
-          ? _value.castId
-          : castId // ignore: cast_nullable_to_non_nullable
-              as int,
-      character: null == character
+      character: freezed == character
           ? _value.character
           : character // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       creditId: null == creditId
           ? _value.creditId
           : creditId // ignore: cast_nullable_to_non_nullable
@@ -252,8 +239,7 @@ class _$CastImpl implements _Cast {
       @JsonKey(name: 'original_name') required this.originalName,
       required this.popularity,
       @JsonKey(name: 'profile_path') this.profilePath,
-      @JsonKey(name: 'cast_id') required this.castId,
-      required this.character,
+      this.character,
       @JsonKey(name: 'credit_id') required this.creditId,
       required this.order});
 
@@ -279,11 +265,9 @@ class _$CastImpl implements _Cast {
   @override
   @JsonKey(name: 'profile_path')
   final String? profilePath;
+// @JsonKey(name: 'cast_id') required int castId,
   @override
-  @JsonKey(name: 'cast_id')
-  final int castId;
-  @override
-  final String character;
+  final String? character;
   @override
   @JsonKey(name: 'credit_id')
   final String creditId;
@@ -292,7 +276,7 @@ class _$CastImpl implements _Cast {
 
   @override
   String toString() {
-    return 'Cast(adult: $adult, gender: $gender, id: $id, knownForDepartment: $knownForDepartment, name: $name, originalName: $originalName, popularity: $popularity, profilePath: $profilePath, castId: $castId, character: $character, creditId: $creditId, order: $order)';
+    return 'Cast(adult: $adult, gender: $gender, id: $id, knownForDepartment: $knownForDepartment, name: $name, originalName: $originalName, popularity: $popularity, profilePath: $profilePath, character: $character, creditId: $creditId, order: $order)';
   }
 
   @override
@@ -312,7 +296,6 @@ class _$CastImpl implements _Cast {
                 other.popularity == popularity) &&
             (identical(other.profilePath, profilePath) ||
                 other.profilePath == profilePath) &&
-            (identical(other.castId, castId) || other.castId == castId) &&
             (identical(other.character, character) ||
                 other.character == character) &&
             (identical(other.creditId, creditId) ||
@@ -332,7 +315,6 @@ class _$CastImpl implements _Cast {
       originalName,
       popularity,
       profilePath,
-      castId,
       character,
       creditId,
       order);
@@ -362,8 +344,7 @@ abstract class _Cast implements Cast {
       @JsonKey(name: 'original_name') required final String originalName,
       required final double popularity,
       @JsonKey(name: 'profile_path') final String? profilePath,
-      @JsonKey(name: 'cast_id') required final int castId,
-      required final String character,
+      final String? character,
       @JsonKey(name: 'credit_id') required final String creditId,
       required final int order}) = _$CastImpl;
 
@@ -388,11 +369,8 @@ abstract class _Cast implements Cast {
   @override
   @JsonKey(name: 'profile_path')
   String? get profilePath;
-  @override
-  @JsonKey(name: 'cast_id')
-  int get castId;
-  @override
-  String get character;
+  @override // @JsonKey(name: 'cast_id') required int castId,
+  String? get character;
   @override
   @JsonKey(name: 'credit_id')
   String get creditId;

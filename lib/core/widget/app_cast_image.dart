@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/routes.dart';
-import 'package:flutter_movie_app/widget/app_skeleton.dart';
+import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
 
-import '../../data/models/cast.dart';
+import '../../features/people/data/models/cast.dart';
 
 class AppCastImage extends StatelessWidget {
   const AppCastImage({
@@ -55,7 +55,7 @@ class AppCastImage extends StatelessWidget {
                   maxLines: 1,
                   textAlign: TextAlign.center,
                 ),
-                Text(item.character,
+                Text(item.character ?? '',
                     style: const TextStyle(fontSize: 10),
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,

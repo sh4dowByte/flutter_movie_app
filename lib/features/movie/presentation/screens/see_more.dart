@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
-import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_actor_notifier.dart';
+import 'package:flutter_movie_app/features/people/presentation/notifier/movie_actor_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_discover_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_now_playing_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_popular_notifier.dart';

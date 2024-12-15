@@ -1,4 +1,4 @@
-import 'package:flutter_movie_app/features/movie/data/models/genres.dart';
+import 'package:flutter_movie_app/core/data/models/genres.dart';
 import 'package:flutter_movie_app/features/tv/domain/usecases/get_genre_tv.dart';
 import 'package:flutter_movie_app/features/tv/presentation/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,17 +7,17 @@ final getGenreTvProvider =
     Provider((ref) => GetGenreTv(ref.watch(tvRepositoryProvider)));
 
 final genreTvProvider =
-    StateNotifierProvider<GenreMovieNotifier, AsyncValue<List<Genres>>>(
+    StateNotifierProvider<GenreTvNotifier, AsyncValue<List<Genres>>>(
   (ref) {
     final getGenreTv = ref.watch(getGenreTvProvider);
-    return GenreMovieNotifier(getGenreTv);
+    return GenreTvNotifier(getGenreTv);
   },
 );
 
-class GenreMovieNotifier extends StateNotifier<AsyncValue<List<Genres>>> {
+class GenreTvNotifier extends StateNotifier<AsyncValue<List<Genres>>> {
   final GetGenreTv _getGenreTv;
 
-  GenreMovieNotifier(this._getGenreTv) : super(const AsyncValue.loading());
+  GenreTvNotifier(this._getGenreTv) : super(const AsyncValue.loading());
 
   bool _isGetting = false;
 
