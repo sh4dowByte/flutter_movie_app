@@ -19,7 +19,7 @@ class TvEpisode with _$TvEpisode {
     @JsonKey(name: 'production_code') String? productionCode,
     int? runtime,
     @JsonKey(name: 'season_number') required int seasonNumber,
-    @JsonKey(name: 'show_id') required int showId,
+    // @JsonKey(name: 'show_id') int? showId,
     @JsonKey(name: 'still_path') String? stillPath,
     @JsonKey(name: 'vote_average') double? voteAverage,
     @JsonKey(name: 'vote_count') int? voteCount,

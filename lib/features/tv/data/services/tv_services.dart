@@ -3,6 +3,7 @@ import 'package:flutter_movie_app/core/data/models/genres.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 import 'package:flutter_movie_app/features/people/data/models/tv_credits.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_detail.dart';
+import 'package:flutter_movie_app/features/tv/data/models/tv_episode.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_seasons.dart';
 import 'package:intl/intl.dart';
 
@@ -170,6 +171,22 @@ class TVService extends TMDBService {
 
       if (response.statusCode == 200) {
         return TvSeason.fromJson(response.data);
+      } else {
+        throw Exception('Failed to fetch details tv');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<TvEpisode> fetchTvEpisode(
+      int seriesId, int sessionNumber, int episodeNumber) async {
+    try {
+      final response = await dio
+          .get('/3/tv/$seriesId/season/$sessionNumber/episode/$episodeNumber');
+
+      if (response.statusCode == 200) {
+        return TvEpisode.fromJson(response.data);
       } else {
         throw Exception('Failed to fetch details tv');
       }

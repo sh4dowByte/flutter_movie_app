@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/features/people/presentation/screens/actor_detail.dart';
 import 'package:flutter_movie_app/features/tv/presentation/screens/see_more.dart';
 import 'package:flutter_movie_app/features/tv/presentation/screens/tv_detail.dart';
+import 'package:flutter_movie_app/features/tv/presentation/screens/tv_episode_detail.dart';
 import 'package:flutter_movie_app/features/tv/presentation/screens/tv_search.dart';
+import 'package:flutter_movie_app/features/tv/presentation/screens/tv_season_detail.dart';
 
 import '../features/movie/presentation/screens/screens.dart';
 import 'screens/menu.dart';
@@ -20,6 +22,8 @@ class Routes {
   static const String seeMoreTv = '/see_more_tv';
   static const String tvDetail = '/tv_detail';
   static const String tvSearch = '/tv_search';
+  static const String tvSeasonDetail = '/tv_season_detail';
+  static const String tvEpisodeDetail = '/tv_episode_detail';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -33,6 +37,22 @@ class Routes {
       case tvDetail:
         final int seriesId = settings.arguments as int;
         return MaterialPageRoute(builder: (_) => TvDetailPage(seriesId));
+
+      case tvSeasonDetail:
+        final args = settings.arguments as Map<String, dynamic>;
+        final seriesId = args['seriesId'];
+        final seasonNumber = args['seasonNumber'];
+        return MaterialPageRoute(
+            builder: (_) => TvSeasonDetailPage(seriesId, seasonNumber));
+
+      case tvEpisodeDetail:
+        final args = settings.arguments as Map<String, dynamic>;
+        final seriesId = args['seriesId'];
+        final seasonNumber = args['seasonNumber'];
+        final episodeNumber = args['episodeNumber'];
+        return MaterialPageRoute(
+            builder: (_) =>
+                TvEpisodeDetailPage(seriesId, seasonNumber, episodeNumber));
 
       case movieSearch:
         return MaterialPageRoute(builder: (_) => const MovieSearchPage());

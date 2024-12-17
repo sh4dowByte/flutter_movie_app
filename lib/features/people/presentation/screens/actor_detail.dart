@@ -4,7 +4,6 @@ import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/routes.dart';
 import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
 import 'package:flutter_movie_app/core/widget/star_rating.dart';
-import 'package:flutter_movie_app/core/widget/app_circle_button.dart';
 import 'package:flutter_movie_app/core/widget/app_error.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/features/people/data/models/actor.dart';
@@ -133,7 +132,7 @@ class _ActorDetailPageState extends ConsumerState<ActorDetailPage>
                       ],
                     ),
                     Container(
-                      height: 60,
+                      height: 110,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16.0, vertical: 8),
                       decoration: BoxDecoration(

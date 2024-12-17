@@ -1,19 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/routes.dart';
+import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
-
-import '../../features/people/data/models/cast.dart';
 
 class AppCastImage extends StatelessWidget {
   const AppCastImage({
     super.key,
-    required this.item,
     this.margin,
+    required this.actorId,
+    required this.image,
+    required this.name,
+    required this.character,
   });
 
-  final Cast item;
   final EdgeInsets? margin;
+  final int actorId;
+  final String image;
+  final String name;
+  final String character;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,7 @@ class AppCastImage extends StatelessWidget {
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       onTap: () =>
-          Navigator.pushNamed(context, Routes.actorDetail, arguments: item.id),
+          Navigator.pushNamed(context, Routes.actorDetail, arguments: actorId),
       child: Column(
         children: [
           Container(
@@ -32,7 +37,8 @@ class AppCastImage extends StatelessWidget {
               borderRadius:
                   BorderRadius.circular(40), // Setengah dari tinggi/lebar
               child: CachedNetworkImage(
-                imageUrl: item.imageUrlW300,
+                imageUrl:
+                    ImageUrlHelper.getPosterUrl(image, size: ImageSize.w500),
                 placeholder: (context, string) {
                   return CachedNetworkImage(
                     imageUrl:
@@ -50,12 +56,12 @@ class AppCastImage extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  item.name,
+                  name,
                   style: Theme.of(context).textTheme.labelSmall,
                   maxLines: 1,
                   textAlign: TextAlign.center,
                 ),
-                Text(item.character ?? '',
+                Text(character,
                     style: const TextStyle(fontSize: 10),
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
