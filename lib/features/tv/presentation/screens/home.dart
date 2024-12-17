@@ -4,7 +4,7 @@ import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_genre_not
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_on_the_air_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_popular_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_top_rated_notifier.dart';
-import 'package:flutter_movie_app/features/tv/presentation/widgets/app_image_slider.dart';
+import 'package:flutter_movie_app/features/tv/presentation/widgets/app_tv_image_slider.dart';
 import 'package:flutter_movie_app/features/settings/presentation/notifiers/language_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_airing_today_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_tv_card.dart';
@@ -105,12 +105,12 @@ class _TvPageState extends ConsumerState<TvPage> {
           children: [
             // Airing Today
             airingTodayStateState.when(
-              loading: () => AppImageSlider.loading(),
+              loading: () => AppTvImageSlider.loading(),
               error: (error, stackTrace) =>
                   Center(child: Text('Error: $error')),
               data: (data) => SizedBox(
                 height: 362,
-                child: AppImageSlider(
+                child: AppTvImageSlider(
                   tv: data,
                   onSeeMore: () {
                     Navigator.pushNamed(context, Routes.seeMoreTv, arguments: {

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/routes.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
@@ -100,14 +99,7 @@ class _AppMovieImageSliderState extends State<AppMovieImageSlider>
                   child: CachedNetworkImage(
                     imageUrl: ImageUrlHelper.getBackdropUrl(
                         movie[index].backdropPath,
-                        size: ImageSize.original),
-                    errorWidget: (context, url, error) => Container(
-                      color: Pallete.grey1,
-                      child: Image.asset(
-                        'assets/broken.png',
-                        fit: BoxFit.contain,
-                      ),
-                    ),
+                        size: ImageSize.backdropOriginal),
                     fit: BoxFit
                         .cover, // Gambar akan memenuhi area tanpa mengubah proporsi
                     placeholder: (context, url) {
@@ -116,7 +108,8 @@ class _AppMovieImageSliderState extends State<AppMovieImageSlider>
                         children: [
                           CachedNetworkImage(
                             imageUrl: ImageUrlHelper.getBackdropUrl(
-                                movie[index].backdropPath),
+                                movie[index].backdropPath,
+                                size: ImageSize.backdropW300),
                             fit: BoxFit.cover,
                           ),
                           BackdropFilter(

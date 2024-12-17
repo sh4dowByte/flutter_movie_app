@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/routes.dart';
 import 'package:flutter_movie_app/core/utils/date_helper.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
@@ -55,6 +54,15 @@ class AppEpisodeCoverTile extends StatelessWidget {
                 )),
 
             Positioned(
+                right: 10,
+                bottom: 0,
+                child: Text(
+                  'Episode ${item.episodeNumber}',
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.labelSmall,
+                )),
+
+            Positioned(
               bottom: 20,
               left: 100,
               right: 0,
@@ -98,16 +106,9 @@ class AppEpisodeCoverTile extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(13),
                 child: CachedNetworkImage(
-                  imageUrl: ImageUrlHelper.getPosterUrl(item.stillPath,
-                      size: ImageSize.w500),
+                  imageUrl: ImageUrlHelper.getStillUrl(item.stillPath,
+                      size: ImageSize.stillW300),
                   placeholder: (context, url) => const AppSkeleton(),
-                  errorWidget: (context, url, error) => Container(
-                    color: Pallete.grey1,
-                    child: Image.asset(
-                      'assets/broken.png',
-                      fit: BoxFit.contain,
-                    ),
-                  ),
                   fit: BoxFit.cover,
                 ),
               ),

@@ -2,18 +2,15 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
-import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
-import 'package:flutter_movie_app/features/tv/presentation/widgets/app_button_play_video.dart';
 
 class AppImageSlider extends StatefulWidget {
-  final List<Tv> tv;
+  final List<String> image;
   final int maxLength;
   final Function()? onSeeMore;
   const AppImageSlider(
-      {super.key, required this.tv, this.maxLength = 14, this.onSeeMore});
+      {super.key, required this.image, this.maxLength = 10, this.onSeeMore});
 
   @override
   State<AppImageSlider> createState() => _AppImageSliderState();
@@ -32,7 +29,7 @@ class _AppImageSliderState extends State<AppImageSlider>
   late Timer _timer;
   late AnimationController _animationController;
   late bool _seeMore;
-  late List<Tv> tv;
+  late List<String> image;
 
   @override
   void initState() {
@@ -47,8 +44,8 @@ class _AppImageSliderState extends State<AppImageSlider>
     // Timer untuk mengubah halaman otomatis setiap 3 detik
     _timer = Timer.periodic(const Duration(seconds: 1), _onTimerTick);
 
-    _seeMore = widget.maxLength < widget.tv.length;
-    tv = widget.tv.take(widget.maxLength).toList();
+    _seeMore = widget.maxLength < widget.image.length;
+    image = widget.image.take(widget.maxLength).toList();
   }
 
   @override
@@ -62,7 +59,7 @@ class _AppImageSliderState extends State<AppImageSlider>
     setState(() {
       if (_animationController.isCompleted) {
         // Pindah ke halaman berikutnya ketika progress selesai
-        if (_currentIndex < tv.length - 1) {
+        if (_currentIndex < image.length - 1) {
           _currentIndex++;
         } else {
           _currentIndex = 0;
@@ -84,7 +81,7 @@ class _AppImageSliderState extends State<AppImageSlider>
       children: [
         PageView.builder(
           controller: _pageController,
-          itemCount: tv.length,
+          itemCount: image.length,
           onPageChanged: (index) {
             setState(() {
               _currentIndex = index;
@@ -97,16 +94,8 @@ class _AppImageSliderState extends State<AppImageSlider>
               children: [
                 Positioned.fill(
                   child: CachedNetworkImage(
-                    imageUrl: ImageUrlHelper.getBackdropUrl(
-                        tv[index].backdropPath,
-                        size: ImageSize.original),
-                    errorWidget: (context, url, error) => Container(
-                      color: Pallete.grey1,
-                      child: Image.asset(
-                        'assets/broken.png',
-                        fit: BoxFit.contain,
-                      ),
-                    ),
+                    imageUrl: ImageUrlHelper.getBackdropUrl(image[index],
+                        size: ImageSize.backdropOriginal),
                     fit: BoxFit
                         .cover, // Gambar akan memenuhi area tanpa mengubah proporsi
                     placeholder: (context, url) {
@@ -115,7 +104,8 @@ class _AppImageSliderState extends State<AppImageSlider>
                         children: [
                           CachedNetworkImage(
                             imageUrl: ImageUrlHelper.getBackdropUrl(
-                                tv[index].backdropPath),
+                                image[index],
+                                size: ImageSize.backdropW300),
                             fit: BoxFit.cover,
                           ),
                           BackdropFilter(
@@ -141,7 +131,7 @@ class _AppImageSliderState extends State<AppImageSlider>
                           _currentIndex--;
 
                           if (_currentIndex < 0) {
-                            _currentIndex = tv.length - 1;
+                            _currentIndex = image.length - 1;
                           }
 
                           _pageController.animateToPage(
@@ -161,7 +151,7 @@ class _AppImageSliderState extends State<AppImageSlider>
                     InkWell(
                       onTap: () {
                         setState(() {
-                          if (_currentIndex < tv.length - 1) {
+                          if (_currentIndex < image.length - 1) {
                             _currentIndex++;
                           } else {
                             _currentIndex = 0;
@@ -214,80 +204,8 @@ class _AppImageSliderState extends State<AppImageSlider>
                         ],
                       ),
                     ),
-
-                    // Title
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20)
-                          .copyWith(top: 30),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            // onTap: () => Navigator.pushNamed(
-                            //     context, Routes.tvDetail,
-                            //     arguments: tv[_currentIndex].id),
-                            child: Text(
-                              tv[_currentIndex].name,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(fontSize: 20),
-                              maxLines: 1,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              AppButtonPlayVideo(
-                                  seriesId: tv[_currentIndex].id),
-                              Visibility(
-                                visible: _seeMore,
-                                child: InkWell(
-                                  hoverColor:
-                                      Colors.transparent, // Hapus efek hover
-                                  onTap: widget.onSeeMore,
-                                  child: Text(
-                                    'See More',
-                                    style:
-                                        Theme.of(context).textTheme.labelSmall,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
                 ),
-
-                // Backdrop top
-                // Align(
-                //   alignment: Alignment.topCenter,
-                //   child: Container(
-                //     height: 80,
-                //     width: double.infinity,
-                //     decoration: BoxDecoration(
-                //       gradient: LinearGradient(
-                //         end: Alignment.bottomCenter, // Awal gradien
-                //         begin: Alignment.topCenter, // Akhir gradien
-                //         colors: [
-                //           Theme.of(context)
-                //               .scaffoldBackgroundColor
-                //               .withOpacity(0.9),
-
-                //           Theme.of(context)
-                //               .scaffoldBackgroundColor
-                //               .withOpacity(0.5),
-                //           Theme.of(context)
-                //               .scaffoldBackgroundColor
-                //               .withOpacity(0.2),
-                //           Colors.transparent, // Warna akhir
-                //         ],
-                //       ),
-                //     ),
-                //   ),
-                // ),
               ],
             );
           },
@@ -295,53 +213,74 @@ class _AppImageSliderState extends State<AppImageSlider>
 
         // Indicator
         Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: List.generate(
-                tv.length,
-                (index) {
-                  final screenWidth = MediaQuery.of(context).size.width;
-                  final maxWidth = screenWidth / tv.length - 10; // Proporsional
-                  const double activeWidth = 41; // Batas panjang aktif
-                  final double inactiveWidth =
-                      maxWidth > 16 ? 16 : maxWidth / 2; // Panjang nonaktif
+          alignment: Alignment.bottomRight,
+          child: Visibility(
+            visible: image.length > 1,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16)
+                  .copyWith(right: 8, left: 160),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: List.generate(
+                  image.length,
+                  (index) {
+                    final screenWidth = MediaQuery.of(context).size.width - 170;
+                    final maxWidth =
+                        screenWidth / image.length - 10; // Proporsional
+                    const double activeWidth = 41; // Batas panjang aktif
+                    final double inactiveWidth =
+                        maxWidth > 16 ? 16 : maxWidth / 2; // Panjang nonaktif
 
-                  return AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    height: 6,
-                    width: _currentIndex == index ? activeWidth : inactiveWidth,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Visibility(
-                      visible: _currentIndex == index,
-                      child: Row(
-                        children: [
-                          AnimatedBuilder(
-                            animation: _animationController,
-                            builder: (context, child) {
-                              return Container(
-                                height: 8,
-                                width: _animationController.value *
-                                    activeWidth, // Progress width dinamis
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      height: 6,
+                      width:
+                          _currentIndex == index ? activeWidth : inactiveWidth,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(4),
                       ),
-                    ),
-                  );
-                },
+                      child: Visibility(
+                        visible: _currentIndex == index,
+                        child: Row(
+                          children: [
+                            AnimatedBuilder(
+                              animation: _animationController,
+                              builder: (context, child) {
+                                return Container(
+                                  height: 8,
+                                  width: _animationController.value *
+                                      activeWidth, // Progress width dinamis
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        Positioned(
+          right: 20,
+          bottom: 30,
+          child: Visibility(
+            visible: _seeMore,
+            child: InkWell(
+              hoverColor: Colors.transparent, // Hapus efek hover
+              onTap: widget.onSeeMore,
+              child: Text(
+                'See More',
+                style: Theme.of(context).textTheme.labelSmall,
               ),
             ),
           ),

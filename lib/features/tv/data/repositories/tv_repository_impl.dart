@@ -1,5 +1,6 @@
 import 'package:flutter_movie_app/core/errors/failure.dart';
 import 'package:flutter_movie_app/core/data/models/genres.dart';
+import 'package:flutter_movie_app/features/tv/data/models/stills_images.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 import 'package:flutter_movie_app/features/people/data/models/tv_credits.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_detail.dart';
@@ -164,6 +165,18 @@ class TvRepositoryImpl implements TvRepository {
       return Right(tv);
     } catch (e) {
       return Left(NetworkFailure('Failed to load episode tv.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<StillsImage>>> getStillsImageEpisode(
+      int seriesId, int sessionNumber, int episodeNumber) async {
+    try {
+      final tv = await _tvService.fetchStillsImage(
+          seriesId, sessionNumber, episodeNumber);
+      return Right(tv);
+    } catch (e) {
+      return Left(NetworkFailure('Failed to load stills image tv.'));
     }
   }
 }

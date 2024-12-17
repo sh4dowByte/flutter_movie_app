@@ -111,14 +111,7 @@ class _TvDetailPageState extends ConsumerState<TvDetailPage> {
                           height: double.infinity,
                           imageUrl: ImageUrlHelper.getBackdropUrl(
                               value.backdropPath,
-                              size: ImageSize.original),
-                          errorWidget: (context, url, error) => Container(
-                            color: Pallete.grey1,
-                            child: Image.asset(
-                              'assets/broken.png',
-                              fit: BoxFit.contain,
-                            ),
-                          ),
+                              size: ImageSize.backdropOriginal),
                           placeholder: (context, string) {
                             return Stack(
                               fit: StackFit.expand,
@@ -126,7 +119,7 @@ class _TvDetailPageState extends ConsumerState<TvDetailPage> {
                                 CachedNetworkImage(
                                   imageUrl: ImageUrlHelper.getBackdropUrl(
                                       value.backdropPath,
-                                      size: ImageSize.w300),
+                                      size: ImageSize.backdropW300),
                                   fit: BoxFit.cover,
                                 ),
                                 BackdropFilter(
@@ -179,7 +172,7 @@ class _TvDetailPageState extends ConsumerState<TvDetailPage> {
                                   width: 100,
                                   imageUrl: ImageUrlHelper.getPosterUrl(
                                       value.posterPath,
-                                      size: ImageSize.w300),
+                                      size: ImageSize.posterW342),
                                   fit: BoxFit.cover,
                                   placeholder: (context, string) {
                                     return const AppSkeleton();

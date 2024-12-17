@@ -110,7 +110,7 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                           height: double.infinity,
                           imageUrl: ImageUrlHelper.getBackdropUrl(
                               value.backdropPath,
-                              size: ImageSize.original),
+                              size: ImageSize.backdropOriginal),
                           errorWidget: (context, url, error) => Container(
                             color: Pallete.grey1,
                             child: Image.asset(
@@ -125,7 +125,7 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                 CachedNetworkImage(
                                   imageUrl: ImageUrlHelper.getBackdropUrl(
                                       value.backdropPath,
-                                      size: ImageSize.w300),
+                                      size: ImageSize.backdropW300),
                                   fit: BoxFit.cover,
                                 ),
                                 BackdropFilter(
@@ -178,7 +178,7 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                   width: 100,
                                   imageUrl: ImageUrlHelper.getPosterUrl(
                                       value.posterPath,
-                                      size: ImageSize.w300),
+                                      size: ImageSize.posterW342),
                                   fit: BoxFit.cover,
                                   placeholder: (context, string) {
                                     return const AppSkeleton();

@@ -31,4 +31,22 @@ class DateHelper {
       return 'Invalid release date';
     }
   }
+
+  static String age(String? birthday) {
+    try {
+      final birthDate = DateTime.parse(birthday ?? '');
+      final currentDate = DateTime.now();
+      int age = currentDate.year - birthDate.year;
+
+      if (currentDate.month < birthDate.month ||
+          (currentDate.month == birthDate.month &&
+              currentDate.day < birthDate.day)) {
+        age--;
+      }
+
+      return '$age years old';
+    } catch (e) {
+      return 'Invalid date format';
+    }
+  }
 }

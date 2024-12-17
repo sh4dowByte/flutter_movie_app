@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_movie_app/core/data/services/tmdb_services.dart';
 import 'package:flutter_movie_app/core/data/models/genres.dart';
+import 'package:flutter_movie_app/features/tv/data/models/stills_images.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 import 'package:flutter_movie_app/features/people/data/models/tv_credits.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_detail.dart';
@@ -187,6 +189,29 @@ class TVService extends TMDBService {
 
       if (response.statusCode == 200) {
         return TvEpisode.fromJson(response.data);
+      } else {
+        throw Exception('Failed to fetch details tv');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<List<StillsImage>> fetchStillsImage(
+      int seriesId, int sessionNumber, int episodeNumber) async {
+    try {
+      final response = await dio.get(
+        '/3/tv/$seriesId/season/$sessionNumber/episode/$episodeNumber/images',
+        options: Options(
+          extra: {
+            'noLanguage': true
+          }, // Tandai request ini untuk skip 'language'
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final List stills = response.data['stills'];
+        return stills.map((data) => StillsImage.fromJson(data)).toList();
       } else {
         throw Exception('Failed to fetch details tv');
       }

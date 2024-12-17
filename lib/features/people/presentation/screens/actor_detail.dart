@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/routes.dart';
+import 'package:flutter_movie_app/core/utils/date_helper.dart';
+import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
 import 'package:flutter_movie_app/core/widget/star_rating.dart';
 import 'package:flutter_movie_app/core/widget/app_error.dart';
@@ -317,18 +318,12 @@ class _ActorDetailContentState extends ConsumerState<ActorDetailContent> {
                 child: CachedNetworkImage(
                   height: 150,
                   width: 100,
-                  imageUrl: widget.actor.imageUrlW300,
+                  imageUrl:
+                      ImageUrlHelper.getProfileUrl(widget.actor.profilePath),
                   fit: BoxFit.cover,
                   placeholder: (context, string) {
                     return const AppSkeleton();
                   },
-                  errorWidget: (context, url, error) => Container(
-                    color: Pallete.grey1,
-                    child: Image.asset(
-                      'assets/broken.png',
-                      fit: BoxFit.contain,
-                    ),
-                  ),
                 ),
               ),
               const SizedBox(width: 16),
@@ -339,7 +334,7 @@ class _ActorDetailContentState extends ConsumerState<ActorDetailContent> {
                     Text(widget.actor.placeOfBirth ?? ''),
                     Text(widget.actor.knownForDepartment,
                         style: Theme.of(context).textTheme.labelSmall),
-                    Text(widget.actor.age,
+                    Text(DateHelper.age(widget.actor.birthday),
                         style: Theme.of(context).textTheme.labelSmall),
                     const SizedBox(height: 9),
                     StarRating(rating: widget.actor.popularity, starSize: 14),
@@ -394,7 +389,6 @@ class _ActorDetailContentState extends ConsumerState<ActorDetailContent> {
           ),
         ),
         const SizedBox(height: 20),
-        const SizedBox(height: 40),
       ],
     );
   }
