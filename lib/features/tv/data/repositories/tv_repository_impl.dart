@@ -3,6 +3,7 @@ import 'package:flutter_movie_app/core/data/models/genres.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 import 'package:flutter_movie_app/features/people/data/models/tv_credits.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_detail.dart';
+import 'package:flutter_movie_app/features/tv/data/models/tv_episode.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_seasons.dart';
 import 'package:flutter_movie_app/features/tv/data/services/tv_services.dart';
 import 'package:flutter_movie_app/features/tv/domain/repositories/tv_repository.dart';
@@ -123,7 +124,7 @@ class TvRepositoryImpl implements TvRepository {
   }
 
   @override
-  Future<Either<Failure, TvSeason>> getTvSeasons(
+  Future<Either<Failure, TvSeason>> getTvSeasonsDetail(
       int seriesId, int sessionNumber) async {
     try {
       final tv = await _tvService.fetchTvSessions(seriesId, sessionNumber);
@@ -151,6 +152,18 @@ class TvRepositoryImpl implements TvRepository {
       return Right(tv);
     } catch (e) {
       return Left(NetworkFailure('Failed to load credit tv.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TvEpisode>> getTvEpisodeDetail(
+      int seriesId, int sessionNumber, int episodeNumber) async {
+    try {
+      final tv = await _tvService.fetchTvEpisode(
+          seriesId, sessionNumber, episodeNumber);
+      return Right(tv);
+    } catch (e) {
+      return Left(NetworkFailure('Failed to load episode tv.'));
     }
   }
 }

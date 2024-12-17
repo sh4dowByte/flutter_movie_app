@@ -63,7 +63,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     });
   }
 
-  void initData() {
+  Future<void> initData() async {
     ref
         .read(discoverMoviesProvider.notifier)
         .getInitialMovies(genreId: genreId);
@@ -100,277 +100,286 @@ class _HomePageState extends ConsumerState<HomePage> {
     });
 
     return Scaffold(
-      body: ListView(
-        padding: const EdgeInsets.only(top: 0),
-        children: [
-          // Now Playing
-          movieStateNowPlaying.when(
-            loading: () => AppImageSlider.loading(),
-            error: (error, stackTrace) => Center(child: Text('Error: $error')),
-            data: (data) => SizedBox(
-              height: 362,
-              child: AppImageSlider(
-                movie: data,
-                onSeeMore: () {
-                  Navigator.pushNamed(context, Routes.seeMore, arguments: {
-                    'title': 'Now Playing',
-                    'providerKey': 'now_playing'
-                  });
-                },
+      body: RefreshIndicator(
+        onRefresh: initData,
+        child: ListView(
+          padding: const EdgeInsets.only(top: 0),
+          children: [
+            // Now Playing
+            movieStateNowPlaying.when(
+              loading: () => AppImageSlider.loading(),
+              error: (error, stackTrace) =>
+                  Center(child: Text('Error: $error')),
+              data: (data) => SizedBox(
+                height: 362,
+                child: AppImageSlider(
+                  movie: data,
+                  onSeeMore: () {
+                    Navigator.pushNamed(context, Routes.seeMore, arguments: {
+                      'title': 'Now Playing',
+                      'providerKey': 'now_playing'
+                    });
+                  },
+                ),
               ),
             ),
-          ),
 
-          const SizedBox(height: 20),
-          // Search
-          InkWell(
-            hoverColor: Colors.transparent, // Hapus efek hover
-            onTap: () => Navigator.pushNamed(context, Routes.movieSearch),
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 11),
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              height: 64,
-              decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.search,
-                    color: Theme.of(context).hintColor,
-                  ),
-                  const SizedBox(width: 18),
-                  Text(
-                    'Search...',
-                    style: TextStyle(
+            const SizedBox(height: 20),
+            // Search
+            InkWell(
+              hoverColor: Colors.transparent, // Hapus efek hover
+              onTap: () => Navigator.pushNamed(context, Routes.movieSearch),
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 11),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                height: 64,
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.search,
                       color: Theme.of(context).hintColor,
                     ),
-                  ),
+                    const SizedBox(width: 18),
+                    Text(
+                      'Search...',
+                      style: TextStyle(
+                        color: Theme.of(context).hintColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 23),
+
+            // Genres
+            genresState.when(
+              loading: () => AppSelectItemSmall.loading(),
+              error: (error, stackTrace) =>
+                  Center(child: Text('Error: $error')),
+              data: (data) => AppSelectItemSmall(
+                onChange: (id) {
+                  ref
+                      .read(discoverMoviesProvider.notifier)
+                      .getInitialMovies(genreId: id);
+
+                  genreId = id;
+                },
+                item: [
+                  const {
+                    'id': 0,
+                    'name': 'All',
+                  },
+                  ...data.map((e) => e.toJson())
                 ],
               ),
             ),
-          ),
 
-          const SizedBox(height: 23),
+            const SizedBox(height: 23),
 
-          // Genres
-          genresState.when(
-            loading: () => AppSelectItemSmall.loading(),
-            error: (error, stackTrace) => Center(child: Text('Error: $error')),
-            data: (data) => AppSelectItemSmall(
-              onChange: (id) {
-                ref
-                    .read(discoverMoviesProvider.notifier)
-                    .getInitialMovies(genreId: id);
-
-                genreId = id;
-              },
-              item: [
-                const {
-                  'id': 0,
-                  'name': 'All',
-                },
-                ...data.map((e) => e.toJson())
-              ],
+            // Discover
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Discover'),
+                  InkWell(
+                    onTap: () => Navigator.pushNamed(context, Routes.seeMore,
+                        arguments: {
+                          'title': 'Discover',
+                          'genreId': genreId,
+                          'providerKey': 'discover'
+                        }),
+                    child: Text(
+                      'See More',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-
-          const SizedBox(height: 23),
-
-          // Discover
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Discover'),
-                InkWell(
-                  onTap: () => Navigator.pushNamed(context, Routes.seeMore,
-                      arguments: {
-                        'title': 'Discover',
-                        'genreId': genreId,
-                        'providerKey': 'discover'
-                      }),
-                  child: Text(
-                    'See More',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                )
-              ],
+            const SizedBox(
+              height: 16,
             ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
 
-          discoverMovieState.when(
-            data: (data) => SizedBox(
-              height: 220,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  controller: _scrollControllerDiscover,
-                  itemCount: data.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    final item = data[index];
+            discoverMovieState.when(
+              data: (data) => SizedBox(
+                height: 220,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    controller: _scrollControllerDiscover,
+                    itemCount: data.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      final item = data[index];
 
-                    EdgeInsets margin = EdgeInsets.only(
-                      left: index == 0 ? 11 : 4,
-                      right: index == data.length - 1 ? 11 : 4,
-                    );
+                      EdgeInsets margin = EdgeInsets.only(
+                        left: index == 0 ? 11 : 4,
+                        right: index == data.length - 1 ? 11 : 4,
+                      );
 
-                    return AppMovieCoverBox(item: item, margin: margin);
-                  }),
+                      return AppMovieCoverBox(item: item, margin: margin);
+                    }),
+              ),
+              loading: () => AppMovieCoverBox.loading(),
+              error: (error, stackTrace) =>
+                  Center(child: Text('Error: $error')),
             ),
-            loading: () => AppMovieCoverBox.loading(),
-            error: (error, stackTrace) => Center(child: Text('Error: $error')),
-          ),
 
-          const SizedBox(height: 23),
+            const SizedBox(height: 23),
 
-          // Popular
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 12).copyWith(bottom: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Popular Movies'),
-                InkWell(
-                  onTap: () => Navigator.pushNamed(context, Routes.seeMore,
-                      arguments: {
-                        'title': 'Popular Movies',
-                        'providerKey': 'popular'
-                      }),
-                  child: Text(
-                    'See More',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                )
-              ],
+            // Popular
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12)
+                  .copyWith(bottom: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Popular Movies'),
+                  InkWell(
+                    onTap: () => Navigator.pushNamed(context, Routes.seeMore,
+                        arguments: {
+                          'title': 'Popular Movies',
+                          'providerKey': 'popular'
+                        }),
+                    child: Text(
+                      'See More',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
 
-          movieStatePopular.when(
-            data: (data) => SizedBox(
-              height: 220,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  controller: _scrollControllerPopular,
-                  itemCount: data.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    final item = data[index];
+            movieStatePopular.when(
+              data: (data) => SizedBox(
+                height: 220,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    controller: _scrollControllerPopular,
+                    itemCount: data.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      final item = data[index];
 
-                    EdgeInsets margin = EdgeInsets.only(
-                      left: index == 0 ? 11 : 4,
-                      right: index == data.length - 1 ? 11 : 4,
-                    );
+                      EdgeInsets margin = EdgeInsets.only(
+                        left: index == 0 ? 11 : 4,
+                        right: index == data.length - 1 ? 11 : 4,
+                      );
 
-                    return AppMovieCoverBox(item: item, margin: margin);
-                  }),
+                      return AppMovieCoverBox(item: item, margin: margin);
+                    }),
+              ),
+              loading: () => AppMovieCoverBox.loading(),
+              error: (error, stackTrace) =>
+                  Center(child: Text('Error: $error')),
             ),
-            loading: () => AppMovieCoverBox.loading(),
-            error: (error, stackTrace) => Center(child: Text('Error: $error')),
-          ),
 
-          const SizedBox(height: 23),
+            const SizedBox(height: 23),
 
-          // Top Rated
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 12).copyWith(bottom: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Top Rated Movies'),
-                InkWell(
-                  onTap: () => Navigator.pushNamed(context, Routes.seeMore,
-                      arguments: {
-                        'title': 'Top Rated Movies',
-                        'providerKey': 'top_rated'
-                      }),
-                  child: Text(
-                    'See More',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                )
-              ],
+            // Top Rated
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12)
+                  .copyWith(bottom: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Top Rated Movies'),
+                  InkWell(
+                    onTap: () => Navigator.pushNamed(context, Routes.seeMore,
+                        arguments: {
+                          'title': 'Top Rated Movies',
+                          'providerKey': 'top_rated'
+                        }),
+                    child: Text(
+                      'See More',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
 
-          topRatedMovieState.when(
-            data: (data) => SizedBox(
-              height: 220,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  controller: _scrollControllerTopRated,
-                  itemCount: data.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    final item = data[index];
+            topRatedMovieState.when(
+              data: (data) => SizedBox(
+                height: 220,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    controller: _scrollControllerTopRated,
+                    itemCount: data.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      final item = data[index];
 
-                    EdgeInsets margin = EdgeInsets.only(
-                      left: index == 0 ? 11 : 4,
-                      right: index == data.length - 1 ? 11 : 4,
-                    );
+                      EdgeInsets margin = EdgeInsets.only(
+                        left: index == 0 ? 11 : 4,
+                        right: index == data.length - 1 ? 11 : 4,
+                      );
 
-                    return AppMovieCoverBox(item: item, margin: margin);
-                  }),
+                      return AppMovieCoverBox(item: item, margin: margin);
+                    }),
+              ),
+              loading: () => AppMovieCoverBox.loading(),
+              error: (error, stackTrace) =>
+                  Center(child: Text('Error: $error')),
             ),
-            loading: () => AppMovieCoverBox.loading(),
-            error: (error, stackTrace) => Center(child: Text('Error: $error')),
-          ),
 
-          const SizedBox(height: 23),
+            const SizedBox(height: 23),
 
-          // Upcoming
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 12).copyWith(bottom: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Upcoming Movies'),
-                InkWell(
-                  onTap: () => Navigator.pushNamed(context, Routes.seeMore,
-                      arguments: {
-                        'title': 'Upcoming Movies',
-                        'providerKey': 'upcoming'
-                      }),
-                  child: Text(
-                    'See More',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                )
-              ],
+            // Upcoming
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12)
+                  .copyWith(bottom: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Upcoming Movies'),
+                  InkWell(
+                    onTap: () => Navigator.pushNamed(context, Routes.seeMore,
+                        arguments: {
+                          'title': 'Upcoming Movies',
+                          'providerKey': 'upcoming'
+                        }),
+                    child: Text(
+                      'See More',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
 
-          upcomingMovieState.when(
-            data: (data) => SizedBox(
-              height: 220,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  controller: _scrollControllerUpcoming,
-                  itemCount: data.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    final item = data[index];
+            upcomingMovieState.when(
+              data: (data) => SizedBox(
+                height: 220,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    controller: _scrollControllerUpcoming,
+                    itemCount: data.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      final item = data[index];
 
-                    EdgeInsets margin = EdgeInsets.only(
-                      left: index == 0 ? 11 : 4,
-                      right: index == data.length - 1 ? 11 : 4,
-                    );
+                      EdgeInsets margin = EdgeInsets.only(
+                        left: index == 0 ? 11 : 4,
+                        right: index == data.length - 1 ? 11 : 4,
+                      );
 
-                    return AppMovieCoverBox(item: item, margin: margin);
-                  }),
-            ),
-            loading: () => AppMovieCoverBox.loading(),
-            error: (error, stackTrace) => Center(child: Text('Error: $error')),
-          )
-        ],
+                      return AppMovieCoverBox(item: item, margin: margin);
+                    }),
+              ),
+              loading: () => AppMovieCoverBox.loading(),
+              error: (error, stackTrace) =>
+                  Center(child: Text('Error: $error')),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -50,7 +50,7 @@ class ImageUrlHelper {
   static String getImageUrl(String? path, ImageSize size,
       {bool isBackdrop = false}) {
     if (path == null || path.isEmpty) {
-      return 'https://example.com/default-image.png'; // Default jika path kosong
+      return 'https://img.icons8.com/?size=480&id=zGSj13jiurKj&format=png'; // Default jika path kosong
     }
     return '$_baseUrl${size.value}$path';
   }

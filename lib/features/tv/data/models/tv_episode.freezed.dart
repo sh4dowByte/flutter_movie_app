@@ -33,9 +33,8 @@ mixin _$TvEpisode {
   String? get productionCode => throw _privateConstructorUsedError;
   int? get runtime => throw _privateConstructorUsedError;
   @JsonKey(name: 'season_number')
-  int get seasonNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: 'show_id')
-  int get showId => throw _privateConstructorUsedError;
+  int get seasonNumber =>
+      throw _privateConstructorUsedError; // @JsonKey(name: 'show_id') int? showId,
   @JsonKey(name: 'still_path')
   String? get stillPath => throw _privateConstructorUsedError;
   @JsonKey(name: 'vote_average')
@@ -67,7 +66,6 @@ abstract class $TvEpisodeCopyWith<$Res> {
       @JsonKey(name: 'production_code') String? productionCode,
       int? runtime,
       @JsonKey(name: 'season_number') int seasonNumber,
-      @JsonKey(name: 'show_id') int showId,
       @JsonKey(name: 'still_path') String? stillPath,
       @JsonKey(name: 'vote_average') double? voteAverage,
       @JsonKey(name: 'vote_count') int? voteCount,
@@ -97,7 +95,6 @@ class _$TvEpisodeCopyWithImpl<$Res, $Val extends TvEpisode>
     Object? productionCode = freezed,
     Object? runtime = freezed,
     Object? seasonNumber = null,
-    Object? showId = null,
     Object? stillPath = freezed,
     Object? voteAverage = freezed,
     Object? voteCount = freezed,
@@ -141,10 +138,6 @@ class _$TvEpisodeCopyWithImpl<$Res, $Val extends TvEpisode>
           ? _value.seasonNumber
           : seasonNumber // ignore: cast_nullable_to_non_nullable
               as int,
-      showId: null == showId
-          ? _value.showId
-          : showId // ignore: cast_nullable_to_non_nullable
-              as int,
       stillPath: freezed == stillPath
           ? _value.stillPath
           : stillPath // ignore: cast_nullable_to_non_nullable
@@ -187,7 +180,6 @@ abstract class _$$TvEpisodeImplCopyWith<$Res>
       @JsonKey(name: 'production_code') String? productionCode,
       int? runtime,
       @JsonKey(name: 'season_number') int seasonNumber,
-      @JsonKey(name: 'show_id') int showId,
       @JsonKey(name: 'still_path') String? stillPath,
       @JsonKey(name: 'vote_average') double? voteAverage,
       @JsonKey(name: 'vote_count') int? voteCount,
@@ -215,7 +207,6 @@ class __$$TvEpisodeImplCopyWithImpl<$Res>
     Object? productionCode = freezed,
     Object? runtime = freezed,
     Object? seasonNumber = null,
-    Object? showId = null,
     Object? stillPath = freezed,
     Object? voteAverage = freezed,
     Object? voteCount = freezed,
@@ -259,10 +250,6 @@ class __$$TvEpisodeImplCopyWithImpl<$Res>
           ? _value.seasonNumber
           : seasonNumber // ignore: cast_nullable_to_non_nullable
               as int,
-      showId: null == showId
-          ? _value.showId
-          : showId // ignore: cast_nullable_to_non_nullable
-              as int,
       stillPath: freezed == stillPath
           ? _value.stillPath
           : stillPath // ignore: cast_nullable_to_non_nullable
@@ -300,7 +287,6 @@ class _$TvEpisodeImpl implements _TvEpisode {
       @JsonKey(name: 'production_code') this.productionCode,
       this.runtime,
       @JsonKey(name: 'season_number') required this.seasonNumber,
-      @JsonKey(name: 'show_id') required this.showId,
       @JsonKey(name: 'still_path') this.stillPath,
       @JsonKey(name: 'vote_average') this.voteAverage,
       @JsonKey(name: 'vote_count') this.voteCount,
@@ -335,9 +321,7 @@ class _$TvEpisodeImpl implements _TvEpisode {
   @override
   @JsonKey(name: 'season_number')
   final int seasonNumber;
-  @override
-  @JsonKey(name: 'show_id')
-  final int showId;
+// @JsonKey(name: 'show_id') int? showId,
   @override
   @JsonKey(name: 'still_path')
   final String? stillPath;
@@ -366,7 +350,7 @@ class _$TvEpisodeImpl implements _TvEpisode {
 
   @override
   String toString() {
-    return 'TvEpisode(airDate: $airDate, episodeNumber: $episodeNumber, episodeType: $episodeType, id: $id, name: $name, overview: $overview, productionCode: $productionCode, runtime: $runtime, seasonNumber: $seasonNumber, showId: $showId, stillPath: $stillPath, voteAverage: $voteAverage, voteCount: $voteCount, crew: $crew, guestStars: $guestStars)';
+    return 'TvEpisode(airDate: $airDate, episodeNumber: $episodeNumber, episodeType: $episodeType, id: $id, name: $name, overview: $overview, productionCode: $productionCode, runtime: $runtime, seasonNumber: $seasonNumber, stillPath: $stillPath, voteAverage: $voteAverage, voteCount: $voteCount, crew: $crew, guestStars: $guestStars)';
   }
 
   @override
@@ -388,7 +372,6 @@ class _$TvEpisodeImpl implements _TvEpisode {
             (identical(other.runtime, runtime) || other.runtime == runtime) &&
             (identical(other.seasonNumber, seasonNumber) ||
                 other.seasonNumber == seasonNumber) &&
-            (identical(other.showId, showId) || other.showId == showId) &&
             (identical(other.stillPath, stillPath) ||
                 other.stillPath == stillPath) &&
             (identical(other.voteAverage, voteAverage) ||
@@ -413,7 +396,6 @@ class _$TvEpisodeImpl implements _TvEpisode {
       productionCode,
       runtime,
       seasonNumber,
-      showId,
       stillPath,
       voteAverage,
       voteCount,
@@ -445,7 +427,6 @@ abstract class _TvEpisode implements TvEpisode {
       @JsonKey(name: 'production_code') final String? productionCode,
       final int? runtime,
       @JsonKey(name: 'season_number') required final int seasonNumber,
-      @JsonKey(name: 'show_id') required final int showId,
       @JsonKey(name: 'still_path') final String? stillPath,
       @JsonKey(name: 'vote_average') final double? voteAverage,
       @JsonKey(name: 'vote_count') final int? voteCount,
@@ -479,10 +460,7 @@ abstract class _TvEpisode implements TvEpisode {
   @override
   @JsonKey(name: 'season_number')
   int get seasonNumber;
-  @override
-  @JsonKey(name: 'show_id')
-  int get showId;
-  @override
+  @override // @JsonKey(name: 'show_id') int? showId,
   @JsonKey(name: 'still_path')
   String? get stillPath;
   @override

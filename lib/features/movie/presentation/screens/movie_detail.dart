@@ -425,7 +425,13 @@ class _MovieDetailContentState extends ConsumerState<MovieDetailContent> {
                           right: index == data.length - 1 ? 11 : 4,
                         );
 
-                        return AppCastImage(item: item, margin: margin);
+                        return AppCastImage(
+                          margin: margin,
+                          actorId: item.id,
+                          image: item.profilePath!,
+                          name: item.name,
+                          character: item.character!,
+                        );
                       }),
                 )
               : Container(),

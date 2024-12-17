@@ -8,7 +8,7 @@ final getDetailTvProvider =
 
 final detailTvProvider =
     StateNotifierProvider.family<DetailTvNotifier, AsyncValue<TvDetail>, int>(
-  (ref, movieId) {
+  (ref, seriesId) {
     final getDetailTv = ref.watch(getDetailTvProvider);
     final notifier = DetailTvNotifier(getDetailTv);
     return notifier;
@@ -23,14 +23,14 @@ class DetailTvNotifier extends StateNotifier<AsyncValue<TvDetail>> {
   bool _isGetting = false;
 
   // Memuat halaman pertama
-  Future<void> getInitial(int movieId) async {
+  Future<void> getInitial(int seriesId) async {
     if (_isGetting) return;
 
     _isGetting = true;
 
     state = const AsyncValue.loading(); // Tampilkan loading untuk data awal
 
-    final result = await _getDetailTv(movieId); // Reset ke halaman 1
+    final result = await _getDetailTv(seriesId); // Reset ke halaman 1
 
     result.fold(
       (failure) {
