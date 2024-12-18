@@ -21,11 +21,16 @@ class TMDBService {
 
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
-        // Ambil nilai language dari Riverpod
-        final language = ref.read(languageProvider);
-        final isAdult = ref.read(isAdultProvider);
-        options.queryParameters
-            .addAll({'language': language, 'include_adult': isAdult});
+        final noLanguage = options.extra['noLanguage'] ?? false;
+
+        if (!noLanguage) {
+          // Ambil nilai language dari Riverpod
+          final language = ref.read(languageProvider);
+          final isAdult = ref.read(isAdultProvider);
+          options.queryParameters
+              .addAll({'language': language, 'include_adult': isAdult});
+        }
+
         return handler.next(options); // Lanjutkan request
       },
     ));

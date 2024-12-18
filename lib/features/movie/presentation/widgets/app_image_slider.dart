@@ -100,7 +100,7 @@ class _AppImageSliderState extends State<AppImageSlider>
                   child: CachedNetworkImage(
                     imageUrl: ImageUrlHelper.getBackdropUrl(
                         movie[index].backdropPath,
-                        size: ImageSize.original),
+                        size: ImageSize.backdropOriginal),
                     errorWidget: (context, url, error) => Container(
                       color: Pallete.grey1,
                       child: Image.asset(
@@ -116,7 +116,8 @@ class _AppImageSliderState extends State<AppImageSlider>
                         children: [
                           CachedNetworkImage(
                             imageUrl: ImageUrlHelper.getBackdropUrl(
-                                movie[index].backdropPath),
+                                movie[index].backdropPath,
+                                size: ImageSize.backdropW300),
                             fit: BoxFit.cover,
                           ),
                           BackdropFilter(

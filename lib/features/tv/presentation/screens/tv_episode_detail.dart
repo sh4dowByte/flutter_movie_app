@@ -1,17 +1,14 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/utils/date_helper.dart';
-import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/core/widget/app_cast_image.dart';
 import 'package:flutter_movie_app/core/widget/star_rating.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_episode.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_detail_episode_notifier.dart';
 import 'package:flutter_movie_app/core/widget/app_circle_button.dart';
 import 'package:flutter_movie_app/core/widget/app_error.dart';
+import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_stills_image_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_button_play_video.dart';
+import 'package:flutter_movie_app/features/tv/presentation/widgets/app_image_slider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/widget/app_skeleton.dart';
@@ -38,6 +35,10 @@ class _TvEpisodeDetailPageState extends ConsumerState<TvEpisodeDetailPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(detailTvEpisodeProvider(widget.seriesId).notifier).getInitial(
           widget.seriesId, widget.seasonNumber, widget.epidoseNumber);
+      ref
+          .read(stillsImageTvEpisodeProvider(widget.seriesId).notifier)
+          .getInitial(
+              widget.seriesId, widget.seasonNumber, widget.epidoseNumber);
       // ref
       //     .read(recomendedMoviesProvider(widget.seriesId).notifier)
       //     .getInitialMovies(widget.seriesId);
@@ -58,6 +59,8 @@ class _TvEpisodeDetailPageState extends ConsumerState<TvEpisodeDetailPage> {
   @override
   Widget build(BuildContext context) {
     final tvState = ref.watch(detailTvEpisodeProvider(widget.seriesId));
+    final stillsImageState =
+        ref.watch(stillsImageTvEpisodeProvider(widget.seriesId));
 
     return Scaffold(
       body: NestedScrollView(
@@ -65,7 +68,7 @@ class _TvEpisodeDetailPageState extends ConsumerState<TvEpisodeDetailPage> {
         headerSliverBuilder: (BuildContext context, bool innnerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              expandedHeight: 400.0,
+              expandedHeight: 350.0,
               floating: false,
               pinned: true,
               automaticallyImplyLeading: false,
@@ -93,63 +96,13 @@ class _TvEpisodeDetailPageState extends ConsumerState<TvEpisodeDetailPage> {
                   child: tvState.when(
                     data: (value) => Stack(
                       children: [
-                        CachedNetworkImage(
-                          height: double.infinity,
-                          imageUrl: ImageUrlHelper.getBackdropUrl(
-                              value.stillPath,
-                              size: ImageSize.original),
-                          errorWidget: (context, url, error) => Container(
-                            color: Pallete.grey1,
-                            child: Image.asset(
-                              'assets/broken.png',
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          placeholder: (context, string) {
-                            return Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                CachedNetworkImage(
-                                  imageUrl: ImageUrlHelper.getBackdropUrl(
-                                      value.stillPath,
-                                      size: ImageSize.w300),
-                                  fit: BoxFit.cover,
-                                ),
-                                BackdropFilter(
-                                  filter: ImageFilter.blur(
-                                      sigmaX: 10.0, sigmaY: 10.0),
-                                  child: Container(
-                                    color: Colors.black.withOpacity(0.5),
-                                  ),
-                                ),
-                              ],
-                            );
+                        stillsImageState.when(
+                          data: (value) {
+                            return AppImageSlider(
+                                image: value.map((e) => e.filePath!).toList());
                           },
-                          fit: BoxFit.cover,
-                        ),
-                        // Backdrop top
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            height: 300,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.bottomCenter, // Awal gradien
-                                end: Alignment.topCenter, // Akhir gradien
-                                colors: [
-                                  Theme.of(context)
-                                      .scaffoldBackgroundColor
-                                      .withOpacity(1),
-                                  Theme.of(context)
-                                      .scaffoldBackgroundColor
-                                      .withOpacity(0.8),
-
-                                  Colors.transparent, // Warna akhir
-                                ],
-                              ),
-                            ),
-                          ),
+                          loading: () => const Text(''),
+                          error: (error, stackTrace) => Container(),
                         ),
                         Positioned(
                           bottom: 20,
@@ -157,30 +110,22 @@ class _TvEpisodeDetailPageState extends ConsumerState<TvEpisodeDetailPage> {
                           right: 20,
                           child: Row(
                             children: [
-                              ClipRRect(
-                                borderRadius:
-                                    BorderRadiusDirectional.circular(10),
-                                child: CachedNetworkImage(
-                                  height: 150,
-                                  width: 100,
-                                  imageUrl: ImageUrlHelper.getPosterUrl(
-                                      value.stillPath,
-                                      size: ImageSize.w500),
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, string) {
-                                    return const AppSkeleton();
-                                  },
-                                  errorWidget: (context, url, error) =>
-                                      Container(
-                                    color: Pallete.grey1,
-                                    child: Image.asset(
-                                      'assets/broken.png',
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 16),
+                              // ClipRRect(
+                              //   borderRadius:
+                              //       BorderRadiusDirectional.circular(10),
+                              //   child: CachedNetworkImage(
+                              //     height: 150,
+                              //     width: 100,
+                              //     imageUrl: ImageUrlHelper.getPosterUrl(
+                              //         value.stillPath,
+                              //         size: ImageSize.w500),
+                              //     fit: BoxFit.cover,
+                              //     placeholder: (context, string) {
+                              //       return const AppSkeleton();
+                              //     },
+                              //   ),
+                              // ),
+                              // const SizedBox(width: 16),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,7 +145,11 @@ class _TvEpisodeDetailPageState extends ConsumerState<TvEpisodeDetailPage> {
                                     const SizedBox(height: 9),
                                     StarRating(rating: value.voteAverage!),
                                     const SizedBox(height: 9),
-                                    AppButtonPlayVideo(seriesId: value.id),
+                                    AppButtonPlayVideo(
+                                      seriesId: widget.seriesId,
+                                      episodeNumber: value.episodeNumber,
+                                      seasonNumber: value.seasonNumber,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -319,11 +268,6 @@ class TvEpisodeDetailContentState
             children: [
               Text(widget.tv.name, style: const TextStyle(fontSize: 26)),
               const SizedBox(height: 10),
-              Text(
-                'Release Date: ${widget.tv.airDate}',
-                style: Theme.of(context).textTheme.labelMedium,
-              ),
-              const SizedBox(height: 10),
               Text(widget.tv.overview!),
             ],
           ),
@@ -331,54 +275,63 @@ class TvEpisodeDetailContentState
         const SizedBox(height: 20),
         Offstage(
           offstage: widget.tv.guestStars.isEmpty,
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 16),
-            child: const Text('Guest Star'),
-          ),
-        ),
-        SizedBox(
-          height: 150,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: widget.tv.guestStars.length,
-              itemBuilder: (context, index) {
-                final item = widget.tv.guestStars[index];
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16)
+                    .copyWith(bottom: 16),
+                child: const Text('Guest Star'),
+              ),
+              SizedBox(
+                height: 150,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: widget.tv.guestStars.length,
+                    itemBuilder: (context, index) {
+                      final item = widget.tv.guestStars[index];
 
-                return AppCastImage(
-                  actorId: item.id,
-                  image: item.profilePath!,
-                  name: item.name,
-                  character: item.character,
-                );
-              }),
+                      return AppCastImage(
+                        actorId: item.id,
+                        image: item.profilePath,
+                        name: item.name,
+                        character: item.character,
+                      );
+                    }),
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 20),
         Offstage(
           offstage: widget.tv.crew.isEmpty,
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 16),
-            child: const Text('Crew'),
-          ),
-        ),
-        SizedBox(
-          height: 150,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: widget.tv.crew.length,
-              itemBuilder: (context, index) {
-                final item = widget.tv.crew[index];
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16)
+                    .copyWith(bottom: 16),
+                child: const Text('Crew'),
+              ),
+              SizedBox(
+                height: 150,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: widget.tv.crew.length,
+                    itemBuilder: (context, index) {
+                      final item = widget.tv.crew[index];
 
-                return AppCastImage(
-                  actorId: item.id,
-                  image: item.profilePath ?? '',
-                  name: item.name,
-                  character: item.job,
-                );
-              }),
+                      return AppCastImage(
+                        actorId: item.id,
+                        image: item.profilePath ?? '',
+                        name: item.name,
+                        character: item.job,
+                      );
+                    }),
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 20),
       ],

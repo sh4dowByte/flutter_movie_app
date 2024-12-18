@@ -148,7 +148,7 @@ class _AppImageSliderState extends State<AppImageSlider> {
                           child: CachedNetworkImage(
                             imageUrl: ImageUrlHelper.getPosterUrl(
                                 widget.data[index].posterPath,
-                                size: ImageSize.w500),
+                                size: ImageSize.posterW500),
                             fit: BoxFit.cover,
                           ),
                         ),

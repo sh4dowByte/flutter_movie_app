@@ -2,11 +2,12 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/routes.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
+import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_button_play_video.dart';
-import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 
 class AppTvImageSlider extends StatefulWidget {
   final List<Tv> tv;
@@ -100,6 +101,13 @@ class _AppTvImageSliderState extends State<AppTvImageSlider>
                     imageUrl: ImageUrlHelper.getBackdropUrl(
                         tv[index].backdropPath,
                         size: ImageSize.backdropOriginal),
+                    errorWidget: (context, url, error) => Container(
+                      color: Pallete.grey1,
+                      child: Image.asset(
+                        'assets/broken.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
                     fit: BoxFit
                         .cover, // Gambar akan memenuhi area tanpa mengubah proporsi
                     placeholder: (context, url) {
@@ -228,12 +236,6 @@ class _AppTvImageSliderState extends State<AppTvImageSlider>
                               maxLines: 1,
                             ),
                           ),
-                          if (tv[_currentIndex].character != null) ...[
-                            Text(
-                              tv[_currentIndex].character!,
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                          ],
                           const SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

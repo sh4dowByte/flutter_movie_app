@@ -111,14 +111,7 @@ class _TvDetailPageState extends ConsumerState<TvDetailPage> {
                           height: double.infinity,
                           imageUrl: ImageUrlHelper.getBackdropUrl(
                               value.backdropPath,
-                              size: ImageSize.original),
-                          errorWidget: (context, url, error) => Container(
-                            color: Pallete.grey1,
-                            child: Image.asset(
-                              'assets/broken.png',
-                              fit: BoxFit.contain,
-                            ),
-                          ),
+                              size: ImageSize.backdropOriginal),
                           placeholder: (context, string) {
                             return Stack(
                               fit: StackFit.expand,
@@ -126,7 +119,7 @@ class _TvDetailPageState extends ConsumerState<TvDetailPage> {
                                 CachedNetworkImage(
                                   imageUrl: ImageUrlHelper.getBackdropUrl(
                                       value.backdropPath,
-                                      size: ImageSize.w300),
+                                      size: ImageSize.backdropW300),
                                   fit: BoxFit.cover,
                                 ),
                                 BackdropFilter(
@@ -179,7 +172,7 @@ class _TvDetailPageState extends ConsumerState<TvDetailPage> {
                                   width: 100,
                                   imageUrl: ImageUrlHelper.getPosterUrl(
                                       value.posterPath,
-                                      size: ImageSize.w300),
+                                      size: ImageSize.posterW342),
                                   fit: BoxFit.cover,
                                   placeholder: (context, string) {
                                     return const AppSkeleton();
@@ -421,39 +414,44 @@ class TvDetailContentState extends ConsumerState<TvDetailContent> {
 
         const SizedBox(height: 20),
         // Caster
-        Offstage(
-          offstage: false,
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 16),
-            child: const Text('Top Billed Cast'),
-          ),
-        ),
 
         casterState.when(
           data: (data) => data.cast.isNotEmpty
-              ? SizedBox(
-                  height: 130,
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: data.cast.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        final item = data.cast[index];
+              ? Offstage(
+                  offstage: false,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16)
+                            .copyWith(bottom: 16),
+                        child: const Text('Top Billed Cast'),
+                      ),
+                      SizedBox(
+                        height: 130,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: data.cast.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              final item = data.cast[index];
 
-                        EdgeInsets margin = EdgeInsets.only(
-                          left: index == 0 ? 11 : 4,
-                          right: index == data.cast.length - 1 ? 11 : 4,
-                        );
+                              EdgeInsets margin = EdgeInsets.only(
+                                left: index == 0 ? 11 : 4,
+                                right: index == data.cast.length - 1 ? 11 : 4,
+                              );
 
-                        return AppCastImage(
-                          margin: margin,
-                          actorId: item.id,
-                          image: item.profilePath!,
-                          name: item.name,
-                          character: item.character!,
-                        );
-                      }),
+                              return AppCastImage(
+                                margin: margin,
+                                actorId: item.id,
+                                image: item.profilePath,
+                                name: item.name,
+                                character: item.character!,
+                              );
+                            }),
+                      )
+                    ],
+                  ),
                 )
               : Container(),
           loading: () => AppCastImage.loading(),
@@ -463,41 +461,43 @@ class TvDetailContentState extends ConsumerState<TvDetailContent> {
         const SizedBox(height: 20),
 
         // Recomended
-        Visibility(
-          visible: recomendedState.when(
-            data: (movies) => (movies.isNotEmpty),
-            loading: () => false, // Sembunyikan saat loading
-            error: (error, _) => false, // Tampilkan jika ada error
-          ),
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 16),
-            child: const Text('Recomended'),
-          ),
-        ),
+
         recomendedState.when(
           data: (data) => data.isNotEmpty
-              ? SizedBox(
-                  height: 220,
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      controller: _scrollControllerRecomended,
-                      itemCount: data.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        final item = data[index];
+              ? Offstage(
+                  offstage: false,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16)
+                            .copyWith(bottom: 16),
+                        child: const Text('Recomended'),
+                      ),
+                      SizedBox(
+                        height: 220,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            controller: _scrollControllerRecomended,
+                            itemCount: data.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              final item = data[index];
 
-                        EdgeInsets margin = EdgeInsets.only(
-                          left: index == 0 ? 20 : 4,
-                          right: index == data.length - 1 ? 20 : 4,
-                        );
+                              EdgeInsets margin = EdgeInsets.only(
+                                left: index == 0 ? 20 : 4,
+                                right: index == data.length - 1 ? 20 : 4,
+                              );
 
-                        return AppTvCoverBox(
-                          item: item,
-                          margin: margin,
-                          // replaceRoute: true,
-                        );
-                      }),
+                              return AppTvCoverBox(
+                                item: item,
+                                margin: margin,
+                                // replaceRoute: true,
+                              );
+                            }),
+                      )
+                    ],
+                  ),
                 )
               : Container(),
           loading: () => AppTvCoverBox.loading(),

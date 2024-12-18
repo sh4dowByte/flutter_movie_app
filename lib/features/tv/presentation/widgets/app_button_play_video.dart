@@ -3,16 +3,25 @@ import 'package:flutter_movie_app/core/routes.dart';
 
 class AppButtonPlayVideo extends StatelessWidget {
   final int seriesId;
+  final int? seasonNumber;
+  final int? episodeNumber;
   const AppButtonPlayVideo({
     super.key,
     required this.seriesId,
+    this.seasonNumber,
+    this.episodeNumber,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () =>
-          Navigator.pushNamed(context, Routes.clipMovie, arguments: seriesId),
+      onTap: () => Navigator.pushNamed(context, Routes.clipMovie, arguments: {
+        'title': 'Tv Clip Video',
+        'providerKey': 'tv_clip',
+        'seriesId': seriesId,
+        'seasonNumber': seasonNumber,
+        'episodeNumber': episodeNumber,
+      }),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(

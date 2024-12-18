@@ -9,14 +9,14 @@ class AppCastImage extends StatelessWidget {
     super.key,
     this.margin,
     required this.actorId,
-    required this.image,
+    this.image,
     required this.name,
     required this.character,
   });
 
   final EdgeInsets? margin;
   final int actorId;
-  final String image;
+  final String? image;
   final String name;
   final String character;
 
@@ -37,8 +37,8 @@ class AppCastImage extends StatelessWidget {
               borderRadius:
                   BorderRadius.circular(40), // Setengah dari tinggi/lebar
               child: CachedNetworkImage(
-                imageUrl:
-                    ImageUrlHelper.getPosterUrl(image, size: ImageSize.w500),
+                imageUrl: ImageUrlHelper.getProfileUrl(image,
+                    size: ImageSize.profileW185),
                 placeholder: (context, string) {
                   return CachedNetworkImage(
                     imageUrl:

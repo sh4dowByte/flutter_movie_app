@@ -1,25 +1,65 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/features/movie/data/models/movie_clip.dart';
+import 'package:flutter_movie_app/core/data/models/movie_clip.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_clip_notifier.dart';
 import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
+import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_clip_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MovieClipPage extends ConsumerStatefulWidget {
-  final int movieId;
-  const MovieClipPage(this.movieId, {super.key});
+  final String providerKey;
+  final String title;
+  final int? movieId;
+  final int? seriesId;
+  final int? seasonNumber;
+  final int? episodeNumber;
+  const MovieClipPage(
+    this.providerKey,
+    this.title, {
+    super.key,
+    this.movieId,
+    this.seriesId,
+    this.seasonNumber,
+    this.episodeNumber,
+  });
 
   @override
   ConsumerState<MovieClipPage> createState() => MovieClipPageState();
 }
 
 class MovieClipPageState extends ConsumerState<MovieClipPage> {
+  late final StateNotifierProvider<dynamic, AsyncValue<List<MovieClip>>>
+      provider;
+
   @override
   void initState() {
     super.initState();
+
+    // Tetapkan provider berdasarkan `providerKey`
+    switch (widget.providerKey) {
+      case 'movie_clip':
+        provider = clipMoviesProvider;
+        break;
+      case 'tv_clip':
+        provider = clipTvProvider;
+        break;
+      default:
+        throw Exception('Invalid providerKey: ${widget.providerKey}');
+    }
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(clipMoviesProvider.notifier).getInitial(widget.movieId);
+      switch (widget.providerKey) {
+        case 'movie_clip':
+          ref.read(provider.notifier).getInitial(widget.movieId!);
+          break;
+        case 'tv_clip':
+          ref.read(provider.notifier).getInitial(
+              widget.seriesId!, widget.seasonNumber, widget.episodeNumber);
+          break;
+        default:
+          throw Exception('Invalid providerKey: ${widget.providerKey}');
+      }
     });
   }
 
@@ -30,11 +70,11 @@ class MovieClipPageState extends ConsumerState<MovieClipPage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(clipMoviesProvider);
+    final state = ref.watch(provider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Trailers'),
+        title: Text(widget.title),
       ),
       body: state.when(
         data: (data) => SizedBox(

@@ -53,6 +53,15 @@ class AppSeasonCoverTile extends StatelessWidget {
                 )),
 
             Positioned(
+                right: 10,
+                bottom: 0,
+                child: Text(
+                  '${item.episodeCount} Episodes',
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.labelSmall,
+                )),
+
+            Positioned(
               bottom: 20,
               left: 100,
               right: 0,
@@ -67,7 +76,7 @@ class AppSeasonCoverTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${DateHelper.formatNormalDate(item.airDate ?? '')} - ${item.episodeCount} episodes',
+                      '${DateHelper.formatNormalDate(item.airDate ?? '')} ',
                       style: Theme.of(context)
                           .textTheme
                           .labelSmall!
@@ -97,7 +106,7 @@ class AppSeasonCoverTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(13),
                 child: CachedNetworkImage(
                   imageUrl: ImageUrlHelper.getPosterUrl(item.posterPath,
-                      size: ImageSize.w300),
+                      size: ImageSize.posterW342),
                   placeholder: (context, url) => const AppSkeleton(),
                   errorWidget: (context, url, error) => Container(
                     color: Pallete.grey1,
