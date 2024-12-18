@@ -11,8 +11,7 @@ import 'package:flutter_movie_app/core/data/models/genres.dart' as _i9;
 import 'package:flutter_movie_app/core/errors/failure.dart' as _i8;
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart'
     as _i11;
-import 'package:flutter_movie_app/features/movie/data/models/movie_clip.dart'
-    as _i10;
+import 'package:flutter_movie_app/core/data/models/movie_clip.dart' as _i10;
 import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart'
     as _i5;
 import 'package:flutter_movie_app/features/movie/data/services/movie_services.dart'

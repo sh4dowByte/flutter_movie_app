@@ -1,8 +1,9 @@
+import 'package:flutter_movie_app/core/data/models/movie_clip.dart';
 import 'package:flutter_movie_app/core/errors/failure.dart';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter_movie_app/core/data/models/genres.dart';
-import 'package:flutter_movie_app/features/tv/data/models/stills_images.dart';
+import 'package:flutter_movie_app/core/data/models/stills_images.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 import 'package:flutter_movie_app/features/people/data/models/tv_credits.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_detail.dart';
@@ -19,6 +20,9 @@ abstract class TvRepository {
       int seriesId, int sessionNumber, int episodeNumber);
   Future<Either<Failure, List<StillsImage>>> getStillsImageEpisode(
       int seriesId, int sessionNumber, int episodeNumber);
+
+  Future<Either<Failure, List<MovieClip>>> getClipTv(
+      int seriesId, int? sessionNumber, int? episodeNumber);
 
   Future<Either<Failure, List<Tv>>> getDiscoverTv(int page, int genreId);
   Future<Either<Failure, List<Tv>>> getAiringTodayTv(int page);

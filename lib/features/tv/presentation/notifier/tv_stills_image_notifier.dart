@@ -1,4 +1,4 @@
-import 'package:flutter_movie_app/features/tv/data/models/stills_images.dart';
+import 'package:flutter_movie_app/core/data/models/stills_images.dart';
 import 'package:flutter_movie_app/features/tv/domain/usecases/get_stills_image_tv.dart';
 import 'package:flutter_movie_app/features/tv/presentation/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

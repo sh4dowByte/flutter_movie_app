@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_movie_app/core/data/models/movie_clip.dart';
 import 'package:flutter_movie_app/core/data/services/tmdb_services.dart';
 import 'package:flutter_movie_app/core/data/models/genres.dart';
-import 'package:flutter_movie_app/features/tv/data/models/stills_images.dart';
+import 'package:flutter_movie_app/core/data/models/stills_images.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 import 'package:flutter_movie_app/features/people/data/models/tv_credits.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_detail.dart';
@@ -246,6 +247,33 @@ class TVService extends TMDBService {
         return TvCredits.fromJson(credit);
       } else {
         throw Exception('Failed to fetch credit tv');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<List<MovieClip>> fetchTvClip(int seriesId,
+      {int? seasonNumber, int? episodeNumber}) async {
+    try {
+      String endpoint = '/3/tv/$seriesId';
+
+      if (seasonNumber != null) {
+        endpoint += '/season/$seasonNumber';
+        if (episodeNumber != null) {
+          endpoint += '/episode/$episodeNumber';
+        }
+      }
+
+      endpoint += '/videos';
+
+      final response = await dio.get(endpoint);
+
+      if (response.statusCode == 200) {
+        final List data = response.data['results'];
+        return data.map((data) => MovieClip.fromJson(data)).toList();
+      } else {
+        throw Exception('Failed to fetch TV clips');
       }
     } catch (e) {
       throw Exception('Error: $e');

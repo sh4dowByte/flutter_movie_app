@@ -11,8 +11,11 @@ class AppButtonPlayTrailer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () =>
-          Navigator.pushNamed(context, Routes.clipMovie, arguments: movieId),
+      onTap: () => Navigator.pushNamed(context, Routes.clipMovie, arguments: {
+        'movieId': movieId,
+        'title': 'Trailers',
+        'providerKey': 'movie_clip',
+      }),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(

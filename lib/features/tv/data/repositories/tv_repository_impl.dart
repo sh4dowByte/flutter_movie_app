@@ -1,6 +1,7 @@
+import 'package:flutter_movie_app/core/data/models/movie_clip.dart';
 import 'package:flutter_movie_app/core/errors/failure.dart';
 import 'package:flutter_movie_app/core/data/models/genres.dart';
-import 'package:flutter_movie_app/features/tv/data/models/stills_images.dart';
+import 'package:flutter_movie_app/core/data/models/stills_images.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 import 'package:flutter_movie_app/features/people/data/models/tv_credits.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_detail.dart';
@@ -177,6 +178,21 @@ class TvRepositoryImpl implements TvRepository {
       return Right(tv);
     } catch (e) {
       return Left(NetworkFailure('Failed to load stills image tv.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<MovieClip>>> getClipTv(
+      int seriesId, int? sessionNumber, int? episodeNumber) async {
+    try {
+      final tv = await _tvService.fetchTvClip(seriesId,
+          seasonNumber: sessionNumber, episodeNumber: episodeNumber);
+      if (tv.isEmpty) {
+        return Left(EmptyDataFailure('No on the tv clip found.'));
+      }
+      return Right(tv);
+    } catch (e) {
+      return Left(NetworkFailure('Failed to load tv clip.'));
     }
   }
 }

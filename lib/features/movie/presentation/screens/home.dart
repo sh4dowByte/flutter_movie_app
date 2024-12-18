@@ -103,7 +103,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       body: RefreshIndicator(
         onRefresh: initData,
         child: ListView(
-          padding: const EdgeInsets.only(top: 0),
+          padding: const EdgeInsets.only(top: 0, bottom: 40),
           children: [
             // Now Playing
             movieStateNowPlaying.when(

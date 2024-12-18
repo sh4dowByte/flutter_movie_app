@@ -145,7 +145,11 @@ class _TvEpisodeDetailPageState extends ConsumerState<TvEpisodeDetailPage> {
                                     const SizedBox(height: 9),
                                     StarRating(rating: value.voteAverage!),
                                     const SizedBox(height: 9),
-                                    AppButtonPlayVideo(seriesId: value.id),
+                                    AppButtonPlayVideo(
+                                      seriesId: widget.seriesId,
+                                      episodeNumber: value.episodeNumber,
+                                      seasonNumber: value.seasonNumber,
+                                    ),
                                   ],
                                 ),
                               ),

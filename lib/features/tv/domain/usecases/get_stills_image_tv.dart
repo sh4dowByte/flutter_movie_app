@@ -1,7 +1,7 @@
 // fetch_upcoming_movies.dart
 import 'package:dartz/dartz.dart';
 import 'package:flutter_movie_app/core/errors/failure.dart';
-import 'package:flutter_movie_app/features/tv/data/models/stills_images.dart';
+import 'package:flutter_movie_app/core/data/models/stills_images.dart';
 import 'package:flutter_movie_app/features/tv/domain/repositories/tv_repository.dart';
 
 class GetStillsImageTv {

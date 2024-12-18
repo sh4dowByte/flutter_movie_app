@@ -3,7 +3,7 @@ import 'package:flutter_movie_app/core/errors/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_movie_app/core/data/models/genres.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
-import 'package:flutter_movie_app/features/movie/data/models/movie_clip.dart';
+import 'package:flutter_movie_app/core/data/models/movie_clip.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
 
 abstract class MovieRepository {

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/features/people/presentation/screens/actor_detail.dart';
-import 'package:flutter_movie_app/features/tv/presentation/screens/see_more.dart';
-import 'package:flutter_movie_app/features/tv/presentation/screens/tv_detail.dart';
-import 'package:flutter_movie_app/features/tv/presentation/screens/tv_episode_detail.dart';
-import 'package:flutter_movie_app/features/tv/presentation/screens/tv_search.dart';
-import 'package:flutter_movie_app/features/tv/presentation/screens/tv_season_detail.dart';
 
+import '../features/tv/presentation/screens/screen.dart';
 import '../features/movie/presentation/screens/screens.dart';
-import 'screens/menu.dart';
+import 'presentation/screens/menu.dart';
+import 'presentation/screens/movie_clip.dart';
 
 class Routes {
   static const String menu = '/menu';
@@ -65,8 +62,24 @@ class Routes {
         return MaterialPageRoute(builder: (_) => ActorDetailPage(personId));
 
       case clipMovie:
-        final int movieId = settings.arguments as int;
-        return MaterialPageRoute(builder: (_) => MovieClipPage(movieId));
+        final args = settings.arguments as Map<String, dynamic>;
+
+        final movieId = args['movieId'];
+        final provider = args['providerKey'];
+        final title = args['title'];
+        final seriesId = args['seriesId'];
+        final seasonNumber = args['seasonNumber'];
+        final episodeNumber = args['episodeNumber'];
+
+        return MaterialPageRoute(
+            builder: (_) => MovieClipPage(
+                  provider,
+                  title,
+                  movieId: movieId,
+                  seriesId: seriesId,
+                  seasonNumber: seasonNumber,
+                  episodeNumber: episodeNumber,
+                ));
 
       case seeMore:
         final args = settings.arguments as Map<String, dynamic>;
