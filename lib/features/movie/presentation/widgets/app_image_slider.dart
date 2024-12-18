@@ -7,7 +7,7 @@ import 'package:flutter_movie_app/core/routes.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_button_play_trailer.dart';
-import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_skeleton.dart';
 
 class AppImageSlider extends StatefulWidget {
   final List<Movie> movie;

@@ -7,7 +7,7 @@ import 'package:flutter_movie_app/core/utils/date_helper.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/features/favorite/presentation/notifiers/movie_favorite_notifier.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
-import 'package:flutter_movie_app/core/widget/star_rating.dart';
+import 'package:flutter_movie_app/core/presentation/widget/star_rating.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_detail.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_credit_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_detail_notifier.dart';
@@ -15,13 +15,13 @@ import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_recomende
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_button_play_video.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_tv_season_card.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_tv_card.dart';
-import 'package:flutter_movie_app/core/widget/app_cast_image.dart';
-import 'package:flutter_movie_app/core/widget/app_circle_button.dart';
-import 'package:flutter_movie_app/core/widget/app_error.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_cast_image.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_circle_button.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_error.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../../../../core/widget/app_skeleton.dart';
+import '../../../../core/presentation/widget/app_skeleton.dart';
 
 class TvDetailPage extends ConsumerStatefulWidget {
   const TvDetailPage(this.seriesId, {super.key});

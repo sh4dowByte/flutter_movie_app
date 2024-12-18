@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/data/models/movie_clip.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_icons8.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_clip_notifier.dart';
-import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_skeleton.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_clip_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class MovieClipPage extends ConsumerStatefulWidget {
@@ -88,24 +89,29 @@ class MovieClipPageState extends ConsumerState<MovieClipPage> {
             itemCount: data.length,
             itemBuilder: (context, index) {
               final item = data[index];
-              return AppMovieClipCover(
-                item: item,
-                activeVideoId: _activeVideoId,
-                onPlay:
-                    setActiveVideo, // Panggil fungsi untuk mengatur video aktif
-              );
+
+              switch (item.site) {
+                case 'YouTube':
+                  return AppMovieClipYoutube(
+                    item: item,
+                    activeVideoId: _activeVideoId,
+                    onPlay: setActiveVideo,
+                  );
+                default:
+                  return Container();
+              }
             },
           ),
         ),
-        loading: () => AppMovieClipCover.loading(),
+        loading: () => AppMovieClipYoutube.loading(),
         error: (error, stackTrace) => Center(child: Text('$error')),
       ),
     );
   }
 }
 
-class AppMovieClipCover extends StatefulWidget {
-  const AppMovieClipCover({
+class AppMovieClipYoutube extends StatefulWidget {
+  const AppMovieClipYoutube({
     super.key,
     required this.item,
     required this.activeVideoId,
@@ -117,7 +123,7 @@ class AppMovieClipCover extends StatefulWidget {
   final Function(String videoId) onPlay; // Callback untuk mengatur video aktif
 
   @override
-  State<AppMovieClipCover> createState() => _AppMovieClipCoverState();
+  State<AppMovieClipYoutube> createState() => _AppMovieClipYoutubeState();
 
   static Widget loading() {
     return ListView.builder(
@@ -139,7 +145,7 @@ class AppMovieClipCover extends StatefulWidget {
   }
 }
 
-class _AppMovieClipCoverState extends State<AppMovieClipCover> {
+class _AppMovieClipYoutubeState extends State<AppMovieClipYoutube> {
   late YoutubePlayerController _controller;
 
   @override
@@ -148,8 +154,10 @@ class _AppMovieClipCoverState extends State<AppMovieClipCover> {
     _controller = YoutubePlayerController(
       initialVideoId: widget.item.key,
       flags: const YoutubePlayerFlags(
-        autoPlay: true,
+        autoPlay: false,
         mute: false,
+        enableCaption: true,
+        isLive: false,
       ),
     );
   }
@@ -164,124 +172,149 @@ class _AppMovieClipCoverState extends State<AppMovieClipCover> {
   Widget build(BuildContext context) {
     // Periksa apakah video ini adalah video aktif
     final isActive = widget.item.key == widget.activeVideoId;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-      child: isActive
-          ? ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: YoutubePlayer(
-                controller: _controller,
-                showVideoProgressIndicator: true,
-                progressIndicatorColor: Colors.red,
-                progressColors: const ProgressBarColors(
-                  playedColor: Colors.red,
-                  handleColor: Colors.redAccent,
-                ),
-                onReady: () {
-                  _controller.play(); // Play saat menjadi aktif
-                },
-              ),
-            )
-          : GestureDetector(
-              onTap: () {
-                widget.onPlay(widget.item.key); // Set video aktif
-                _controller.play();
-              },
-              child: InkWell(
-                hoverColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                // onTap: () async {
-                //   // if (!await launchUrl(
-                //   //     Uri(
-                //   //       scheme: 'https',
-                //   //       host: 'www.youtube.com',
-                //   //       path: 'watch',
-                //   //       queryParameters: {
-                //   //         'v': widget.item.key
-                //   //       }, // Tambahkan parameter video ID
-                //   //     ),
-                //   //     mode: LaunchMode.externalApplication)) {
-                //   //   throw Exception('Could not launch ');
-                //   // }
-                // },
-                child: Stack(
-                  children: [
-                    Center(
-                      child: SizedBox(
-                        height: 200,
-                        width: double.infinity,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                'https://img.youtube.com/vi/${widget.item.key}/hqdefault.jpg',
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) {
-                              return CachedNetworkImage(
-                                imageUrl:
-                                    'https://img.youtube.com/vi/${widget.item.key}/default.jpg',
-                                fit: BoxFit.cover,
-                              );
-                            },
-                            errorWidget: (context, url, error) => const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(
+        controller: _controller,
+        showVideoProgressIndicator: true,
+        progressIndicatorColor: Colors.red,
+        progressColors: const ProgressBarColors(
+          playedColor: Colors.red,
+          handleColor: Colors.redAccent,
+        ),
+        onReady: () {
+          if (isActive) {
+            _controller.play();
+          }
+        },
+      ),
+      builder: (context, player) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          child: isActive
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: player,
+                )
+              : GestureDetector(
+                  onTap: () {
+                    widget.onPlay(widget.item.key);
+                    _controller.play();
+                  },
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: SizedBox(
+                          height: 210,
+                          width: double.infinity,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  'https://img.youtube.com/vi/${widget.item.key}/hqdefault.jpg',
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) {
+                                return CachedNetworkImage(
+                                  imageUrl:
+                                      'https://img.youtube.com/vi/${widget.item.key}/default.jpg',
+                                  fit: BoxFit.cover,
+                                );
+                              },
+                              errorWidget: (context, url, error) =>
+                                  const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons
+                                        .signal_cellular_connected_no_internet_0_bar_rounded,
+                                    size: 30,
+                                  ),
+                                  SizedBox(height: 30),
+                                  Text('Sorry, This video unavailable '),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          height: 70,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            gradient: LinearGradient(
+                              end: Alignment.topCenter,
+                              begin: Alignment.bottomCenter,
+                              colors: [
+                                Colors.black.withOpacity(0.8),
+                                Colors.black.withOpacity(0.7),
+                                Colors.transparent,
+                              ],
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20)
+                                .copyWith(bottom: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(
-                                  Icons
-                                      .signal_cellular_connected_no_internet_0_bar_rounded,
-                                  size: 30,
+                                Flexible(
+                                  flex: 4,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        widget.item.name,
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Text(widget.item.type,
+                                          style: const TextStyle(
+                                              fontSize: 11,
+                                              color: Colors.grey)),
+                                    ],
+                                  ),
                                 ),
-                                SizedBox(height: 30),
-                                Text('Sorry, This video unavailable '),
+                                Flexible(
+                                  flex: 1,
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      if (!await launchUrl(
+                                          Uri(
+                                            scheme: 'https',
+                                            host: 'www.youtube.com',
+                                            path: 'watch',
+                                            queryParameters: {
+                                              'v': widget.item.key
+                                            },
+                                          ),
+                                          mode:
+                                              LaunchMode.externalApplication)) {
+                                        throw Exception(
+                                            'Could not launch video');
+                                      }
+                                    },
+                                    child: AppIcons8.getById('19318',
+                                        width: 40, height: 40),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        height: 70,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          gradient: LinearGradient(
-                            end: Alignment.topCenter, // Awal gradien
-                            begin: Alignment.bottomCenter, // Akhir gradien
-                            colors: [
-                              Colors.black.withOpacity(0.8),
-                              Colors.black.withOpacity(0.7),
-                              Colors.transparent, // Warna akhir
-                            ],
-                          ),
-                        ),
-
-                        // Title
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20)
-                              .copyWith(bottom: 10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(widget.item.name,
-                                  style: const TextStyle(color: Colors.white),
-                                  maxLines: 2),
-                              Text(widget.item.type,
-                                  style: const TextStyle(
-                                      fontSize: 11, color: Colors.grey)),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              )),
+        );
+      },
     );
   }
 }

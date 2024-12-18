@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_select_item_small.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_discover_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_genre_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_now_playing_notifier.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_up
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_image_slider.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_movie_card.dart';
 import 'package:flutter_movie_app/features/settings/presentation/notifiers/language_notifier.dart';
-import 'package:flutter_movie_app/core/widget/widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/routes.dart';

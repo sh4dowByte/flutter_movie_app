@@ -3,7 +3,7 @@ import 'package:flutter_movie_app/features/favorite/presentation/screens/favorit
 import 'package:flutter_movie_app/features/settings/presentation/screens/settings.dart';
 import 'package:flutter_movie_app/features/tv/presentation/screens/home.dart';
 import '../../pallete.dart';
-import '../../widget/widget.dart';
+import '../widget/widget.dart';
 import '../../../features/movie/presentation/screens/screens.dart';
 
 class MenuPage extends StatefulWidget {

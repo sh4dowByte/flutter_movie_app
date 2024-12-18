@@ -4,8 +4,8 @@ import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/routes.dart';
 import 'package:flutter_movie_app/core/utils/date_helper.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
-import 'package:flutter_movie_app/core/widget/star_rating.dart';
-import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
+import 'package:flutter_movie_app/core/presentation/widget/star_rating.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_skeleton.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_detail.dart';
 
 class AppSeasonCoverTile extends StatelessWidget {

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_seasons.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_detail_season_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_tv_episode_card.dart';
-import 'package:flutter_movie_app/core/widget/app_error.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_error.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/widget/app_skeleton.dart';
+import '../../../../core/presentation/widget/app_skeleton.dart';
 
 class TvSeasonDetailPage extends ConsumerStatefulWidget {
   const TvSeasonDetailPage(this.seriesId, this.seasonNumber, {super.key});
