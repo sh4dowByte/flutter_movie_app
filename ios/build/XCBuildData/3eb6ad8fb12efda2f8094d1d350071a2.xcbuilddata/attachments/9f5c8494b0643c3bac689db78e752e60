@@ -1,0 +1,15 @@
+{
+  "" : {
+    "const-values" : "/Users/ahmadjuhdi/Flutter/Project/flutter_movie_app/ios/build/Pods.build/Release-iphoneos/OrderedSet.build/Objects-normal/arm64/OrderedSet-master.swiftconstvalues",
+    "dependencies" : "/Users/ahmadjuhdi/Flutter/Project/flutter_movie_app/ios/build/Pods.build/Release-iphoneos/OrderedSet.build/Objects-normal/arm64/OrderedSet-master.d",
+    "diagnostics" : "/Users/ahmadjuhdi/Flutter/Project/flutter_movie_app/ios/build/Pods.build/Release-iphoneos/OrderedSet.build/Objects-normal/arm64/OrderedSet-master.dia",
+    "emit-module-dependencies" : "/Users/ahmadjuhdi/Flutter/Project/flutter_movie_app/ios/build/Pods.build/Release-iphoneos/OrderedSet.build/Objects-normal/arm64/OrderedSet-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/ahmadjuhdi/Flutter/Project/flutter_movie_app/ios/build/Pods.build/Release-iphoneos/OrderedSet.build/Objects-normal/arm64/OrderedSet-master-emit-module.dia",
+    "swift-dependencies" : "/Users/ahmadjuhdi/Flutter/Project/flutter_movie_app/ios/build/Pods.build/Release-iphoneos/OrderedSet.build/Objects-normal/arm64/OrderedSet-master.swiftdeps"
+  },
+  "/Users/ahmadjuhdi/Flutter/Project/flutter_movie_app/ios/Pods/OrderedSet/Sources/OrderedSet.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/OrderedSet.build/Objects-normal/arm64/OrderedSet.o",
+    "llvm-bc" : "/Users/ahmadjuhdi/Flutter/Project/flutter_movie_app/ios/build/Pods.build/Release-iphoneos/OrderedSet.build/Objects-normal/arm64/OrderedSet.bc",
+    "object" : "/Users/ahmadjuhdi/Flutter/Project/flutter_movie_app/ios/build/Pods.build/Release-iphoneos/OrderedSet.build/Objects-normal/arm64/OrderedSet.o"
+  }
+}
