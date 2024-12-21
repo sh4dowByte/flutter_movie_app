@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_movie_app/core/data/models/movie_clip.dart';
 import 'package:flutter_movie_app/core/presentation/widget/app_icons8.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_clip_notifier.dart';
@@ -175,29 +174,6 @@ class _AppMovieClipYoutubeState extends State<AppMovieClipYoutube> {
     final isActive = widget.item.key == widget.activeVideoId;
 
     return YoutubePlayerBuilder(
-      onEnterFullScreen: () {
-        // Enter fullscreen mode
-        SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-        SystemChrome.setPreferredOrientations([
-          DeviceOrientation.landscapeRight,
-          DeviceOrientation.landscapeLeft
-        ]);
-
-        print('enter full');
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => FullScreenVideoPage(videoId: widget.item.key),
-          ),
-        );
-      },
-      onExitFullScreen: () {
-        // Exit fullscreen mode
-        SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-        SystemChrome.setPreferredOrientations(
-            [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-      },
       player: YoutubePlayer(
         controller: _controller,
         showVideoProgressIndicator: true,
@@ -340,35 +316,6 @@ class _AppMovieClipYoutubeState extends State<AppMovieClipYoutube> {
                 ),
         );
       },
-    );
-  }
-}
-
-class FullScreenVideoPage extends StatelessWidget {
-  final String videoId;
-  const FullScreenVideoPage({Key? key, required this.videoId})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    // YoutubePlayerController _playerController = YoutubePlayerController(
-    //   initialVideoId: videoId,
-    //   flags: const YoutubePlayerFlags(
-    //     autoPlay: true,
-    //     mute: false,
-    //   ),
-    // );
-
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        iconTheme: const IconThemeData(color: Colors.white),
-        title: const Text(
-          'Fullscreen Video',
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-      body: Center(child: Text(videoId)),
     );
   }
 }

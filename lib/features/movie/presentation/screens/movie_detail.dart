@@ -6,8 +6,8 @@ import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/presentation/widget/app_circle_button.dart';
 import 'package:flutter_movie_app/core/utils/date_helper.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
+import 'package:flutter_movie_app/features/favorite/data/models/favorite.dart';
 import 'package:flutter_movie_app/features/favorite/presentation/notifiers/movie_favorite_notifier.dart';
-import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_detail_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_recomended_notifier.dart';
@@ -242,7 +242,7 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                                 .read(favoriteMoviesProvider
                                                     .notifier)
                                                 .toggleFavoriteMovie(
-                                                    Movie.fromJson(
+                                                    Favorite.fromMapMovie(
                                                         value.toJson()));
                                           },
                                           child: Icon(

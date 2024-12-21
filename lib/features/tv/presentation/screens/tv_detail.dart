@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/pallete.dart';
 import 'package:flutter_movie_app/core/utils/date_helper.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
-import 'package:flutter_movie_app/features/favorite/presentation/notifiers/movie_favorite_notifier.dart';
-import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
+import 'package:flutter_movie_app/features/favorite/data/models/favorite.dart';
 import 'package:flutter_movie_app/core/presentation/widget/star_rating.dart';
+import 'package:flutter_movie_app/features/favorite/presentation/notifiers/tv_favorite_notifier.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_detail.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_credit_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_detail_notifier.dart';
@@ -234,21 +234,20 @@ class _TvDetailPageState extends ConsumerState<TvDetailPage> {
                                         InkWell(
                                           onTap: () {
                                             ref
-                                                .read(favoriteMoviesProvider
-                                                    .notifier)
-                                                .toggleFavoriteMovie(
-                                                    Movie.fromJson(
+                                                .read(
+                                                    favoriteTvProvider.notifier)
+                                                .toggleFavoriteTv(
+                                                    Favorite.fromMapSeries(
                                                         value.toJson()));
                                           },
                                           child: Icon(
                                             Icons.favorite,
                                             color: ref
-                                                    .watch(
-                                                        favoriteMoviesProvider)
+                                                    .watch(favoriteTvProvider)
                                                     .maybeWhen(
-                                                      data: (movies) =>
-                                                          movies.any((movie) =>
-                                                              movie.id ==
+                                                      data: (series) =>
+                                                          series.any((series) =>
+                                                              series.id ==
                                                               value.id),
                                                       orElse: () => false,
                                                     )

@@ -16,3 +16,11 @@ class EmptyDataFailure extends Failure {
 class DBInsertFailed extends Failure {
   DBInsertFailed(super.message);
 }
+
+class DBFailure extends Failure {
+  DBFailure(super.message);
+}
+
+class DBDeleteFailed extends Failure {
+  DBDeleteFailed(super.message);
+}

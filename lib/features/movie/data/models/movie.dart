@@ -31,23 +31,3 @@ class Movie with _$Movie {
     return Movie.fromJson(map);
   }
 }
-
-// Ekstensi untuk menambahkan getter imageUrl
-extension MovieFavorite on Movie {
-// Tambahkan metode toMap
-  Map<String, dynamic> toMapForFavorite() {
-    return {
-      'id': id,
-      'title': title,
-      'poster_path': posterPath,
-      'backdrop_path': backdropPath,
-      'original_language': originalLanguage,
-      'original_title': originalTitle,
-      'overview': overview,
-      'popularity': popularity,
-      'release_date': releaseDate,
-      'vote_average': voteAverage,
-      'vote_count': voteCount,
-    };
-  }
-}

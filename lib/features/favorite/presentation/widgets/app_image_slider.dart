@@ -4,12 +4,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
-import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
+import 'package:flutter_movie_app/features/favorite/data/models/favorite.dart';
 
 class AppImageSlider extends StatefulWidget {
-  final List<Movie> data;
+  final List<Favorite> data;
   final Function(int)? onTap;
-  final Function(Movie)? onChange;
+  final Function(Favorite)? onChange;
 
   const AppImageSlider(
       {super.key, required this.data, this.onTap, this.onChange});
