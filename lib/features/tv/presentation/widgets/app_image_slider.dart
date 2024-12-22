@@ -174,8 +174,10 @@ class _AppImageSliderState extends State<AppImageSlider>
                 ),
 
                 // Backdroop
-                Align(
-                  alignment: Alignment.bottomCenter,
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: -2,
                   child: Container(
                     padding: const EdgeInsets.only(top: 60),
                     height: 220,

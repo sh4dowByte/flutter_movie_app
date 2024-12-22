@@ -22,8 +22,8 @@ jobs:
         run: |
           echo "TMDB_ACCESS_TOKEN=${{ secrets.YOUR_API_KEY }}" > .env
           echo "TMDB_API_BASE_URL=https://api.themoviedb.org" >> .env
-          echo "STREAM_SEARCH_API_BASE_URL=${{ secrets.STREAM_SEARCH_API_BASE_URL }}" > .env
-          echo "STREAM_MOVIE_API_BASE_URL=${{ secrets.STREAM_MOVIE_API_BASE_URL }}" > .env
+          echo "STREAM_SEARCH_API_BASE_URL=${{ secrets.STREAM_SEARCH_API_BASE_URL }}" >> .env
+          echo "STREAM_MOVIE_API_BASE_URL=${{ secrets.STREAM_MOVIE_API_BASE_URL }}" >> .env
 
         # 2. Setup Java
       - name: Set Up Java
@@ -75,31 +75,43 @@ jobs:
           restore-keys: |
             flutter-${{ runner.os }}-build-cache-
 
-        # 8. Building APK
-      - name: Build APK
+        # 8. Building APK (Release)
+      - name: Build APK (Release)
         run: flutter build apk --release
 
-        # 9. Building App Bundle (aab)
+        # 9. Building APK (Debug)
+      - name: Build APK (Debug)
+        run: flutter build apk --debug
+
+        # 10. Building App Bundle (aab)
       - name: Build appBundle
         run: flutter build appbundle
 
-        # 10. Upload Artifacts
-      - name: Upload Artifacts
+        # 11. Upload Release Artifacts
+      - name: Upload Release Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: Releases
+          name: Release APK & AAB
           path: |
             build/app/outputs/flutter-apk/app-release.apk
             build/app/outputs/bundle/release/app-release.aab
 
-        # 11. Extract Version
+        # 12. Upload Debug Artifacts
+      - name: Upload Debug Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Debug APK
+          path: |
+            build/app/outputs/flutter-apk/app-debug.apk
+
+        # 13. Extract Version
       - name: Extract version from pubspec.yaml
         id: extract_version
         run: |
           version=$(grep '^version: ' pubspec.yaml | cut -d ' ' -f 2 | tr -d '\r')
           echo "VERSION=$version" >> $GITHUB_ENV
 
-        # 12. Check if Tag Exists
+        # 14. Check if Tag Exists
       - name: Check if Tag Exists
         id: check_tag
         run: |
@@ -109,7 +121,7 @@ jobs:
             echo "TAG_EXISTS=false" >> $GITHUB_ENV
           fi
 
-        # 13. Modify Tag if it Exists
+        # 15. Modify Tag if it Exists
       - name: Modify Tag
         if: env.TAG_EXISTS == 'true'
         id: modify_tag
@@ -117,7 +129,7 @@ jobs:
           new_version="${{ env.VERSION }}-build-${{ github.run_number }}"
           echo "VERSION=$new_version" >> $GITHUB_ENV
         
-        # 14. Create Release
+        # 16. Create Release
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
