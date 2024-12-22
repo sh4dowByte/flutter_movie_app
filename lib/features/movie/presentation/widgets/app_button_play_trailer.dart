@@ -3,14 +3,18 @@ import 'package:flutter_movie_app/core/routes.dart';
 
 class AppButtonPlayTrailer extends StatelessWidget {
   final int movieId;
+  final String movieTitle;
   const AppButtonPlayTrailer({
     super.key,
     required this.movieId,
+    required this.movieTitle,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onLongPress: () =>
+          Navigator.pushNamed(context, Routes.movieList, arguments: movieTitle),
       onTap: () => Navigator.pushNamed(context, Routes.clipMovie, arguments: {
         'movieId': movieId,
         'title': 'Trailers',

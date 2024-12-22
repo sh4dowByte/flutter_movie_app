@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/routes.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
-import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_skeleton.dart';
 
 class AppCastImage extends StatelessWidget {
   const AppCastImage({

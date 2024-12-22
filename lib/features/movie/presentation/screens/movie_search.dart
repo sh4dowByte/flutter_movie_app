@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_search_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_movie_card.dart';
-import 'package:flutter_movie_app/core/widget/app_error.dart';
-import 'package:flutter_movie_app/core/widget/app_text_search.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_error.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_text_search.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MovieSearchPage extends ConsumerStatefulWidget {

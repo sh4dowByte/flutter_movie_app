@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../pallete.dart';
+import '../../pallete.dart';
 
 class AppTextSearch extends StatelessWidget {
   final String hintText;

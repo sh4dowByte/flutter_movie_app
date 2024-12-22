@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/features/favorite/presentation/screens/movie.dart';
+import 'package:flutter_movie_app/features/favorite/presentation/screens/tv.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({super.key});
@@ -46,7 +47,7 @@ class _FavoritePageState extends State<FavoritePage>
         controller: _tabController,
         children: const [
           MovieFavoritePage(),
-          Center(child: Text('Tv Series')),
+          TvFavoritePage(),
         ],
       ),
     );

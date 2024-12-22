@@ -204,9 +204,7 @@ class TVService extends TMDBService {
       final response = await dio.get(
         '/3/tv/$seriesId/season/$sessionNumber/episode/$episodeNumber/images',
         options: Options(
-          extra: {
-            'noLanguage': true
-          }, // Tandai request ini untuk skip 'language'
+          extra: {'noLanguage': true},
         ),
       );
 

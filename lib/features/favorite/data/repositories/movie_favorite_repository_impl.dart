@@ -1,10 +1,9 @@
 import 'package:flutter_movie_app/core/errors/failure.dart';
+import 'package:flutter_movie_app/features/favorite/data/models/favorite.dart';
 import 'package:flutter_movie_app/features/favorite/data/services/db_services.dart';
 import 'package:flutter_movie_app/features/favorite/domain/repositories/movie_favorite_repository.dart';
-import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 
 import 'package:dartz/dartz.dart';
-import 'package:flutter_movie_app/core/widget/app_error.dart';
 
 class MovieFavoriteRepositoryImpl implements MovieFavoriteRepository {
   final DBService _dbService;
@@ -12,15 +11,15 @@ class MovieFavoriteRepositoryImpl implements MovieFavoriteRepository {
   MovieFavoriteRepositoryImpl(this._dbService);
 
   @override
-  Future<Either<Failure, bool>> insertFavoriteMovie(Movie movie) async {
+  Future<Either<Failure, bool>> insertFavoriteMovie(Favorite fav) async {
     try {
-      final status = await _dbService.insertFavoriteMovie(movie);
-      if (status != 1) {
-        return Left(DBInsertFailed('Error insert favorite'));
+      final status = await _dbService.insertFavorite(fav);
+      if (status <= 0) {
+        return Left(DBInsertFailed('Failed to insert favorite movie.'));
       }
       return const Right(true);
     } catch (e) {
-      return Left(NetworkFailure('Unknown error db'));
+      return Left(DBFailure('Database error during insert: ${e.toString()}'));
     }
   }
 
@@ -28,25 +27,26 @@ class MovieFavoriteRepositoryImpl implements MovieFavoriteRepository {
   Future<Either<Failure, bool>> deleteFavoriteMovie(int id) async {
     try {
       final status = await _dbService.deleteFavoriteMovie(id);
-      if (status != 1) {
-        return Left(DBInsertFailed('Error remove favorite'));
+      if (status <= 0) {
+        return Left(DBDeleteFailed('Failed to delete favorite movie.'));
       }
       return const Right(true);
     } catch (e) {
-      return Left(NetworkFailure('Unknown error db'));
+      return Left(DBFailure('Database error during delete: ${e.toString()}'));
     }
   }
 
   @override
-  Future<Either<Failure, List<Movie>>> getFavoriteMovie() async {
+  Future<Either<Failure, List<Favorite>>> getFavoriteMovie() async {
     try {
-      final movie = await _dbService.getFavoriteMovie();
-      if (movie.isEmpty) {
-        return Left(EmptyDataFailure('Empty favorite movies.'));
+      final movies = await _dbService.getFavoriteMovie();
+      if (movies.isEmpty) {
+        return Left(EmptyDataFailure('No favorite movies found.'));
       }
-      return Right(movie);
+      return Right(movies);
     } catch (e) {
-      return Left(NetworkFailure(e.toString()));
+      return Left(
+          DBFailure('Database error during retrieval: ${e.toString()}'));
     }
   }
 }

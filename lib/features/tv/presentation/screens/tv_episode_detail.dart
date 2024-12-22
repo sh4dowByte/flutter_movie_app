@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/utils/date_helper.dart';
-import 'package:flutter_movie_app/core/widget/app_cast_image.dart';
-import 'package:flutter_movie_app/core/widget/star_rating.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_cast_image.dart';
+import 'package:flutter_movie_app/core/presentation/widget/star_rating.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv_episode.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_detail_episode_notifier.dart';
-import 'package:flutter_movie_app/core/widget/app_circle_button.dart';
-import 'package:flutter_movie_app/core/widget/app_error.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_circle_button.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_error.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_stills_image_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_button_play_video.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_image_slider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/widget/app_skeleton.dart';
+import '../../../../core/presentation/widget/app_skeleton.dart';
 
 class TvEpisodeDetailPage extends ConsumerStatefulWidget {
   const TvEpisodeDetailPage(
@@ -118,7 +118,7 @@ class _TvEpisodeDetailPageState extends ConsumerState<TvEpisodeDetailPage> {
                               //     width: 100,
                               //     imageUrl: ImageUrlHelper.getPosterUrl(
                               //         value.stillPath,
-                              //         size: ImageSize.w500),
+                              //         size: ImageSize.posterW500),
                               //     fit: BoxFit.cover,
                               //     placeholder: (context, string) {
                               //       return const AppSkeleton();

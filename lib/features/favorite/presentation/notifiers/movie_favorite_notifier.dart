@@ -1,21 +1,21 @@
-import 'package:flutter_movie_app/features/favorite/domain/usecases/add_favorite_movies.dart';
-import 'package:flutter_movie_app/features/favorite/domain/usecases/get_favorite_movies.dart';
-import 'package:flutter_movie_app/features/favorite/domain/usecases/remove_favorite_movies.dart';
+import 'package:flutter_movie_app/features/favorite/data/models/favorite.dart';
+import 'package:flutter_movie_app/features/favorite/domain/usecases/movie/add_favorite_movies.dart';
+import 'package:flutter_movie_app/features/favorite/domain/usecases/movie/get_favorite_movies.dart';
+import 'package:flutter_movie_app/features/favorite/domain/usecases/movie/remove_favorite_movies.dart';
 import 'package:flutter_movie_app/features/favorite/presentation/providers.dart';
-import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final getFavoriteMoviesProvider =
-    Provider((ref) => GetFavoriteMovies(ref.watch(repositoryProvider)));
+    Provider((ref) => GetFavoriteMovies(ref.watch(movieRepositoryProvider)));
 
 final addFavoriteMoviesProvider =
-    Provider((ref) => AddFavoriteMovies(ref.watch(repositoryProvider)));
+    Provider((ref) => AddFavoriteMovies(ref.watch(movieRepositoryProvider)));
 
 final removeFavoriteMoviesProvider =
-    Provider((ref) => RemoveFavoriteMovies(ref.watch(repositoryProvider)));
+    Provider((ref) => RemoveFavoriteMovies(ref.watch(movieRepositoryProvider)));
 
 final favoriteMoviesProvider =
-    StateNotifierProvider<FavoriteMovieNotifier, AsyncValue<List<Movie>>>(
+    StateNotifierProvider<FavoriteMovieNotifier, AsyncValue<List<Favorite>>>(
   (ref) {
     final getFavoriteMovies = ref.watch(getFavoriteMoviesProvider);
     final addFavoriteMovies = ref.watch(addFavoriteMoviesProvider);
@@ -25,7 +25,7 @@ final favoriteMoviesProvider =
   },
 );
 
-class FavoriteMovieNotifier extends StateNotifier<AsyncValue<List<Movie>>> {
+class FavoriteMovieNotifier extends StateNotifier<AsyncValue<List<Favorite>>> {
   final GetFavoriteMovies _getFavoriteMovies;
   final AddFavoriteMovies _addFavoriteMovies;
   final RemoveFavoriteMovies _removeFavoriteMovies;
@@ -59,26 +59,26 @@ class FavoriteMovieNotifier extends StateNotifier<AsyncValue<List<Movie>>> {
   }
 
   // Toggle Favorite Movie
-  Future<void> toggleFavoriteMovie(Movie movie) async {
+  Future<void> toggleFavoriteMovie(Favorite fav) async {
     final currentFavorites = state.asData?.value ?? [];
 
-    if (_isFavorite(movie.id)) {
+    if (_isFavorite(fav.id)) {
       // Jika film sudah ada, hapus dari daftar favorit
-      await _removeFavoriteMovies(movie.id);
+      await _removeFavoriteMovies(fav.id);
 
       // Perbarui state
       state = AsyncValue.data(
-          currentFavorites.where((m) => m.id != movie.id).toList());
+          currentFavorites.where((m) => m.id != fav.id).toList());
 
       if (state.asData!.value.isEmpty) {
         getFavoriteMovie();
       }
     } else {
       // Jika film belum ada, tambahkan ke daftar favorit
-      await _addFavoriteMovies(movie);
+      await _addFavoriteMovies(fav);
 
       // Perbarui state
-      state = AsyncValue.data([...currentFavorites, movie]);
+      getFavoriteMovie();
     }
   }
 

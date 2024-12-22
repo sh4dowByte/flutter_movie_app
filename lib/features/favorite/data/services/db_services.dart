@@ -1,4 +1,4 @@
-import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
+import 'package:flutter_movie_app/features/favorite/data/models/favorite.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -17,7 +17,7 @@ class DBService {
   }
 
   Future<Database> _initDB() async {
-    String path = join(await getDatabasesPath(), 'movie3.db');
+    String path = join(await getDatabasesPath(), 'favorite.db');
     return await openDatabase(
       path,
       version: 1,
@@ -27,40 +27,61 @@ class DBService {
 
   Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
-     CREATE TABLE fav_movie (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+     CREATE TABLE favorite (
+        fav_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER NOT NULL,
         title TEXT NOT NULL,                
         poster_path TEXT NULL,           
         backdrop_path TEXT NULL,         
-        original_language TEXT NOT NULL,   
-        original_title TEXT NOT NULL,     
         overview TEXT NOT NULL,            
         popularity DOUBLE NULL,        
-        release_date TEXT NOT NULL,         
+        date TEXT NOT NULL,         
         vote_average DOUBLE NOT NULL,       
+        type TEXT NOT NULL,       
         vote_count INTEGER NOT NULL       
       )
     ''');
   }
 
-  // CRUD Operations
-  Future<int> insertFavoriteMovie(Movie movie) async {
+  // Insert a favorite
+  Future<int> insertFavorite(Favorite fav) async {
     final db = await database;
-    return await db.insert('fav_movie', movie.toMapForFavorite());
+    return await db.insert('favorite', fav.toMap());
   }
 
-  Future<List<Movie>> getFavoriteMovie() async {
+  // Retrieve all favorite movies
+  Future<List<Favorite>> getFavoriteMovie() async {
     final db = await database;
-    final data = await db.query('fav_movie');
-    return data.map((data) => Movie.fromMap(data)).toList();
+    final List<Map<String, dynamic>> data =
+        await db.query('favorite', where: 'type = ?', whereArgs: ['movie']);
+    return data.map((map) => Favorite.fromMap(map)).toList();
   }
 
+  // Delete a favorite movie
   Future<int> deleteFavoriteMovie(int id) async {
     final db = await database;
     return await db.delete(
-      'fav_movie',
-      where: 'id = ?',
-      whereArgs: [id],
+      'favorite',
+      where: 'id = ? AND type = ?',
+      whereArgs: [id, 'movie'],
+    );
+  }
+
+  // Retrieve all favorite series
+  Future<List<Favorite>> getFavoriteSeries() async {
+    final db = await database;
+    final List<Map<String, dynamic>> data =
+        await db.query('favorite', where: 'type = ?', whereArgs: ['series']);
+    return data.map((map) => Favorite.fromMap(map)).toList();
+  }
+
+  // Delete a favorite series
+  Future<int> deleteFavoriteSeries(int id) async {
+    final db = await database;
+    return await db.delete(
+      'favorite',
+      where: 'id = ? AND type = ?',
+      whereArgs: [id, 'series'],
     );
   }
 }

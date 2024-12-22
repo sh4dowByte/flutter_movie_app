@@ -3,7 +3,7 @@ export 'package:flutter_movie_app/core/errors/failure.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/errors/failure.dart';
-import 'package:flutter_movie_app/core/widget/widget.dart';
+import 'package:flutter_movie_app/core/presentation/widget/widget.dart';
 
 class AppError<T extends Failure> extends StatelessWidget {
   final T error;

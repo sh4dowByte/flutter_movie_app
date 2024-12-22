@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/core/widget/app_skeleton.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_skeleton.dart';
 
 class AppSelectItemSmall extends StatefulWidget {
   final List<Map<String, dynamic>> item;

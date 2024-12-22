@@ -26,4 +26,9 @@ class Tv with _$Tv {
   }) = _Tv;
 
   factory Tv.fromJson(Map<String, dynamic> json) => _$TvFromJson(json);
+
+  // Tambahkan manual untuk mendukung fromMap
+  factory Tv.fromMap(Map<String, dynamic> map) {
+    return Tv.fromJson(map);
+  }
 }

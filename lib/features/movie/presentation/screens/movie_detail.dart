@@ -3,24 +3,24 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/pallete.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_circle_button.dart';
 import 'package:flutter_movie_app/core/utils/date_helper.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
+import 'package:flutter_movie_app/features/favorite/data/models/favorite.dart';
 import 'package:flutter_movie_app/features/favorite/presentation/notifiers/movie_favorite_notifier.dart';
-import 'package:flutter_movie_app/features/movie/data/models/movie.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_detail_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_recomended_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_caster.dart';
 import 'package:flutter_movie_app/features/movie/presentation/widgets/app_button_play_trailer.dart';
-import 'package:flutter_movie_app/core/widget/app_circle_button.dart';
-import 'package:flutter_movie_app/core/widget/app_error.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_error.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../../../../core/widget/app_skeleton.dart';
-import '../../../../core/widget/app_cast_image.dart';
+import '../../../../core/presentation/widget/app_skeleton.dart';
+import '../../../../core/presentation/widget/app_cast_image.dart';
 import '../widgets/app_movie_card.dart';
-import '../../../../core/widget/star_rating.dart';
+import '../../../../core/presentation/widget/star_rating.dart';
 
 class MovieDetailPage extends ConsumerStatefulWidget {
   const MovieDetailPage(this.movieId, {super.key});
@@ -235,14 +235,17 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        AppButtonPlayTrailer(movieId: value.id),
+                                        AppButtonPlayTrailer(
+                                          movieId: value.id,
+                                          movieTitle: value.title,
+                                        ),
                                         InkWell(
                                           onTap: () {
                                             ref
                                                 .read(favoriteMoviesProvider
                                                     .notifier)
                                                 .toggleFavoriteMovie(
-                                                    Movie.fromJson(
+                                                    Favorite.fromMapMovie(
                                                         value.toJson()));
                                           },
                                           child: Icon(
@@ -399,40 +402,40 @@ class _MovieDetailContentState extends ConsumerState<MovieDetailContent> {
         const SizedBox(height: 20),
 
         // Caster
-        Offstage(
-          offstage:
-              !(casterState.value != null && casterState.value!.isNotEmpty),
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 16),
-            child: const Text('Top Billed Cast'),
-          ),
-        ),
-
         casterState.when(
           data: (data) => data.isNotEmpty
-              ? SizedBox(
-                  height: 130,
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: data.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        final item = data[index];
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16)
+                          .copyWith(bottom: 16),
+                      child: const Text('Top Billed Cast'),
+                    ),
+                    SizedBox(
+                      height: 130,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: data.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            final item = data[index];
 
-                        EdgeInsets margin = EdgeInsets.only(
-                          left: index == 0 ? 11 : 4,
-                          right: index == data.length - 1 ? 11 : 4,
-                        );
+                            EdgeInsets margin = EdgeInsets.only(
+                              left: index == 0 ? 11 : 4,
+                              right: index == data.length - 1 ? 11 : 4,
+                            );
 
-                        return AppCastImage(
-                          margin: margin,
-                          actorId: item.id,
-                          image: item.profilePath!,
-                          name: item.name,
-                          character: item.character!,
-                        );
-                      }),
+                            return AppCastImage(
+                              margin: margin,
+                              actorId: item.id,
+                              image: item.profilePath,
+                              name: item.name,
+                              character: item.character!,
+                            );
+                          }),
+                    ),
+                  ],
                 )
               : Container(),
           loading: () => AppCastImage.loading(),
@@ -442,41 +445,39 @@ class _MovieDetailContentState extends ConsumerState<MovieDetailContent> {
         const SizedBox(height: 20),
 
         // Recomended
-        Visibility(
-          visible: recomendedState.when(
-            data: (movies) => (movies.isNotEmpty),
-            loading: () => false, // Sembunyikan saat loading
-            error: (error, _) => false, // Tampilkan jika ada error
-          ),
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 16),
-            child: const Text('Recomended'),
-          ),
-        ),
         recomendedState.when(
           data: (data) => data.isNotEmpty
-              ? SizedBox(
-                  height: 220,
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      controller: _scrollControllerRecomended,
-                      itemCount: data.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        final item = data[index];
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16)
+                          .copyWith(bottom: 16),
+                      child: const Text('Recomended'),
+                    ),
+                    SizedBox(
+                      height: 220,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          controller: _scrollControllerRecomended,
+                          itemCount: data.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            final item = data[index];
 
-                        EdgeInsets margin = EdgeInsets.only(
-                          left: index == 0 ? 20 : 4,
-                          right: index == data.length - 1 ? 20 : 4,
-                        );
+                            EdgeInsets margin = EdgeInsets.only(
+                              left: index == 0 ? 20 : 4,
+                              right: index == data.length - 1 ? 20 : 4,
+                            );
 
-                        return AppMovieCoverBox(
-                          item: item,
-                          margin: margin,
-                          // replaceRoute: true,
-                        );
-                      }),
+                            return AppMovieCoverBox(
+                              item: item,
+                              margin: margin,
+                              // replaceRoute: true,
+                            );
+                          }),
+                    ),
+                  ],
                 )
               : Container(),
           loading: () => AppMovieCoverBox.loading(),

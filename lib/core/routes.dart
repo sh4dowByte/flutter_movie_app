@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/features/people/presentation/screens/actor_detail.dart';
+import 'package:flutter_movie_app/features/stream_movie/presentation/screens/movie_list.dart';
+import 'package:flutter_movie_app/features/stream_movie/presentation/screens/movie_stream.dart';
 
 import '../features/tv/presentation/screens/screen.dart';
 import '../features/movie/presentation/screens/screens.dart';
@@ -15,6 +17,9 @@ class Routes {
   static const String seats = '/seats';
   static const String actorDetail = '/actor_detail';
   static const String clipMovie = '/clip_movie';
+
+  static const String movieList = '/movie_list';
+  static const String movieStream = '/movie_stream';
 
   static const String seeMoreTv = '/see_more_tv';
   static const String tvDetail = '/tv_detail';
@@ -34,6 +39,16 @@ class Routes {
       case tvDetail:
         final int seriesId = settings.arguments as int;
         return MaterialPageRoute(builder: (_) => TvDetailPage(seriesId));
+
+      case movieList:
+        final movieTitle = settings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) => MovieList(movieTitle: movieTitle));
+
+      case movieStream:
+        final movieStreamUrl = settings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) => MovieStreamPage(streamUrl: movieStreamUrl));
 
       case tvSeasonDetail:
         final args = settings.arguments as Map<String, dynamic>;

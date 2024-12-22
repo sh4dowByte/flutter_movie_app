@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_select_item_small.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_discover_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_genre_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_on_the_air_notifier.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_movie_app/features/tv/presentation/widgets/app_tv_image_
 import 'package:flutter_movie_app/features/settings/presentation/notifiers/language_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_airing_today_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_tv_card.dart';
-import 'package:flutter_movie_app/core/widget/widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/routes.dart';
