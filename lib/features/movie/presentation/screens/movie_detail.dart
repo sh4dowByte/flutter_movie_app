@@ -235,7 +235,10 @@ class _MovieDetailPageState extends ConsumerState<MovieDetailPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        AppButtonPlayTrailer(movieId: value.id),
+                                        AppButtonPlayTrailer(
+                                          movieId: value.id,
+                                          movieTitle: value.title,
+                                        ),
                                         InkWell(
                                           onTap: () {
                                             ref

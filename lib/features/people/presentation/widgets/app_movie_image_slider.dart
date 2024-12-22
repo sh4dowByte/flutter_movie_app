@@ -239,7 +239,9 @@ class _AppMovieImageSliderState extends State<AppMovieImageSlider>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               AppButtonPlayTrailer(
-                                  movieId: movie[_currentIndex].id),
+                                movieId: movie[_currentIndex].id,
+                                movieTitle: movie[_currentIndex].originalTitle,
+                              ),
                               Visibility(
                                 visible: _seeMore,
                                 child: InkWell(

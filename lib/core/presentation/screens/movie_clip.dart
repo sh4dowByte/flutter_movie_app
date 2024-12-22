@@ -175,23 +175,21 @@ class _AppMovieClipYoutubeState extends State<AppMovieClipYoutube> {
     final isActive = widget.item.key == widget.activeVideoId;
 
     return YoutubePlayerBuilder(
-      onEnterFullScreen: () {
-        // Enter fullscreen mode
-        SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-        SystemChrome.setPreferredOrientations([
-          DeviceOrientation.landscapeRight,
-          DeviceOrientation.landscapeLeft
-        ]);
+      // onEnterFullScreen: () {
+      //   // Enter fullscreen mode
+      //   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+      //   SystemChrome.setPreferredOrientations([
+      //     DeviceOrientation.landscapeRight,
+      //     DeviceOrientation.landscapeLeft
+      //   ]);
 
-        print('enter full');
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => FullScreenVideoPage(videoId: widget.item.key),
-          ),
-        );
-      },
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (context) => FullScreenVideoPage(videoId: widget.item.key),
+      //     ),
+      //   );
+      // },
       onExitFullScreen: () {
         // Exit fullscreen mode
         SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
@@ -346,8 +344,7 @@ class _AppMovieClipYoutubeState extends State<AppMovieClipYoutube> {
 
 class FullScreenVideoPage extends StatelessWidget {
   final String videoId;
-  const FullScreenVideoPage({Key? key, required this.videoId})
-      : super(key: key);
+  const FullScreenVideoPage({super.key, required this.videoId});
 
   @override
   Widget build(BuildContext context) {
