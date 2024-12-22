@@ -85,7 +85,9 @@ class _AppImageSliderState extends State<AppImageSlider> {
         ],
 
         // Blur filter and gradient overlay
-        ClipRRect(
+        OverflowBox(
+          maxWidth: MediaQuery.of(context).size.width,
+          maxHeight: MediaQuery.of(context).size.height,
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
             child: Container(
