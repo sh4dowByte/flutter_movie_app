@@ -2,7 +2,7 @@ import 'package:flutter_movie_app/features/people/data/models/cast.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/services/movie_services.dart';
 
-final movieServiceProvider = Provider((ref) => MovieService(ref));
+final movieServiceProvider = Provider((ref) => MovieService());
 
 final movieCasterProvider = StateNotifierProvider.family<MovieCasterNotifier,
     AsyncValue<List<Cast>>, int>(

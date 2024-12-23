@@ -31,35 +31,47 @@ class AppStreamLink extends StatelessWidget {
               )),
 
           Positioned(
-            bottom: 20,
-            left: 100,
+            bottom: 10,
+            left: 90,
             right: 0,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-              height: 100,
+              height: 110,
               decoration: BoxDecoration(
                   color: Colors.grey.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(10)),
-              child: Wrap(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ...item.link.map(
-                    (e) => GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, Routes.movieStream,
-                              arguments: e.url);
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 3, horizontal: 6),
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 3, horizontal: 6),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            color: getColorFromText(e.name).withOpacity(0.4),
-                          ),
-                          child: Text(e.name),
-                        )),
-                  )
+                  Text(
+                    'Link Streaming',
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                  const SizedBox(height: 4),
+                  Wrap(
+                    children: [
+                      ...item.link.map(
+                        (e) => GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, Routes.movieStream,
+                                  arguments: e.url);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 3, horizontal: 3),
+                              margin: const EdgeInsets.symmetric(
+                                      vertical: 3, horizontal: 3)
+                                  .copyWith(left: 0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                color:
+                                    getColorFromText(e.name).withOpacity(0.4),
+                              ),
+                              child: Text(e.name),
+                            )),
+                      )
+                    ],
+                  ),
                 ],
               ),
             ),

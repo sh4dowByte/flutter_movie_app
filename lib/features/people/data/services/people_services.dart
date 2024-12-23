@@ -4,7 +4,7 @@ import 'package:flutter_movie_app/features/people/data/models/actor.dart';
 import 'package:flutter_movie_app/features/tv/data/models/tv.dart';
 
 class PeopleService extends TMDBService {
-  PeopleService(super.ref);
+  PeopleService();
 
   Future<Actor> fetchActorDetail(int personId) async {
     try {

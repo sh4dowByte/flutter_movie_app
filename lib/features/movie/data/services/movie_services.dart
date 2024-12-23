@@ -1,18 +1,22 @@
 import 'package:flutter_movie_app/core/data/services/tmdb_services.dart';
+import 'package:flutter_movie_app/core/utils/storage/movie_genre_storage.dart';
 import 'package:flutter_movie_app/features/people/data/models/cast.dart';
 import 'package:flutter_movie_app/core/data/models/genres.dart';
 import 'package:flutter_movie_app/core/data/models/movie_clip.dart';
 import 'package:flutter_movie_app/features/movie/data/models/movie_detail.dart';
+import 'package:intl/intl.dart';
 import '../models/movie.dart';
 
 class MovieService extends TMDBService {
-  MovieService(super.ref);
+  MovieService();
 
   Future<List<Movie>> fetchPopularMovies(int page) async {
     try {
-      final response = await dio.get('/3/movie/popular', queryParameters: {
-        'language': 'en-US',
+      final genreId = await MovieGenreStorageUtils.getGenresStr();
+      final response = await dio.get('/3/discover/movie', queryParameters: {
         'page': page,
+        'sort_by': 'popularity.desc',
+        'with_genres': genreId,
       });
 
       if (response.statusCode == 200) {
@@ -46,9 +50,13 @@ class MovieService extends TMDBService {
 
   Future<List<Movie>> fetchTopRatedMovies(int page) async {
     try {
-      final response = await dio.get('/3/movie/top_rated', queryParameters: {
-        'language': 'en-US',
+      final genreId = await MovieGenreStorageUtils.getGenresStr();
+      final response = await dio.get('/3/discover/movie', queryParameters: {
         'page': page,
+        'sort_by': 'vote_average.desc',
+        'with_genres': genreId,
+        'without_genres': '99,10755',
+        'vote_count.gte': '200',
       });
 
       if (response.statusCode == 200) {
@@ -64,9 +72,20 @@ class MovieService extends TMDBService {
 
   Future<List<Movie>> fetchUpcomingMovies(int page) async {
     try {
-      final response = await dio.get('/3/movie/upcoming', queryParameters: {
-        'language': 'en-US',
+      final genreId = await MovieGenreStorageUtils.getGenresStr();
+      DateTime today = DateTime.now();
+      DateTime next30Days = today.add(const Duration(days: 30));
+
+      String todayString = DateFormat('yyyy-MM-dd').format(today);
+      String next30DaysString = DateFormat('yyyy-MM-dd').format(next30Days);
+
+      final response = await dio.get('/3/discover/movie', queryParameters: {
         'page': page,
+        'sort_by': 'popularity.desc',
+        'with_genres': genreId,
+        'with_release_type': '2|3',
+        'release_date.gte': todayString,
+        'release_date.lte': next30DaysString,
       });
 
       if (response.statusCode == 200) {
@@ -100,9 +119,21 @@ class MovieService extends TMDBService {
 
   Future<List<Movie>> fetchNowPlayingMovies(int page) async {
     try {
+      final genreId = await MovieGenreStorageUtils.getGenresStr();
+      DateTime today = DateTime.now();
+      DateTime past7Days = today.subtract(const Duration(days: 14));
+
+      String todayString = DateFormat('yyyy-MM-dd').format(today);
+      String past7DaysString = DateFormat('yyyy-MM-dd').format(past7Days);
+
       final response = await dio.get('/3/movie/now_playing', queryParameters: {
-        'language': 'en-US',
+        // final response = await dio.get('/3/discover/movie', queryParameters: {
         'page': page,
+        'sort_by': 'popularity.desc',
+        'with_genres': genreId,
+        'with_release_type': '2|3',
+        'release_date.gte': past7DaysString,
+        'release_date.lte': todayString,
       });
 
       if (response.statusCode == 200) {
