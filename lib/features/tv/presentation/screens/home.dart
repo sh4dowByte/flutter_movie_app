@@ -8,6 +8,7 @@ import 'package:flutter_movie_app/features/settings/presentation/notifiers/langu
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_airing_today_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_tv_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../core/routes.dart';
 
@@ -63,7 +64,11 @@ class _TvPageState extends ConsumerState<TvPage> {
 
   Future<void> initData() async {
     // ref.read(genreTvProvider.notifier).getInitial();
-    ref.read(airingTvTodayProvider.notifier).getInitial();
+    ref
+        .read(airingTvTodayProvider(
+                (DateFormat('yyyy-MM-dd').format(DateTime.now())))
+            .notifier)
+        .getInitial(dateToday: DateFormat('yyyy-MM-dd').format(DateTime.now()));
     ref.read(discoverTvProvider.notifier).getInitial();
     ref.read(popularTvProvider.notifier).getInitial();
     ref.read(onTheAirTvProvider.notifier).getInitial();
@@ -84,7 +89,8 @@ class _TvPageState extends ConsumerState<TvPage> {
     final topRatedTvState = ref.watch(topRatedTvProvider);
     final onTheAirTvState = ref.watch(onTheAirTvProvider);
     final tvStatePopular = ref.watch(popularTvProvider);
-    final airingTodayStateState = ref.watch(airingTvTodayProvider);
+    final airingTodayStateState = ref.watch(airingTvTodayProvider(
+        (DateFormat('yyyy-MM-dd').format(DateTime.now()))));
 
     // Listen perubahan bahasa
     ref.listen<String>(languageProvider, (previous, next) {
@@ -111,7 +117,8 @@ class _TvPageState extends ConsumerState<TvPage> {
                   onSeeMore: () {
                     Navigator.pushNamed(context, Routes.seeMoreTv, arguments: {
                       'title': 'Airing Today',
-                      'providerKey': 'airing_today'
+                      'providerKey': 'airing_today',
+                      'date': DateFormat('yyyy-MM-dd').format(DateTime.now())
                     });
                   },
                 ),

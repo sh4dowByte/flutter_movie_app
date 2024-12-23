@@ -90,11 +90,12 @@ class TVService extends TMDBService {
   }
 
   // '/3/tv/airing_today'
-  Future<List<Tv>> fetchAiringTodayTv(int page) async {
+  Future<List<Tv>> fetchAiringTodayTv(int page, {String? dateToday}) async {
     try {
       final genreId = await TvGenreStorageUtils.getGenresStr();
 
-      final todayString = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      final todayString =
+          dateToday ?? DateFormat('yyyy-MM-dd').format(DateTime.now());
       final response = await dio.get('/3/discover/tv', queryParameters: {
         'page': page,
         'sort_by': 'popularity.desc',

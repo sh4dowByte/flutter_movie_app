@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/core/presentation/widget/app_select_item_small.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_discover_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_genre_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_now_playing_notifier.dart';

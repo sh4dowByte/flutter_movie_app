@@ -115,11 +115,13 @@ class Routes {
         final genreId = args['genreId'];
         final actorId = args['actorId'];
         final title = args['title'];
+        final date = args['date'];
         final provider = args['providerKey'];
         return MaterialPageRoute(
             builder: (_) => SeeMoreTvPage(
                   title,
                   provider,
+                  date: date,
                   genreId: genreId,
                   actorId: actorId,
                 ));

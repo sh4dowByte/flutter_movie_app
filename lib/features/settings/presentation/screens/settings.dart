@@ -16,6 +16,7 @@ import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_on_the_ai
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_popular_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_top_rated_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../core/presentation/widget/app_svg_icon.dart';
 import '../notifiers/theme_notifier.dart';
@@ -101,18 +102,24 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               title: 'Dark Mode',
               icon: 'theme',
               onTap: () => themeNotifier.toggleTheme(),
-              leading: Switch(
-                value: isDarkMode,
-                onChanged: (value) => themeNotifier.toggleTheme(),
+              leading: SizedBox(
+                height: 1,
+                child: Switch(
+                  value: isDarkMode,
+                  onChanged: (value) => themeNotifier.toggleTheme(),
+                ),
               ),
             ),
             AppMenuTile(
               title: 'Show adult content',
               icon: 'adult',
               onTap: () => isAdultNotifier.toggleIsAdult(),
-              leading: Switch(
-                value: isAdult,
-                onChanged: (value) => isAdultNotifier.toggleIsAdult(),
+              leading: SizedBox(
+                height: 1,
+                child: Switch(
+                  value: isAdult,
+                  onChanged: (value) => isAdultNotifier.toggleIsAdult(),
+                ),
               ),
             ),
 
@@ -140,7 +147,18 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   },
                 );
 
-                ref.read(airingTvTodayProvider.notifier).getInitial();
+                ref
+                    .read(airingTvTodayProvider(
+                            DateFormat('yyyy-MM-dd').format(DateTime.now()))
+                        .notifier)
+                    .resetCache();
+                ref
+                    .read(airingTvTodayProvider(
+                            DateFormat('yyyy-MM-dd').format(DateTime.now()))
+                        .notifier)
+                    .getInitial(
+                        dateToday:
+                            DateFormat('yyyy-MM-dd').format(DateTime.now()));
                 ref.read(popularTvProvider.notifier).getInitial();
                 ref.read(onTheAirTvProvider.notifier).getInitial();
                 ref.read(topRatedTvProvider.notifier).getInitial();

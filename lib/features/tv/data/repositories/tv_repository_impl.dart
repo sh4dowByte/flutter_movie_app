@@ -18,9 +18,11 @@ class TvRepositoryImpl implements TvRepository {
   TvRepositoryImpl(this._tvService);
 
   @override
-  Future<Either<Failure, List<Tv>>> getAiringTodayTv(int page) async {
+  Future<Either<Failure, List<Tv>>> getAiringTodayTv(int page,
+      {String? dateToday}) async {
     try {
-      final movies = await _tvService.fetchAiringTodayTv(page);
+      final movies =
+          await _tvService.fetchAiringTodayTv(page, dateToday: dateToday);
       if (movies.isEmpty && page == 1) {
         return Left(EmptyDataFailure('No airing tv today found.'));
       }
