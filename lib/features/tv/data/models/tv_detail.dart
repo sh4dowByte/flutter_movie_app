@@ -1,5 +1,6 @@
 // ignore_for_file: invalid_annotation_target
 
+import 'package:flutter_movie_app/features/tv/data/models/tv_episode.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'tv_detail.freezed.dart';
@@ -19,9 +20,9 @@ class TvDetail with _$TvDetail {
     @JsonKey(name: 'in_production') required bool inProduction,
     List<String>? languages,
     @JsonKey(name: 'last_air_date') String? lastAirDate,
-    @JsonKey(name: 'last_episode_to_air') Episode? lastEpisodeToAir,
+    @JsonKey(name: 'last_episode_to_air') TvEpisode? lastEpisodeToAir,
     required String name,
-    @JsonKey(name: 'next_episode_to_air') Episode? nextEpisodeToAir,
+    @JsonKey(name: 'next_episode_to_air') TvEpisode? nextEpisodeToAir,
     List<Network>? networks,
     @JsonKey(name: 'number_of_episodes') required int numberOfEpisodes,
     @JsonKey(name: 'number_of_seasons') required int numberOfSeasons,
@@ -56,28 +57,6 @@ class Genre with _$Genre {
   }) = _Genre;
 
   factory Genre.fromJson(Map<String, dynamic> json) => _$GenreFromJson(json);
-}
-
-@freezed
-class Episode with _$Episode {
-  const factory Episode({
-    required int id,
-    String? name,
-    String? overview,
-    @JsonKey(name: 'vote_average') double? voteAverage,
-    @JsonKey(name: 'vote_count') int? voteCount,
-    @JsonKey(name: 'air_date') String? airDate,
-    @JsonKey(name: 'episode_number') int? episodeNumber,
-    @JsonKey(name: 'episode_type') String? episodeType,
-    @JsonKey(name: 'production_code') String? productionCode,
-    int? runtime,
-    @JsonKey(name: 'season_number') int? seasonNumber,
-    @JsonKey(name: 'show_id') int? showId,
-    @JsonKey(name: 'still_path') String? stillPath,
-  }) = _Episode;
-
-  factory Episode.fromJson(Map<String, dynamic> json) =>
-      _$EpisodeFromJson(json);
 }
 
 @freezed

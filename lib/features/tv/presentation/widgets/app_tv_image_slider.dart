@@ -48,7 +48,8 @@ class _AppTvImageSliderState extends State<AppTvImageSlider>
     // Timer untuk mengubah halaman otomatis setiap 3 detik
     _timer = Timer.periodic(const Duration(seconds: 1), _onTimerTick);
 
-    _seeMore = widget.maxLength < widget.tv.length;
+    _seeMore = true;
+    //widget.maxLength < widget.tv.length;
     tv = widget.tv.take(widget.maxLength).toList();
   }
 

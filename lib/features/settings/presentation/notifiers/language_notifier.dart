@@ -13,7 +13,7 @@ class LanguageNotifier extends StateNotifier<String> {
   // Memuat nilai bahasa dari SharedPreferences
   Future<void> _loadLanguage() async {
     final prefs = await SharedPreferences.getInstance();
-    final savedLanguage = prefs.getString('language') ?? 'jp'; // Default 'en'
+    final savedLanguage = prefs.getString('language') ?? 'en'; // Default 'en'
     state = savedLanguage;
   }
 

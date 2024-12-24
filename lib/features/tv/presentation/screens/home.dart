@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/core/presentation/widget/app_select_item_small.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_discover_notifier.dart';
-import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_genre_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_on_the_air_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_popular_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_top_rated_notifier.dart';
@@ -10,6 +8,7 @@ import 'package:flutter_movie_app/features/settings/presentation/notifiers/langu
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_airing_today_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_tv_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../core/routes.dart';
 
@@ -64,8 +63,12 @@ class _TvPageState extends ConsumerState<TvPage> {
   }
 
   Future<void> initData() async {
-    ref.read(genreTvProvider.notifier).getInitial();
-    ref.read(airingTvTodayProvider.notifier).getInitial();
+    // ref.read(genreTvProvider.notifier).getInitial();
+    ref
+        .read(airingTvTodayProvider(
+                (DateFormat('yyyy-MM-dd').format(DateTime.now())))
+            .notifier)
+        .getInitial(dateToday: DateFormat('yyyy-MM-dd').format(DateTime.now()));
     ref.read(discoverTvProvider.notifier).getInitial();
     ref.read(popularTvProvider.notifier).getInitial();
     ref.read(onTheAirTvProvider.notifier).getInitial();
@@ -85,10 +88,9 @@ class _TvPageState extends ConsumerState<TvPage> {
   Widget build(BuildContext context) {
     final topRatedTvState = ref.watch(topRatedTvProvider);
     final onTheAirTvState = ref.watch(onTheAirTvProvider);
-    final genresState = ref.watch(genreTvProvider);
     final tvStatePopular = ref.watch(popularTvProvider);
-    final discoverTvState = ref.watch(discoverTvProvider);
-    final airingTodayStateState = ref.watch(airingTvTodayProvider);
+    final airingTodayStateState = ref.watch(airingTvTodayProvider(
+        (DateFormat('yyyy-MM-dd').format(DateTime.now()))));
 
     // Listen perubahan bahasa
     ref.listen<String>(languageProvider, (previous, next) {
@@ -115,7 +117,8 @@ class _TvPageState extends ConsumerState<TvPage> {
                   onSeeMore: () {
                     Navigator.pushNamed(context, Routes.seeMoreTv, arguments: {
                       'title': 'Airing Today',
-                      'providerKey': 'airing_today'
+                      'providerKey': 'airing_today',
+                      'date': DateFormat('yyyy-MM-dd').format(DateTime.now())
                     });
                   },
                 ),
@@ -153,80 +156,78 @@ class _TvPageState extends ConsumerState<TvPage> {
               ),
             ),
 
-            const SizedBox(height: 23),
+            // const SizedBox(height: 23),
 
-            // Genres
-            genresState.when(
-              loading: () => AppSelectItemSmall.loading(),
-              error: (error, stackTrace) =>
-                  Center(child: Text('Error: $error')),
-              data: (data) => AppSelectItemSmall(
-                onChange: (id) {
-                  ref.read(discoverTvProvider.notifier).getInitial(genreId: id);
+            // // Genres
+            // genresState.when(
+            //   loading: () => AppSelectItemSmall.loading(),
+            //   error: (error, stackTrace) =>
+            //       AppTvCoverBox.error(error as String),
+            //   data: (data) => AppSelectItemSmall(
+            //     onChange: (id) {
+            //       ref.read(discoverTvProvider.notifier).getInitial(genreId: id);
 
-                  genreId = id;
-                },
-                item: [
-                  const {
-                    'id': 0,
-                    'name': 'All',
-                  },
-                  ...data.map((e) => e.toJson())
-                ],
-              ),
-            ),
+            //       genreId = id;
+            //     },
+            //     item: [
+            //       const {
+            //         'id': 0,
+            //         'name': 'All',
+            //       },
+            //       ...data.map((e) => e.toJson())
+            //     ],
+            //   ),
+            // ),
 
-            const SizedBox(height: 23),
+            // const SizedBox(height: 23),
 
-            // Discover
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Discover'),
-                  InkWell(
-                    onTap: () => Navigator.pushNamed(context, Routes.seeMoreTv,
-                        arguments: {
-                          'title': 'Discover',
-                          'genreId': genreId,
-                          'providerKey': 'discover'
-                        }),
-                    child: Text(
-                      'See More',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
+            // // Discover
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 12),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       const Text('Discover'),
+            //       InkWell(
+            //         onTap: () => Navigator.pushNamed(context, Routes.seeMoreTv,
+            //             arguments: {
+            //               'title': 'Discover',
+            //               'genreId': genreId,
+            //               'providerKey': 'discover'
+            //             }),
+            //         child: Text(
+            //           'See More',
+            //           style: Theme.of(context).textTheme.bodySmall,
+            //         ),
+            //       )
+            //     ],
+            //   ),
+            // ),
+            // const SizedBox(height: 16),
 
-            discoverTvState.when(
-              data: (data) => SizedBox(
-                height: 220,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    controller: _scrollControllerDiscover,
-                    itemCount: data.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      final item = data[index];
+            // discoverTvState.when(
+            //   data: (data) => SizedBox(
+            //     height: 220,
+            //     child: ListView.builder(
+            //         shrinkWrap: true,
+            //         controller: _scrollControllerDiscover,
+            //         itemCount: data.length,
+            //         scrollDirection: Axis.horizontal,
+            //         itemBuilder: (context, index) {
+            //           final item = data[index];
 
-                      EdgeInsets margin = EdgeInsets.only(
-                        left: index == 0 ? 11 : 4,
-                        right: index == data.length - 1 ? 11 : 4,
-                      );
+            //           EdgeInsets margin = EdgeInsets.only(
+            //             left: index == 0 ? 11 : 4,
+            //             right: index == data.length - 1 ? 11 : 4,
+            //           );
 
-                      return AppTvCoverBox(item: item, margin: margin);
-                    }),
-              ),
-              loading: () => AppTvCoverBox.loading(),
-              error: (error, stackTrace) =>
-                  Center(child: Text('Error: $error')),
-            ),
+            //           return AppTvCoverBox(item: item, margin: margin);
+            //         }),
+            //   ),
+            //   loading: () => AppTvCoverBox.loading(),
+            //   error: (error, stackTrace) =>
+            //       AppTvCoverBox.error(error as String),
+            // ),
 
             const SizedBox(height: 23),
 
@@ -274,7 +275,7 @@ class _TvPageState extends ConsumerState<TvPage> {
               ),
               loading: () => AppTvCoverBox.loading(),
               error: (error, stackTrace) =>
-                  Center(child: Text('Error: $error')),
+                  AppTvCoverBox.error(error as String),
             ),
 
             const SizedBox(height: 23),
@@ -323,7 +324,7 @@ class _TvPageState extends ConsumerState<TvPage> {
               ),
               loading: () => AppTvCoverBox.loading(),
               error: (error, stackTrace) =>
-                  Center(child: Text('Error: $error')),
+                  AppTvCoverBox.error(error as String),
             ),
 
             const SizedBox(height: 23),
@@ -372,7 +373,7 @@ class _TvPageState extends ConsumerState<TvPage> {
               ),
               loading: () => AppTvCoverBox.loading(),
               error: (error, stackTrace) =>
-                  Center(child: Text('Error: $error')),
+                  AppTvCoverBox.error(error as String),
             )
           ],
         ),

@@ -13,6 +13,7 @@ import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_credit_no
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_detail_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_recomended_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_button_play_video.dart';
+import 'package:flutter_movie_app/features/tv/presentation/widgets/app_tv_episode_card.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_tv_season_card.dart';
 import 'package:flutter_movie_app/features/tv/presentation/widgets/app_tv_card.dart';
 import 'package:flutter_movie_app/core/presentation/widget/app_cast_image.dart';
@@ -286,7 +287,10 @@ class _TvDetailPageState extends ConsumerState<TvDetailPage> {
               builder: (BuildContext context) {
                 return SingleChildScrollView(
                   child: tvState.when(
-                      data: (data) => TvDetailContent(tv: data),
+                      data: (data) => TvDetailContent(
+                            tv: data,
+                            seriesId: widget.seriesId,
+                          ),
                       error: (error, stackTrace) => AppError(
                             error as Failure,
                             stackTrace: stackTrace,
@@ -304,7 +308,8 @@ class _TvDetailPageState extends ConsumerState<TvDetailPage> {
 
 class TvDetailContent extends ConsumerStatefulWidget {
   final TvDetail tv;
-  const TvDetailContent({super.key, required this.tv});
+  final int seriesId;
+  const TvDetailContent({super.key, required this.tv, required this.seriesId});
 
   @override
   ConsumerState<TvDetailContent> createState() => TvDetailContentState();
@@ -405,11 +410,31 @@ class TvDetailContentState extends ConsumerState<TvDetailContent> {
               );
             }),
 
-        // Text(widget.tv.lastEpisodeToAir?.name ?? 'null'),
-        // Text(widget.tv.lastEpisodeToAir?.airDate ?? 'null'),
-
-        // Text(widget.tv.nextEpisodeToAir?.name ?? 'nu;;'),
-        // Text(widget.tv.nextEpisodeToAir?.airDate ?? 'null'),
+        // Last Episode
+        if (widget.tv.lastEpisodeToAir != null) ...[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16)
+                .copyWith(bottom: 8, top: 16),
+            child: const Text('Last Episode'),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: AppEpisodeCoverTile(
+                item: widget.tv.lastEpisodeToAir!, seriesId: widget.seriesId),
+          ),
+          if (widget.tv.nextEpisodeToAir != null) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16)
+                  .copyWith(bottom: 8, top: 16),
+              child: const Text('Next Episode'),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: AppEpisodeCoverTile(
+                  item: widget.tv.nextEpisodeToAir!, seriesId: widget.seriesId),
+            ),
+          ],
+        ],
 
         const SizedBox(height: 20),
         // Caster

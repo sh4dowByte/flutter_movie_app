@@ -20,11 +20,11 @@ _$TvEpisodeImpl _$$TvEpisodeImplFromJson(Map<String, dynamic> json) =>
       stillPath: json['still_path'] as String?,
       voteAverage: (json['vote_average'] as num?)?.toDouble(),
       voteCount: (json['vote_count'] as num?)?.toInt(),
-      crew: (json['crew'] as List<dynamic>)
-          .map((e) => Crew.fromJson(e as Map<String, dynamic>))
+      crew: (json['crew'] as List<dynamic>?)
+          ?.map((e) => Crew.fromJson(e as Map<String, dynamic>))
           .toList(),
-      guestStars: (json['guest_stars'] as List<dynamic>)
-          .map((e) => GuestStar.fromJson(e as Map<String, dynamic>))
+      guestStars: (json['guest_stars'] as List<dynamic>?)
+          ?.map((e) => GuestStar.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

@@ -1,14 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_movie_app/features/settings/presentation/notifiers/adult_notifier.dart';
-import 'package:flutter_movie_app/features/settings/presentation/notifiers/language_notifier.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_movie_app/core/utils/storage/local_storage.dart';
 
 class TMDBService {
   late Dio dio;
-  final Ref ref;
 
-  TMDBService(this.ref) {
+  TMDBService() {
     dio = Dio(
       BaseOptions(
         baseUrl: dotenv.env['TMDB_API_BASE_URL']!,
@@ -20,13 +17,13 @@ class TMDBService {
     );
 
     dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) {
+      onRequest: (options, handler) async {
         final noLanguage = options.extra['noLanguage'] ?? false;
 
         if (!noLanguage) {
           // Ambil nilai language dari Riverpod
-          final language = ref.read(languageProvider);
-          final isAdult = ref.read(isAdultProvider);
+          final language = await LocalStorageUtils.getLanguage();
+          final isAdult = await LocalStorageUtils.getIsAdult();
           options.queryParameters
               .addAll({'language': language, 'include_adult': isAdult});
         }

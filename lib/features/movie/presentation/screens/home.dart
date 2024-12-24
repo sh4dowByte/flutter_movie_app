@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_app/core/presentation/widget/app_select_item_small.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_discover_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_genre_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_now_playing_notifier.dart';
@@ -87,8 +86,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     final movieStateNowPlaying = ref.watch(nowPlayingMoviesProvider);
     final movieStatePopular = ref.watch(popularMoviesProvider);
-    final genresState = ref.watch(genreMoviesProvider);
-    final discoverMovieState = ref.watch(discoverMoviesProvider);
     final topRatedMovieState = ref.watch(topRatedMoviesProvider);
     final upcomingMovieState = ref.watch(upcomingMoviesProvider);
 
@@ -155,82 +152,82 @@ class _HomePageState extends ConsumerState<HomePage> {
               ),
             ),
 
-            const SizedBox(height: 23),
+            // const SizedBox(height: 23),
 
-            // Genres
-            genresState.when(
-              loading: () => AppSelectItemSmall.loading(),
-              error: (error, stackTrace) =>
-                  Center(child: Text('Error: $error')),
-              data: (data) => AppSelectItemSmall(
-                onChange: (id) {
-                  ref
-                      .read(discoverMoviesProvider.notifier)
-                      .getInitialMovies(genreId: id);
+            // // Genres
+            // genresState.when(
+            //   loading: () => AppSelectItemSmall.loading(),
+            //   error: (error, stackTrace) =>
+            //       Center(child: Text('Error: $error')),
+            //   data: (data) => AppSelectItemSmall(
+            //     onChange: (id) {
+            //       ref
+            //           .read(discoverMoviesProvider.notifier)
+            //           .getInitialMovies(genreId: id);
 
-                  genreId = id;
-                },
-                item: [
-                  const {
-                    'id': 0,
-                    'name': 'All',
-                  },
-                  ...data.map((e) => e.toJson())
-                ],
-              ),
-            ),
+            //       genreId = id;
+            //     },
+            //     item: [
+            //       const {
+            //         'id': 0,
+            //         'name': 'All',
+            //       },
+            //       ...data.map((e) => e.toJson())
+            //     ],
+            //   ),
+            // ),
 
-            const SizedBox(height: 23),
+            // const SizedBox(height: 23),
 
-            // Discover
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Discover'),
-                  InkWell(
-                    onTap: () => Navigator.pushNamed(context, Routes.seeMore,
-                        arguments: {
-                          'title': 'Discover',
-                          'genreId': genreId,
-                          'providerKey': 'discover'
-                        }),
-                    child: Text(
-                      'See More',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
+            // // Discover
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 12),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       const Text('Discover'),
+            //       InkWell(
+            //         onTap: () => Navigator.pushNamed(context, Routes.seeMore,
+            //             arguments: {
+            //               'title': 'Discover',
+            //               'genreId': genreId,
+            //               'providerKey': 'discover'
+            //             }),
+            //         child: Text(
+            //           'See More',
+            //           style: Theme.of(context).textTheme.bodySmall,
+            //         ),
+            //       )
+            //     ],
+            //   ),
+            // ),
+            // const SizedBox(
+            //   height: 16,
+            // ),
 
-            discoverMovieState.when(
-              data: (data) => SizedBox(
-                height: 220,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    controller: _scrollControllerDiscover,
-                    itemCount: data.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      final item = data[index];
+            // discoverMovieState.when(
+            //   data: (data) => SizedBox(
+            //     height: 220,
+            //     child: ListView.builder(
+            //         shrinkWrap: true,
+            //         controller: _scrollControllerDiscover,
+            //         itemCount: data.length,
+            //         scrollDirection: Axis.horizontal,
+            //         itemBuilder: (context, index) {
+            //           final item = data[index];
 
-                      EdgeInsets margin = EdgeInsets.only(
-                        left: index == 0 ? 11 : 4,
-                        right: index == data.length - 1 ? 11 : 4,
-                      );
+            //           EdgeInsets margin = EdgeInsets.only(
+            //             left: index == 0 ? 11 : 4,
+            //             right: index == data.length - 1 ? 11 : 4,
+            //           );
 
-                      return AppMovieCoverBox(item: item, margin: margin);
-                    }),
-              ),
-              loading: () => AppMovieCoverBox.loading(),
-              error: (error, stackTrace) =>
-                  Center(child: Text('Error: $error')),
-            ),
+            //           return AppMovieCoverBox(item: item, margin: margin);
+            //         }),
+            //   ),
+            //   loading: () => AppMovieCoverBox.loading(),
+            //   error: (error, stackTrace) =>
+            //       Center(child: Text('Error: $error')),
+            // ),
 
             const SizedBox(height: 23),
 

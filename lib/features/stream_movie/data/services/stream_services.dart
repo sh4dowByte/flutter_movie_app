@@ -22,7 +22,8 @@ class StreamService {
       });
 
       if (response.statusCode == 200) {
-        final List slugList = response.data['results'];
+        final List slugList =
+            response.data.isNotEmpty ? response.data['results'] : [];
 
         // Pisahkan kata-kata dalam title untuk keperluan filter
         // final keywords = title.split(' ');

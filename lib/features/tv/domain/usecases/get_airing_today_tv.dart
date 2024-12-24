@@ -9,7 +9,7 @@ class GetAiringTodayTv {
 
   GetAiringTodayTv(this._repository);
 
-  Future<Either<Failure, List<Tv>>> call(int page) {
-    return _repository.getAiringTodayTv(page);
+  Future<Either<Failure, List<Tv>>> call(int page, {String? dateToday}) {
+    return _repository.getAiringTodayTv(page, dateToday: dateToday);
   }
 }

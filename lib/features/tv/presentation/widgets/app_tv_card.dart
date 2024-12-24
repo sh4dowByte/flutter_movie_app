@@ -76,6 +76,26 @@ class AppTvCoverBox extends StatelessWidget {
       ),
     );
   }
+
+  static Padding error(String message) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Container(
+        height: 162,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.grey.withOpacity(0.3),
+            width: 1.0,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: Text(message),
+        ),
+      ),
+    );
+  }
 }
 
 class AppTvCoverTile extends StatelessWidget {
