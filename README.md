@@ -25,8 +25,11 @@ The design of this application is based on the provided Figma file. The slicing 
 
 - **Seamless Navigation**: Enjoy smooth navigation between screens using Flutter's Navigator for an intuitive user experience.
 - **Reusable Components**: Designed with modular and reusable components to ensure maintainable and scalable development.
-- **Movie Search**: Quickly find your favorite movies with a powerful search feature that fetches real-time data from TMDB API.
+- **Movie Search**: Quickly find your favorite movies with a powerful search feature that fetches real-time data from the TMDB API.
 - **Popular Movies**: Explore the latest and trending movies through a dedicated section that showcases popular films based on real-time data.
+- **Watch Trailers**: Watch movie and TV series trailers directly within the app to get a sneak peek before diving into the full content.
+- **TV Series**: Explore and keep up with the latest TV series, including current seasons, episodes, and upcoming shows.
+- **TV Clips**: View exciting clips from TV series, including memorable moments, previews, and highlights of your favorite shows.
 
 ## 🛠️ Technologies
 
