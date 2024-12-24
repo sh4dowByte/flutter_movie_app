@@ -23,6 +23,7 @@ class AiringTvTodayNotifier extends StateNotifier<AsyncValue<List<Tv>>> {
   bool _isGetting = false;
   bool _isLoadingNextPage = false;
   bool _isPageEnded = false;
+  String? _activeDate;
 
   // Cache untuk menyimpan data berdasarkan tanggal
   final Map<String, List<Tv>> _cache = {};
@@ -41,6 +42,7 @@ class AiringTvTodayNotifier extends StateNotifier<AsyncValue<List<Tv>>> {
 
     _isGetting = true;
     _isPageEnded = false;
+    _activeDate = dateToday;
 
     // Jika data sudah ada di cache, langsung gunakan
     if (_cache.containsKey(dateToday)) {
@@ -100,4 +102,5 @@ class AiringTvTodayNotifier extends StateNotifier<AsyncValue<List<Tv>>> {
   }
 
   bool get isLoadingNextPage => _isLoadingNextPage;
+  String? get activeDate => _activeDate;
 }

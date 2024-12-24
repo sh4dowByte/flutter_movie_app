@@ -73,8 +73,8 @@ class TVService extends TMDBService {
       final response = await dio.get('/3/discover/tv', queryParameters: {
         'page': page,
         'sort_by': 'popularity.desc',
-        'air_date.lte': todayString,
-        'air_date.gte': next7DaysString,
+        'air_date.gte': todayString,
+        'air_date.lte': next7DaysString,
         'with_genres': genreId,
       });
 

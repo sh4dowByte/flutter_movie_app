@@ -27,12 +27,12 @@ _$TvDetailImpl _$$TvDetailImplFromJson(Map<String, dynamic> json) =>
       lastAirDate: json['last_air_date'] as String?,
       lastEpisodeToAir: json['last_episode_to_air'] == null
           ? null
-          : Episode.fromJson(
+          : TvEpisode.fromJson(
               json['last_episode_to_air'] as Map<String, dynamic>),
       name: json['name'] as String,
       nextEpisodeToAir: json['next_episode_to_air'] == null
           ? null
-          : Episode.fromJson(
+          : TvEpisode.fromJson(
               json['next_episode_to_air'] as Map<String, dynamic>),
       networks: (json['networks'] as List<dynamic>?)
           ?.map((e) => Network.fromJson(e as Map<String, dynamic>))
@@ -111,40 +111,6 @@ Map<String, dynamic> _$$GenreImplToJson(_$GenreImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-    };
-
-_$EpisodeImpl _$$EpisodeImplFromJson(Map<String, dynamic> json) =>
-    _$EpisodeImpl(
-      id: (json['id'] as num).toInt(),
-      name: json['name'] as String?,
-      overview: json['overview'] as String?,
-      voteAverage: (json['vote_average'] as num?)?.toDouble(),
-      voteCount: (json['vote_count'] as num?)?.toInt(),
-      airDate: json['air_date'] as String?,
-      episodeNumber: (json['episode_number'] as num?)?.toInt(),
-      episodeType: json['episode_type'] as String?,
-      productionCode: json['production_code'] as String?,
-      runtime: (json['runtime'] as num?)?.toInt(),
-      seasonNumber: (json['season_number'] as num?)?.toInt(),
-      showId: (json['show_id'] as num?)?.toInt(),
-      stillPath: json['still_path'] as String?,
-    );
-
-Map<String, dynamic> _$$EpisodeImplToJson(_$EpisodeImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'overview': instance.overview,
-      'vote_average': instance.voteAverage,
-      'vote_count': instance.voteCount,
-      'air_date': instance.airDate,
-      'episode_number': instance.episodeNumber,
-      'episode_type': instance.episodeType,
-      'production_code': instance.productionCode,
-      'runtime': instance.runtime,
-      'season_number': instance.seasonNumber,
-      'show_id': instance.showId,
-      'still_path': instance.stillPath,
     };
 
 _$NetworkImpl _$$NetworkImplFromJson(Map<String, dynamic> json) =>

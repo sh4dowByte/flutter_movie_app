@@ -41,9 +41,9 @@ mixin _$TvEpisode {
   double? get voteAverage => throw _privateConstructorUsedError;
   @JsonKey(name: 'vote_count')
   int? get voteCount => throw _privateConstructorUsedError;
-  List<Crew> get crew => throw _privateConstructorUsedError;
+  List<Crew>? get crew => throw _privateConstructorUsedError;
   @JsonKey(name: 'guest_stars')
-  List<GuestStar> get guestStars => throw _privateConstructorUsedError;
+  List<GuestStar>? get guestStars => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -69,8 +69,8 @@ abstract class $TvEpisodeCopyWith<$Res> {
       @JsonKey(name: 'still_path') String? stillPath,
       @JsonKey(name: 'vote_average') double? voteAverage,
       @JsonKey(name: 'vote_count') int? voteCount,
-      List<Crew> crew,
-      @JsonKey(name: 'guest_stars') List<GuestStar> guestStars});
+      List<Crew>? crew,
+      @JsonKey(name: 'guest_stars') List<GuestStar>? guestStars});
 }
 
 /// @nodoc
@@ -98,8 +98,8 @@ class _$TvEpisodeCopyWithImpl<$Res, $Val extends TvEpisode>
     Object? stillPath = freezed,
     Object? voteAverage = freezed,
     Object? voteCount = freezed,
-    Object? crew = null,
-    Object? guestStars = null,
+    Object? crew = freezed,
+    Object? guestStars = freezed,
   }) {
     return _then(_value.copyWith(
       airDate: freezed == airDate
@@ -150,14 +150,14 @@ class _$TvEpisodeCopyWithImpl<$Res, $Val extends TvEpisode>
           ? _value.voteCount
           : voteCount // ignore: cast_nullable_to_non_nullable
               as int?,
-      crew: null == crew
+      crew: freezed == crew
           ? _value.crew
           : crew // ignore: cast_nullable_to_non_nullable
-              as List<Crew>,
-      guestStars: null == guestStars
+              as List<Crew>?,
+      guestStars: freezed == guestStars
           ? _value.guestStars
           : guestStars // ignore: cast_nullable_to_non_nullable
-              as List<GuestStar>,
+              as List<GuestStar>?,
     ) as $Val);
   }
 }
@@ -183,8 +183,8 @@ abstract class _$$TvEpisodeImplCopyWith<$Res>
       @JsonKey(name: 'still_path') String? stillPath,
       @JsonKey(name: 'vote_average') double? voteAverage,
       @JsonKey(name: 'vote_count') int? voteCount,
-      List<Crew> crew,
-      @JsonKey(name: 'guest_stars') List<GuestStar> guestStars});
+      List<Crew>? crew,
+      @JsonKey(name: 'guest_stars') List<GuestStar>? guestStars});
 }
 
 /// @nodoc
@@ -210,8 +210,8 @@ class __$$TvEpisodeImplCopyWithImpl<$Res>
     Object? stillPath = freezed,
     Object? voteAverage = freezed,
     Object? voteCount = freezed,
-    Object? crew = null,
-    Object? guestStars = null,
+    Object? crew = freezed,
+    Object? guestStars = freezed,
   }) {
     return _then(_$TvEpisodeImpl(
       airDate: freezed == airDate
@@ -262,14 +262,14 @@ class __$$TvEpisodeImplCopyWithImpl<$Res>
           ? _value.voteCount
           : voteCount // ignore: cast_nullable_to_non_nullable
               as int?,
-      crew: null == crew
+      crew: freezed == crew
           ? _value._crew
           : crew // ignore: cast_nullable_to_non_nullable
-              as List<Crew>,
-      guestStars: null == guestStars
+              as List<Crew>?,
+      guestStars: freezed == guestStars
           ? _value._guestStars
           : guestStars // ignore: cast_nullable_to_non_nullable
-              as List<GuestStar>,
+              as List<GuestStar>?,
     ));
   }
 }
@@ -290,8 +290,8 @@ class _$TvEpisodeImpl implements _TvEpisode {
       @JsonKey(name: 'still_path') this.stillPath,
       @JsonKey(name: 'vote_average') this.voteAverage,
       @JsonKey(name: 'vote_count') this.voteCount,
-      required final List<Crew> crew,
-      @JsonKey(name: 'guest_stars') required final List<GuestStar> guestStars})
+      final List<Crew>? crew,
+      @JsonKey(name: 'guest_stars') final List<GuestStar>? guestStars})
       : _crew = crew,
         _guestStars = guestStars;
 
@@ -331,21 +331,25 @@ class _$TvEpisodeImpl implements _TvEpisode {
   @override
   @JsonKey(name: 'vote_count')
   final int? voteCount;
-  final List<Crew> _crew;
+  final List<Crew>? _crew;
   @override
-  List<Crew> get crew {
+  List<Crew>? get crew {
+    final value = _crew;
+    if (value == null) return null;
     if (_crew is EqualUnmodifiableListView) return _crew;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_crew);
+    return EqualUnmodifiableListView(value);
   }
 
-  final List<GuestStar> _guestStars;
+  final List<GuestStar>? _guestStars;
   @override
   @JsonKey(name: 'guest_stars')
-  List<GuestStar> get guestStars {
+  List<GuestStar>? get guestStars {
+    final value = _guestStars;
+    if (value == null) return null;
     if (_guestStars is EqualUnmodifiableListView) return _guestStars;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_guestStars);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -418,21 +422,21 @@ class _$TvEpisodeImpl implements _TvEpisode {
 
 abstract class _TvEpisode implements TvEpisode {
   const factory _TvEpisode(
-      {@JsonKey(name: 'air_date') final String? airDate,
-      @JsonKey(name: 'episode_number') required final int episodeNumber,
-      @JsonKey(name: 'episode_type') final String? episodeType,
-      required final int id,
-      required final String name,
-      final String? overview,
-      @JsonKey(name: 'production_code') final String? productionCode,
-      final int? runtime,
-      @JsonKey(name: 'season_number') required final int seasonNumber,
-      @JsonKey(name: 'still_path') final String? stillPath,
-      @JsonKey(name: 'vote_average') final double? voteAverage,
-      @JsonKey(name: 'vote_count') final int? voteCount,
-      required final List<Crew> crew,
-      @JsonKey(name: 'guest_stars')
-      required final List<GuestStar> guestStars}) = _$TvEpisodeImpl;
+          {@JsonKey(name: 'air_date') final String? airDate,
+          @JsonKey(name: 'episode_number') required final int episodeNumber,
+          @JsonKey(name: 'episode_type') final String? episodeType,
+          required final int id,
+          required final String name,
+          final String? overview,
+          @JsonKey(name: 'production_code') final String? productionCode,
+          final int? runtime,
+          @JsonKey(name: 'season_number') required final int seasonNumber,
+          @JsonKey(name: 'still_path') final String? stillPath,
+          @JsonKey(name: 'vote_average') final double? voteAverage,
+          @JsonKey(name: 'vote_count') final int? voteCount,
+          final List<Crew>? crew,
+          @JsonKey(name: 'guest_stars') final List<GuestStar>? guestStars}) =
+      _$TvEpisodeImpl;
 
   factory _TvEpisode.fromJson(Map<String, dynamic> json) =
       _$TvEpisodeImpl.fromJson;
@@ -470,10 +474,10 @@ abstract class _TvEpisode implements TvEpisode {
   @JsonKey(name: 'vote_count')
   int? get voteCount;
   @override
-  List<Crew> get crew;
+  List<Crew>? get crew;
   @override
   @JsonKey(name: 'guest_stars')
-  List<GuestStar> get guestStars;
+  List<GuestStar>? get guestStars;
   @override
   @JsonKey(ignore: true)
   _$$TvEpisodeImplCopyWith<_$TvEpisodeImpl> get copyWith =>

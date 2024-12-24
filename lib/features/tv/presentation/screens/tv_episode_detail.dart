@@ -274,7 +274,7 @@ class TvEpisodeDetailContentState
         ),
         const SizedBox(height: 20),
         Offstage(
-          offstage: widget.tv.guestStars.isEmpty,
+          offstage: widget.tv.guestStars!.isEmpty,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -287,9 +287,9 @@ class TvEpisodeDetailContentState
                 height: 150,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: widget.tv.guestStars.length,
+                    itemCount: widget.tv.guestStars!.length,
                     itemBuilder: (context, index) {
-                      final item = widget.tv.guestStars[index];
+                      final item = widget.tv.guestStars![index];
 
                       return AppCastImage(
                         actorId: item.id,
@@ -304,7 +304,7 @@ class TvEpisodeDetailContentState
         ),
         const SizedBox(height: 20),
         Offstage(
-          offstage: widget.tv.crew.isEmpty,
+          offstage: widget.tv.crew!.isEmpty,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -318,9 +318,9 @@ class TvEpisodeDetailContentState
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
-                    itemCount: widget.tv.crew.length,
+                    itemCount: widget.tv.crew!.length,
                     itemBuilder: (context, index) {
-                      final item = widget.tv.crew[index];
+                      final item = widget.tv.crew![index];
 
                       return AppCastImage(
                         actorId: item.id,

@@ -74,11 +74,13 @@ class SeeMoreTvPageState extends ConsumerState<SeeMoreTvPage> {
 
   List<String> generateWeekDates() {
     DateTime today = DateTime.now();
-    // Hitung hari Senin dalam minggu ini
-    DateTime monday = today.subtract(Duration(days: today.weekday - 1));
-    // Buat daftar tanggal dari Senin hingga Minggu
+
+    // Mulai dari 3 hari sebelum hari ini
+    DateTime startDate = today.subtract(const Duration(days: 3));
+
+    // Buat daftar tanggal dari 3 hari sebelum hingga 3 hari setelah hari ini
     List<String> dates = List.generate(7, (index) {
-      DateTime weekDay = monday.add(Duration(days: index));
+      DateTime weekDay = startDate.add(Duration(days: index));
       return DateFormat('yyyy-MM-dd').format(weekDay);
     });
 
@@ -94,20 +96,19 @@ class SeeMoreTvPageState extends ConsumerState<SeeMoreTvPage> {
           title: Text(widget.title),
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(widget.date == null ? 0 : 100),
-            child: Offstage(
-              offstage: widget.date == null,
-              child: Container(
-                padding: const EdgeInsets.only(bottom: 20),
-                width: double.infinity,
-                child: AppSelectDate(
-                  activeId: widget.date,
-                  item: generateWeekDates(),
-                  onChange: (date) async {
-                    ref.read(provider.notifier).getInitial(dateToday: date);
-                  },
-                ),
-              ),
-            ),
+            child: widget.date != null
+                ? Container(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    width: double.infinity,
+                    child: AppSelectDate(
+                      activeId: ref.read(provider.notifier)?.activeDate,
+                      item: generateWeekDates(),
+                      onChange: (date) async {
+                        ref.read(provider.notifier).getInitial(dateToday: date);
+                      },
+                    ),
+                  )
+                : Container(),
           )),
       body: Column(
         children: [

@@ -106,8 +106,8 @@ class AppEpisodeCoverTile extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(13),
                 child: CachedNetworkImage(
-                  imageUrl: ImageUrlHelper.getStillUrl(item.stillPath,
-                      size: ImageSize.stillW300),
+                  imageUrl: ImageUrlHelper.getPosterUrl(item.stillPath,
+                      size: ImageSize.posterW500),
                   placeholder: (context, url) => const AppSkeleton(),
                   fit: BoxFit.cover,
                 ),

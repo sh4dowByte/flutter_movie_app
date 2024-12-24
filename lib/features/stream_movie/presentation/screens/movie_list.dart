@@ -51,7 +51,7 @@ class _MovieListState extends ConsumerState<MovieList> {
                   )
                 : Container(),
             loading: () => AppStreamLink.loading(),
-            error: (error, stackTrace) => Center(child: Text('Error: $error')),
+            error: (error, stackTrace) => Center(child: Text('$error')),
           ),
         ],
       ),

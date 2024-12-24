@@ -22,7 +22,12 @@ class MovieCasterNotifier extends StateNotifier<AsyncValue<List<SearchSlug>>> {
 
     try {
       final movies = await _movieService.fetchListSlug(title);
-      state = AsyncValue.data(movies);
+
+      if (movies.isNotEmpty) {
+        state = AsyncValue.data(movies);
+      } else {
+        state = AsyncValue.error('Empty movie streaming', StackTrace.current);
+      }
     } catch (e, s) {
       state = AsyncValue.error(e, s);
     }

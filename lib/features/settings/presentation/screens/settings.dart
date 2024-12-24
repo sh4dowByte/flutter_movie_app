@@ -147,11 +147,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   },
                 );
 
-                ref
-                    .read(airingTvTodayProvider(
-                            DateFormat('yyyy-MM-dd').format(DateTime.now()))
-                        .notifier)
-                    .resetCache();
+                // ref
+                //     .read(airingTvTodayProvider(
+                //             DateFormat('yyyy-MM-dd').format(DateTime.now()))
+                //         .notifier)
+                //     .resetCache();
                 ref
                     .read(airingTvTodayProvider(
                             DateFormat('yyyy-MM-dd').format(DateTime.now()))

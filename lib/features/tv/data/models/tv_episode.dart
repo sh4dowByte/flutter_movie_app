@@ -23,8 +23,8 @@ class TvEpisode with _$TvEpisode {
     @JsonKey(name: 'still_path') String? stillPath,
     @JsonKey(name: 'vote_average') double? voteAverage,
     @JsonKey(name: 'vote_count') int? voteCount,
-    required List<Crew> crew,
-    @JsonKey(name: 'guest_stars') required List<GuestStar> guestStars,
+    List<Crew>? crew,
+    @JsonKey(name: 'guest_stars') List<GuestStar>? guestStars,
   }) = _TvEpisode;
 
   factory TvEpisode.fromJson(Map<String, dynamic> json) =>
