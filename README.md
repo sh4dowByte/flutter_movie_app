@@ -7,11 +7,11 @@
     <img src="https://img.shields.io/badge/License-MIT-lightgrey.svg" alt="Dart Version" style="max-width: 100%;">
 </p>
 
-# Flutter Movie Ticket
+# Flutter Movie App
 
-Flutter Movie Ticket is a Flutter-based application designed to provide up-to-date information about both currently playing and upcoming movies. This app utilizes the TMDB API (The Movie Database API) to present movie data such as synopses, reviews, genres, posters, and other detailed information. With a modern and intuitive interface, users can easily browse through popular movie listings, explore genre categories, or view detailed information about films that catch their interest.
+Flutter Movie App is a Flutter-based application designed to provide up-to-date information about both movies and TV series, including currently playing and upcoming releases. This app utilizes the TMDB API (The Movie Database API) to present detailed data such as synopses, reviews, genres, posters, and other essential information. With a modern and user-friendly interface, users can easily browse through popular movies and TV series, explore genre categories, or view detailed insights about their favorites.
 
-This application is designed to help movie enthusiasts stay up-to-date with the world of cinema. Without ticket booking or watchlist features, Flutter Movie Ticket focuses on providing a simple yet informative movie exploration experience. With data continuously updated in real-time via the TMDB API, users can enjoy fast, accurate, and easily accessible service at any time.
+This application is ideal for movie and TV series enthusiasts who want to stay updated with the latest entertainment content. By focusing on providing a seamless exploration experience without features like ticket booking or watchlists, Flutter Movie App delivers real-time, accurate, and fast data updates directly via the TMDB API. Whether you're a fan of cinema or television, this app ensures you always have the latest information at your fingertips.
 
 <a href="https://github.com/sh4dowByte/flutter_movie_app/releases/download/v1.0.0%2B1-12/app-release.apk">
     <img src="https://playerzon.com/asset/download.png" width="200" data-canonical-src="https://playerzon.com/asset/download.png" style="max-width: 100%;">
