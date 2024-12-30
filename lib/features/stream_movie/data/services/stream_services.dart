@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_movie_app/core/utils/storage/local_storage.dart';
 import 'package:flutter_movie_app/features/stream_movie/data/models/search_slug.dart';
 import 'package:html/parser.dart' show parse;
 
@@ -41,8 +42,8 @@ class StreamService {
           // if (!isMatch) return null;
 
           // Scrape links for each slug
-          final response =
-              await dio.get('${dotenv.env['STREAM_MOVIE_API_BASE_URL']}/$slug');
+          final streamLink = await LocalStorageUtils.getStreamLink();
+          final response = await dio.get('$streamLink/$slug');
           final links = await _fetchLinks(response);
           final poster = await _fetchThumbnail(response);
 

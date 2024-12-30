@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/presentation/widget/app_choose_item_small.dart';
 import 'package:flutter_movie_app/core/presentation/widget/app_icons8.dart';
+import 'package:flutter_movie_app/core/presentation/widget/widget.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_genre_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_now_playing_notifier.dart';
 import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_popular_notifier.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_movie_app/features/movie/presentation/notifiers/movie_up
 import 'package:flutter_movie_app/features/settings/presentation/notifiers/adult_notifier.dart';
 import 'package:flutter_movie_app/features/settings/presentation/notifiers/language_notifier.dart';
 import 'package:flutter_movie_app/features/settings/presentation/notifiers/movie_genre_notifier.dart';
+import 'package:flutter_movie_app/features/settings/presentation/notifiers/stream_notifier.dart';
 import 'package:flutter_movie_app/features/settings/presentation/notifiers/tv_genre_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_airing_today_notifier.dart';
 import 'package:flutter_movie_app/features/tv/presentation/notifier/tv_genre_notifier.dart';
@@ -41,6 +43,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     });
   }
 
+  bool showStreamLink = false;
+  int changeCount = 0;
+
   @override
   Widget build(BuildContext context) {
     final themeNotifier = ref.read(themeProvider.notifier);
@@ -53,6 +58,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     final languageNotifier = ref.read(languageProvider.notifier);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         centerTitle: false,
         title: const Text('Settings'),
@@ -106,19 +112,28 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 height: 1,
                 child: Switch(
                   value: isDarkMode,
-                  onChanged: (value) => themeNotifier.toggleTheme(),
+                  onChanged: null,
                 ),
               ),
             ),
             AppMenuTile(
               title: 'Show adult content',
               icon: 'adult',
-              onTap: () => isAdultNotifier.toggleIsAdult(),
+              onTap: () {
+                isAdultNotifier.toggleIsAdult();
+                changeCount++;
+
+                if (changeCount >= 10) {
+                  setState(() {
+                    showStreamLink = true;
+                  });
+                }
+              },
               leading: SizedBox(
                 height: 1,
                 child: Switch(
                   value: isAdult,
-                  onChanged: (value) => isAdultNotifier.toggleIsAdult(),
+                  onChanged: null,
                 ),
               ),
             ),
@@ -186,6 +201,42 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 ref.read(upcomingMoviesProvider.notifier).getInitialMovies();
               },
             ),
+
+            if (showStreamLink) ...[
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Streaming',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w100),
+                ),
+              ),
+              AppMenuTile(
+                title: 'Stream Link ',
+                icon: 'movie',
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
+                    ),
+                    builder: (BuildContext context) {
+                      double keyboardHeight =
+                          MediaQuery.of(context).viewInsets.bottom;
+
+                      return Padding(
+                        padding: EdgeInsets.only(
+                            bottom:
+                                keyboardHeight), // Menyesuaikan padding saat keyboard muncul
+                        child: const StreamLinkComponent(),
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
           ]),
     );
   }
@@ -424,6 +475,46 @@ class ChoseMovieGenreComponent extends ConsumerWidget {
             }
           },
           item: data.map((e) => e.toJson()).toList(),
+        ),
+      ),
+    );
+  }
+}
+
+class StreamLinkComponent extends ConsumerWidget {
+  const StreamLinkComponent({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final streamState = ref.watch(streamProvider);
+    final TextEditingController controller =
+        TextEditingController(text: streamState);
+
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: controller,
+                decoration: const InputDecoration(
+                  hintText: 'Change url streaming',
+                  border: InputBorder.none, // Tidak ada border
+                ),
+              ),
+            ),
+            IconButton(
+                onPressed: () {
+                  ref
+                      .read(streamProvider.notifier)
+                      .changeStream(controller.text);
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.save)),
+          ],
         ),
       ),
     );
