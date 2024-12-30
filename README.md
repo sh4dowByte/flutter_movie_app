@@ -13,7 +13,7 @@ Flutter Movie App is a Flutter-based application designed to provide up-to-date 
 
 This application is ideal for movie and TV series enthusiasts who want to stay updated with the latest entertainment content. By focusing on providing a seamless exploration experience without features like ticket booking or watchlists, Flutter Movie App delivers real-time, accurate, and fast data updates directly via the TMDB API. Whether you're a fan of cinema or television, this app ensures you always have the latest information at your fingertips.
 
-<a href="https://github.com/sh4dowByte/flutter_movie_app/releases/download/v1.0.0%2B1-12/app-release.apk">
+<a href="https://github.com/sh4dowByte/flutter_movie_app/releases/download/v1.0.0%2B1-14/app-release.apk">
     <img src="https://playerzon.com/asset/download.png" width="200" data-canonical-src="https://playerzon.com/asset/download.png" style="max-width: 100%;">
 </a>
 
