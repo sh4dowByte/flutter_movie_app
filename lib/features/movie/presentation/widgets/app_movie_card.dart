@@ -38,14 +38,8 @@ class AppMovieCoverBox extends StatelessWidget {
           borderRadius: BorderRadius.circular(13),
           child: CachedNetworkImage(
             imageUrl: ImageUrlHelper.getPosterUrl(item.posterPath,
-                size: ImageSize.posterOriginal),
-            placeholder: (context, url) => CachedNetworkImage(
-              imageUrl: ImageUrlHelper.getPosterUrl(item.posterPath,
-                  size:
-                      ImageSize.posterW185), // Gambar thumbnail (ukuran kecil)
-              fit: BoxFit.cover,
-              placeholder: (context, url) => const AppSkeleton(),
-            ),
+                size: ImageSize.posterW500),
+            placeholder: (context, url) => const AppSkeleton(),
             fit: BoxFit.cover,
             errorWidget: (context, url, error) => Container(
               color: Pallete.grey1,
@@ -180,20 +174,7 @@ class AppMovieCoverTile extends StatelessWidget {
                 child: CachedNetworkImage(
                   imageUrl: ImageUrlHelper.getPosterUrl(item.posterPath,
                       size: ImageSize.posterW185),
-                  placeholder: (context, url) => CachedNetworkImage(
-                    imageUrl: ImageUrlHelper.getPosterUrl(item.posterPath,
-                        size: ImageSize
-                            .posterW185), // Gambar thumbnail (ukuran kecil)
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => const AppSkeleton(),
-                  ),
-                  errorWidget: (context, url, error) => Container(
-                    color: Pallete.grey1,
-                    child: Image.asset(
-                      'assets/broken.png',
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                  placeholder: (context, url) => const AppSkeleton(),
                   fit: BoxFit.cover,
                 ),
               ),

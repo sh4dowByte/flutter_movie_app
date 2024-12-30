@@ -39,7 +39,7 @@ class AppTvCoverBox extends StatelessWidget {
           borderRadius: BorderRadius.circular(13),
           child: CachedNetworkImage(
             imageUrl: ImageUrlHelper.getPosterUrl(item.posterPath,
-                size: ImageSize.posterW342),
+                size: ImageSize.posterW500),
             placeholder: (context, url) => const AppSkeleton(),
             fit: BoxFit.cover,
             errorWidget: (context, url, error) => Container(
