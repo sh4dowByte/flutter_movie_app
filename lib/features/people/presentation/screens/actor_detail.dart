@@ -332,7 +332,7 @@ class _ActorDetailContentState extends ConsumerState<ActorDetailContent> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(widget.actor.placeOfBirth ?? ''),
-                    Text(widget.actor.knownForDepartment,
+                    Text(widget.actor.knownForDepartment!,
                         style: Theme.of(context).textTheme.labelSmall),
                     Text(DateHelper.age(widget.actor.birthday),
                         style: Theme.of(context).textTheme.labelSmall),
@@ -384,7 +384,7 @@ class _ActorDetailContentState extends ConsumerState<ActorDetailContent> {
               // Text('Birth: ${widget.actor.formatBirth}',
               //     style: Theme.of(context).textTheme.labelSmall),
               const SizedBox(height: 10),
-              Text(widget.actor.biography),
+              Text(widget.actor.biography!),
             ],
           ),
         ),

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_movie_app/core/presentation/widget/app_skeleton.dart';
 import 'package:flutter_movie_app/core/utils/image_url_helper.dart';
 import 'package:flutter_movie_app/features/favorite/data/models/favorite.dart';
 
@@ -149,9 +150,12 @@ class _AppImageSliderState extends State<AppImageSlider> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: CachedNetworkImage(
+                            placeholder: (context, string) {
+                              return const AppSkeleton();
+                            },
                             imageUrl: ImageUrlHelper.getPosterUrl(
                                 widget.data[index].posterPath,
-                                size: ImageSize.posterW500),
+                                size: ImageSize.posterOriginal),
                             fit: BoxFit.cover,
                           ),
                         ),

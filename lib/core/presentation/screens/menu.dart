@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/features/favorite/presentation/screens/favorite.dart';
+import 'package:flutter_movie_app/features/people/presentation/screens/people.dart';
 import 'package:flutter_movie_app/features/settings/presentation/screens/settings.dart';
 import 'package:flutter_movie_app/features/tv/presentation/screens/home.dart';
 import '../../pallete.dart';
@@ -21,6 +22,7 @@ class _MenuPageState extends State<MenuPage> {
   final List<Widget> _pages = [
     const Center(child: HomePage()),
     const Center(child: TvPage()),
+    const Center(child: PeoplePage()),
     const Center(child: FavoritePage()),
     const Center(child: SettingsPage()),
   ];
@@ -64,8 +66,9 @@ class _MenuPageState extends State<MenuPage> {
             items: [
               _buildNavItem('movie', Colors.blue, 0),
               _buildNavItem('tv', Colors.purple, 1),
-              _buildNavItem('favorite', Colors.pink, 2),
-              _buildNavItem('settings', Colors.green, 3),
+              _buildNavItem('people', Colors.orange, 2),
+              _buildNavItem('favorite', Colors.pink, 3),
+              _buildNavItem('settings', Colors.green, 4),
             ],
             selectedItemColor:
                 Theme.of(context).primaryColor, // Warna item yang dipilih

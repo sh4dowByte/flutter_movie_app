@@ -44,4 +44,15 @@ class PeopleRepositoryImpl implements PeopleRepository {
       return Left(NetworkFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, List<Actor>>> getActorTrending(int page) async {
+    try {
+      final actor = await _peopleService.fetchActorTrending(page);
+
+      return Right(actor);
+    } catch (e) {
+      return Left(NetworkFailure(e.toString()));
+    }
+  }
 }

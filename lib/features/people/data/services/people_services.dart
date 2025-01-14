@@ -25,6 +25,24 @@ class PeopleService extends TMDBService {
     }
   }
 
+  Future<List<Actor>> fetchActorTrending(int page) async {
+    try {
+      final response =
+          await dio.get('/3/trending/person/day', queryParameters: {
+        'page': page,
+      });
+
+      if (response.statusCode == 200) {
+        final List actor = response.data['results'];
+        return actor.map((actors) => Actor.fromJson(actors)).toList();
+      } else {
+        throw Exception('Failed to fetch actor');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
   Future<List<Movie>> fetchActorMovies(int personId) async {
     try {
       final response = await dio.get(

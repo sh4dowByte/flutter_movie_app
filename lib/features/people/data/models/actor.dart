@@ -8,20 +8,22 @@ part 'actor.g.dart';
 @freezed
 class Actor with _$Actor {
   const factory Actor({
+    required int id,
+    required String name,
+    @JsonKey(name: 'original_name') String? originalName,
+    @JsonKey(name: 'media_type') String? mediaType,
     required bool adult,
-    @JsonKey(name: 'also_known_as') required List<String> alsoKnownAs,
-    required String biography,
+    required double popularity,
+    required int gender,
+    @JsonKey(name: 'known_for_department') String? knownForDepartment,
+    @JsonKey(name: 'profile_path') String? profilePath,
+    String? biography,
     String? birthday,
     String? deathday,
-    required int gender,
     String? homepage,
-    required int id,
     @JsonKey(name: 'imdb_id') String? imdbId,
-    @JsonKey(name: 'known_for_department') required String knownForDepartment,
-    required String name,
     @JsonKey(name: 'place_of_birth') String? placeOfBirth,
-    required double popularity,
-    @JsonKey(name: 'profile_path') String? profilePath,
+    @JsonKey(name: 'also_known_as') List<String>? alsoKnownAs,
   }) = _Actor;
 
   factory Actor.fromJson(Map<String, dynamic> json) => _$ActorFromJson(json);

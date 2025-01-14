@@ -20,25 +20,29 @@ Actor _$ActorFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Actor {
-  bool get adult => throw _privateConstructorUsedError;
-  @JsonKey(name: 'also_known_as')
-  List<String> get alsoKnownAs => throw _privateConstructorUsedError;
-  String get biography => throw _privateConstructorUsedError;
-  String? get birthday => throw _privateConstructorUsedError;
-  String? get deathday => throw _privateConstructorUsedError;
-  int get gender => throw _privateConstructorUsedError;
-  String? get homepage => throw _privateConstructorUsedError;
   int get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'imdb_id')
-  String? get imdbId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'known_for_department')
-  String get knownForDepartment => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  @JsonKey(name: 'place_of_birth')
-  String? get placeOfBirth => throw _privateConstructorUsedError;
+  @JsonKey(name: 'original_name')
+  String? get originalName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'media_type')
+  String? get mediaType => throw _privateConstructorUsedError;
+  bool get adult => throw _privateConstructorUsedError;
   double get popularity => throw _privateConstructorUsedError;
+  int get gender => throw _privateConstructorUsedError;
+  @JsonKey(name: 'known_for_department')
+  String? get knownForDepartment => throw _privateConstructorUsedError;
   @JsonKey(name: 'profile_path')
   String? get profilePath => throw _privateConstructorUsedError;
+  String? get biography => throw _privateConstructorUsedError;
+  String? get birthday => throw _privateConstructorUsedError;
+  String? get deathday => throw _privateConstructorUsedError;
+  String? get homepage => throw _privateConstructorUsedError;
+  @JsonKey(name: 'imdb_id')
+  String? get imdbId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'place_of_birth')
+  String? get placeOfBirth => throw _privateConstructorUsedError;
+  @JsonKey(name: 'also_known_as')
+  List<String>? get alsoKnownAs => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,20 +55,22 @@ abstract class $ActorCopyWith<$Res> {
       _$ActorCopyWithImpl<$Res, Actor>;
   @useResult
   $Res call(
-      {bool adult,
-      @JsonKey(name: 'also_known_as') List<String> alsoKnownAs,
-      String biography,
+      {int id,
+      String name,
+      @JsonKey(name: 'original_name') String? originalName,
+      @JsonKey(name: 'media_type') String? mediaType,
+      bool adult,
+      double popularity,
+      int gender,
+      @JsonKey(name: 'known_for_department') String? knownForDepartment,
+      @JsonKey(name: 'profile_path') String? profilePath,
+      String? biography,
       String? birthday,
       String? deathday,
-      int gender,
       String? homepage,
-      int id,
       @JsonKey(name: 'imdb_id') String? imdbId,
-      @JsonKey(name: 'known_for_department') String knownForDepartment,
-      String name,
       @JsonKey(name: 'place_of_birth') String? placeOfBirth,
-      double popularity,
-      @JsonKey(name: 'profile_path') String? profilePath});
+      @JsonKey(name: 'also_known_as') List<String>? alsoKnownAs});
 }
 
 /// @nodoc
@@ -80,34 +86,64 @@ class _$ActorCopyWithImpl<$Res, $Val extends Actor>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? originalName = freezed,
+    Object? mediaType = freezed,
     Object? adult = null,
-    Object? alsoKnownAs = null,
-    Object? biography = null,
+    Object? popularity = null,
+    Object? gender = null,
+    Object? knownForDepartment = freezed,
+    Object? profilePath = freezed,
+    Object? biography = freezed,
     Object? birthday = freezed,
     Object? deathday = freezed,
-    Object? gender = null,
     Object? homepage = freezed,
-    Object? id = null,
     Object? imdbId = freezed,
-    Object? knownForDepartment = null,
-    Object? name = null,
     Object? placeOfBirth = freezed,
-    Object? popularity = null,
-    Object? profilePath = freezed,
+    Object? alsoKnownAs = freezed,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      originalName: freezed == originalName
+          ? _value.originalName
+          : originalName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      mediaType: freezed == mediaType
+          ? _value.mediaType
+          : mediaType // ignore: cast_nullable_to_non_nullable
+              as String?,
       adult: null == adult
           ? _value.adult
           : adult // ignore: cast_nullable_to_non_nullable
               as bool,
-      alsoKnownAs: null == alsoKnownAs
-          ? _value.alsoKnownAs
-          : alsoKnownAs // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      biography: null == biography
+      popularity: null == popularity
+          ? _value.popularity
+          : popularity // ignore: cast_nullable_to_non_nullable
+              as double,
+      gender: null == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as int,
+      knownForDepartment: freezed == knownForDepartment
+          ? _value.knownForDepartment
+          : knownForDepartment // ignore: cast_nullable_to_non_nullable
+              as String?,
+      profilePath: freezed == profilePath
+          ? _value.profilePath
+          : profilePath // ignore: cast_nullable_to_non_nullable
+              as String?,
+      biography: freezed == biography
           ? _value.biography
           : biography // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       birthday: freezed == birthday
           ? _value.birthday
           : birthday // ignore: cast_nullable_to_non_nullable
@@ -116,42 +152,22 @@ class _$ActorCopyWithImpl<$Res, $Val extends Actor>
           ? _value.deathday
           : deathday // ignore: cast_nullable_to_non_nullable
               as String?,
-      gender: null == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
-              as int,
       homepage: freezed == homepage
           ? _value.homepage
           : homepage // ignore: cast_nullable_to_non_nullable
               as String?,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
       imdbId: freezed == imdbId
           ? _value.imdbId
           : imdbId // ignore: cast_nullable_to_non_nullable
               as String?,
-      knownForDepartment: null == knownForDepartment
-          ? _value.knownForDepartment
-          : knownForDepartment // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
       placeOfBirth: freezed == placeOfBirth
           ? _value.placeOfBirth
           : placeOfBirth // ignore: cast_nullable_to_non_nullable
               as String?,
-      popularity: null == popularity
-          ? _value.popularity
-          : popularity // ignore: cast_nullable_to_non_nullable
-              as double,
-      profilePath: freezed == profilePath
-          ? _value.profilePath
-          : profilePath // ignore: cast_nullable_to_non_nullable
-              as String?,
+      alsoKnownAs: freezed == alsoKnownAs
+          ? _value.alsoKnownAs
+          : alsoKnownAs // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 }
@@ -164,20 +180,22 @@ abstract class _$$ActorImplCopyWith<$Res> implements $ActorCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {bool adult,
-      @JsonKey(name: 'also_known_as') List<String> alsoKnownAs,
-      String biography,
+      {int id,
+      String name,
+      @JsonKey(name: 'original_name') String? originalName,
+      @JsonKey(name: 'media_type') String? mediaType,
+      bool adult,
+      double popularity,
+      int gender,
+      @JsonKey(name: 'known_for_department') String? knownForDepartment,
+      @JsonKey(name: 'profile_path') String? profilePath,
+      String? biography,
       String? birthday,
       String? deathday,
-      int gender,
       String? homepage,
-      int id,
       @JsonKey(name: 'imdb_id') String? imdbId,
-      @JsonKey(name: 'known_for_department') String knownForDepartment,
-      String name,
       @JsonKey(name: 'place_of_birth') String? placeOfBirth,
-      double popularity,
-      @JsonKey(name: 'profile_path') String? profilePath});
+      @JsonKey(name: 'also_known_as') List<String>? alsoKnownAs});
 }
 
 /// @nodoc
@@ -191,34 +209,64 @@ class __$$ActorImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? originalName = freezed,
+    Object? mediaType = freezed,
     Object? adult = null,
-    Object? alsoKnownAs = null,
-    Object? biography = null,
+    Object? popularity = null,
+    Object? gender = null,
+    Object? knownForDepartment = freezed,
+    Object? profilePath = freezed,
+    Object? biography = freezed,
     Object? birthday = freezed,
     Object? deathday = freezed,
-    Object? gender = null,
     Object? homepage = freezed,
-    Object? id = null,
     Object? imdbId = freezed,
-    Object? knownForDepartment = null,
-    Object? name = null,
     Object? placeOfBirth = freezed,
-    Object? popularity = null,
-    Object? profilePath = freezed,
+    Object? alsoKnownAs = freezed,
   }) {
     return _then(_$ActorImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      originalName: freezed == originalName
+          ? _value.originalName
+          : originalName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      mediaType: freezed == mediaType
+          ? _value.mediaType
+          : mediaType // ignore: cast_nullable_to_non_nullable
+              as String?,
       adult: null == adult
           ? _value.adult
           : adult // ignore: cast_nullable_to_non_nullable
               as bool,
-      alsoKnownAs: null == alsoKnownAs
-          ? _value._alsoKnownAs
-          : alsoKnownAs // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      biography: null == biography
+      popularity: null == popularity
+          ? _value.popularity
+          : popularity // ignore: cast_nullable_to_non_nullable
+              as double,
+      gender: null == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as int,
+      knownForDepartment: freezed == knownForDepartment
+          ? _value.knownForDepartment
+          : knownForDepartment // ignore: cast_nullable_to_non_nullable
+              as String?,
+      profilePath: freezed == profilePath
+          ? _value.profilePath
+          : profilePath // ignore: cast_nullable_to_non_nullable
+              as String?,
+      biography: freezed == biography
           ? _value.biography
           : biography // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       birthday: freezed == birthday
           ? _value.birthday
           : birthday // ignore: cast_nullable_to_non_nullable
@@ -227,42 +275,22 @@ class __$$ActorImplCopyWithImpl<$Res>
           ? _value.deathday
           : deathday // ignore: cast_nullable_to_non_nullable
               as String?,
-      gender: null == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
-              as int,
       homepage: freezed == homepage
           ? _value.homepage
           : homepage // ignore: cast_nullable_to_non_nullable
               as String?,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
       imdbId: freezed == imdbId
           ? _value.imdbId
           : imdbId // ignore: cast_nullable_to_non_nullable
               as String?,
-      knownForDepartment: null == knownForDepartment
-          ? _value.knownForDepartment
-          : knownForDepartment // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
       placeOfBirth: freezed == placeOfBirth
           ? _value.placeOfBirth
           : placeOfBirth // ignore: cast_nullable_to_non_nullable
               as String?,
-      popularity: null == popularity
-          ? _value.popularity
-          : popularity // ignore: cast_nullable_to_non_nullable
-              as double,
-      profilePath: freezed == profilePath
-          ? _value.profilePath
-          : profilePath // ignore: cast_nullable_to_non_nullable
-              as String?,
+      alsoKnownAs: freezed == alsoKnownAs
+          ? _value._alsoKnownAs
+          : alsoKnownAs // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -271,68 +299,77 @@ class __$$ActorImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ActorImpl implements _Actor {
   const _$ActorImpl(
-      {required this.adult,
-      @JsonKey(name: 'also_known_as') required final List<String> alsoKnownAs,
-      required this.biography,
+      {required this.id,
+      required this.name,
+      @JsonKey(name: 'original_name') this.originalName,
+      @JsonKey(name: 'media_type') this.mediaType,
+      required this.adult,
+      required this.popularity,
+      required this.gender,
+      @JsonKey(name: 'known_for_department') this.knownForDepartment,
+      @JsonKey(name: 'profile_path') this.profilePath,
+      this.biography,
       this.birthday,
       this.deathday,
-      required this.gender,
       this.homepage,
-      required this.id,
       @JsonKey(name: 'imdb_id') this.imdbId,
-      @JsonKey(name: 'known_for_department') required this.knownForDepartment,
-      required this.name,
       @JsonKey(name: 'place_of_birth') this.placeOfBirth,
-      required this.popularity,
-      @JsonKey(name: 'profile_path') this.profilePath})
+      @JsonKey(name: 'also_known_as') final List<String>? alsoKnownAs})
       : _alsoKnownAs = alsoKnownAs;
 
   factory _$ActorImpl.fromJson(Map<String, dynamic> json) =>
       _$$ActorImplFromJson(json);
 
   @override
+  final int id;
+  @override
+  final String name;
+  @override
+  @JsonKey(name: 'original_name')
+  final String? originalName;
+  @override
+  @JsonKey(name: 'media_type')
+  final String? mediaType;
+  @override
   final bool adult;
-  final List<String> _alsoKnownAs;
   @override
-  @JsonKey(name: 'also_known_as')
-  List<String> get alsoKnownAs {
-    if (_alsoKnownAs is EqualUnmodifiableListView) return _alsoKnownAs;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_alsoKnownAs);
-  }
-
+  final double popularity;
   @override
-  final String biography;
+  final int gender;
+  @override
+  @JsonKey(name: 'known_for_department')
+  final String? knownForDepartment;
+  @override
+  @JsonKey(name: 'profile_path')
+  final String? profilePath;
+  @override
+  final String? biography;
   @override
   final String? birthday;
   @override
   final String? deathday;
   @override
-  final int gender;
-  @override
   final String? homepage;
-  @override
-  final int id;
   @override
   @JsonKey(name: 'imdb_id')
   final String? imdbId;
   @override
-  @JsonKey(name: 'known_for_department')
-  final String knownForDepartment;
-  @override
-  final String name;
-  @override
   @JsonKey(name: 'place_of_birth')
   final String? placeOfBirth;
+  final List<String>? _alsoKnownAs;
   @override
-  final double popularity;
-  @override
-  @JsonKey(name: 'profile_path')
-  final String? profilePath;
+  @JsonKey(name: 'also_known_as')
+  List<String>? get alsoKnownAs {
+    final value = _alsoKnownAs;
+    if (value == null) return null;
+    if (_alsoKnownAs is EqualUnmodifiableListView) return _alsoKnownAs;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'Actor(adult: $adult, alsoKnownAs: $alsoKnownAs, biography: $biography, birthday: $birthday, deathday: $deathday, gender: $gender, homepage: $homepage, id: $id, imdbId: $imdbId, knownForDepartment: $knownForDepartment, name: $name, placeOfBirth: $placeOfBirth, popularity: $popularity, profilePath: $profilePath)';
+    return 'Actor(id: $id, name: $name, originalName: $originalName, mediaType: $mediaType, adult: $adult, popularity: $popularity, gender: $gender, knownForDepartment: $knownForDepartment, profilePath: $profilePath, biography: $biography, birthday: $birthday, deathday: $deathday, homepage: $homepage, imdbId: $imdbId, placeOfBirth: $placeOfBirth, alsoKnownAs: $alsoKnownAs)';
   }
 
   @override
@@ -340,49 +377,55 @@ class _$ActorImpl implements _Actor {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ActorImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.originalName, originalName) ||
+                other.originalName == originalName) &&
+            (identical(other.mediaType, mediaType) ||
+                other.mediaType == mediaType) &&
             (identical(other.adult, adult) || other.adult == adult) &&
-            const DeepCollectionEquality()
-                .equals(other._alsoKnownAs, _alsoKnownAs) &&
+            (identical(other.popularity, popularity) ||
+                other.popularity == popularity) &&
+            (identical(other.gender, gender) || other.gender == gender) &&
+            (identical(other.knownForDepartment, knownForDepartment) ||
+                other.knownForDepartment == knownForDepartment) &&
+            (identical(other.profilePath, profilePath) ||
+                other.profilePath == profilePath) &&
             (identical(other.biography, biography) ||
                 other.biography == biography) &&
             (identical(other.birthday, birthday) ||
                 other.birthday == birthday) &&
             (identical(other.deathday, deathday) ||
                 other.deathday == deathday) &&
-            (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.homepage, homepage) ||
                 other.homepage == homepage) &&
-            (identical(other.id, id) || other.id == id) &&
             (identical(other.imdbId, imdbId) || other.imdbId == imdbId) &&
-            (identical(other.knownForDepartment, knownForDepartment) ||
-                other.knownForDepartment == knownForDepartment) &&
-            (identical(other.name, name) || other.name == name) &&
             (identical(other.placeOfBirth, placeOfBirth) ||
                 other.placeOfBirth == placeOfBirth) &&
-            (identical(other.popularity, popularity) ||
-                other.popularity == popularity) &&
-            (identical(other.profilePath, profilePath) ||
-                other.profilePath == profilePath));
+            const DeepCollectionEquality()
+                .equals(other._alsoKnownAs, _alsoKnownAs));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
+      name,
+      originalName,
+      mediaType,
       adult,
-      const DeepCollectionEquality().hash(_alsoKnownAs),
+      popularity,
+      gender,
+      knownForDepartment,
+      profilePath,
       biography,
       birthday,
       deathday,
-      gender,
       homepage,
-      id,
       imdbId,
-      knownForDepartment,
-      name,
       placeOfBirth,
-      popularity,
-      profilePath);
+      const DeepCollectionEquality().hash(_alsoKnownAs));
 
   @JsonKey(ignore: true)
   @override
@@ -400,57 +443,65 @@ class _$ActorImpl implements _Actor {
 
 abstract class _Actor implements Actor {
   const factory _Actor(
-      {required final bool adult,
-      @JsonKey(name: 'also_known_as') required final List<String> alsoKnownAs,
-      required final String biography,
+      {required final int id,
+      required final String name,
+      @JsonKey(name: 'original_name') final String? originalName,
+      @JsonKey(name: 'media_type') final String? mediaType,
+      required final bool adult,
+      required final double popularity,
+      required final int gender,
+      @JsonKey(name: 'known_for_department') final String? knownForDepartment,
+      @JsonKey(name: 'profile_path') final String? profilePath,
+      final String? biography,
       final String? birthday,
       final String? deathday,
-      required final int gender,
       final String? homepage,
-      required final int id,
       @JsonKey(name: 'imdb_id') final String? imdbId,
-      @JsonKey(name: 'known_for_department')
-      required final String knownForDepartment,
-      required final String name,
       @JsonKey(name: 'place_of_birth') final String? placeOfBirth,
-      required final double popularity,
-      @JsonKey(name: 'profile_path') final String? profilePath}) = _$ActorImpl;
+      @JsonKey(name: 'also_known_as')
+      final List<String>? alsoKnownAs}) = _$ActorImpl;
 
   factory _Actor.fromJson(Map<String, dynamic> json) = _$ActorImpl.fromJson;
 
   @override
+  int get id;
+  @override
+  String get name;
+  @override
+  @JsonKey(name: 'original_name')
+  String? get originalName;
+  @override
+  @JsonKey(name: 'media_type')
+  String? get mediaType;
+  @override
   bool get adult;
   @override
-  @JsonKey(name: 'also_known_as')
-  List<String> get alsoKnownAs;
+  double get popularity;
   @override
-  String get biography;
+  int get gender;
+  @override
+  @JsonKey(name: 'known_for_department')
+  String? get knownForDepartment;
+  @override
+  @JsonKey(name: 'profile_path')
+  String? get profilePath;
+  @override
+  String? get biography;
   @override
   String? get birthday;
   @override
   String? get deathday;
   @override
-  int get gender;
-  @override
   String? get homepage;
-  @override
-  int get id;
   @override
   @JsonKey(name: 'imdb_id')
   String? get imdbId;
   @override
-  @JsonKey(name: 'known_for_department')
-  String get knownForDepartment;
-  @override
-  String get name;
-  @override
   @JsonKey(name: 'place_of_birth')
   String? get placeOfBirth;
   @override
-  double get popularity;
-  @override
-  @JsonKey(name: 'profile_path')
-  String? get profilePath;
+  @JsonKey(name: 'also_known_as')
+  List<String>? get alsoKnownAs;
   @override
   @JsonKey(ignore: true)
   _$$ActorImplCopyWith<_$ActorImpl> get copyWith =>
